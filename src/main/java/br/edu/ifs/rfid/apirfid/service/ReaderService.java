@@ -7,6 +7,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -31,7 +32,6 @@ public class ReaderService implements IReaderService {
 		this.mapper = mapper;
 	}
 
-	@CacheEvict(allEntries = true)
 	@Override
 	public Reader createReader(ReaderDto request) {
 		try {
@@ -66,7 +66,6 @@ public class ReaderService implements IReaderService {
 	 * })
 	 */
 	
-	@CacheEvict(key = "#id")
 	@Override
 	public Reader updatePort(String id, ReaderDto request) {
 		try {
@@ -86,7 +85,6 @@ public class ReaderService implements IReaderService {
 		}
 	}
 	
-	@CacheEvict(key = "#id")
 	@Override
 	public Reader updateModel(String id, ReaderDto request) {
 		try {
@@ -106,7 +104,6 @@ public class ReaderService implements IReaderService {
 		}
 	}
 
-	@CacheEvict(key = "#id")
 	@Override
 	public Reader updateBrand(String id, ReaderDto request) {
 		try {
@@ -126,7 +123,6 @@ public class ReaderService implements IReaderService {
 		}
 	}
 
-	@CacheEvict(key = "#id")
 	@Override
 	public Reader updateIp(String id, ReaderDto request) {
 		try {
@@ -146,7 +142,7 @@ public class ReaderService implements IReaderService {
 		}
 	}
 	
-	@Cacheable(unless = "#result.size() < 10")
+	@CachePut(unless = "#result.size() < 10")
 	@Override
 	public List<Reader> getReaders() {
 		try {
@@ -160,7 +156,7 @@ public class ReaderService implements IReaderService {
 		}
 	}
 
-	@Cacheable(key = "#id")
+	@CachePut(key = "#id")
 	@Override
 	public Reader getReader(String id) {
 		try {

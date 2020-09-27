@@ -148,10 +148,10 @@ public class ReaderService implements IReaderService {
 	public Reader getReader(String id) {
 		try {
 
-			Optional<Reader> materiaOptional = this.readerRepository.findById(id);
+			Optional<Reader> findResult = this.readerRepository.findById(id);
 
-			if (materiaOptional.isPresent()) {
-				return materiaOptional.get();
+			if (findResult.isPresent()) {
+				return findResult.get();
 			}
 
 			return null;

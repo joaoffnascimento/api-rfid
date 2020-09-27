@@ -41,9 +41,13 @@ public class ReaderService implements IReaderService {
 			if (request.getPort().isEmpty() || request.getPort().isBlank()) {
 				return null;
 			}
+			
+			Optional<Reader> findResult = this.readerRepository.findById(id);
+			
+			if (!findResult.isPresent()) {return null;}
 
-			Reader reader = this.readerRepository.findById(id).get();
-
+			Reader reader = findResult.get();
+			
 			reader.setPort(request.getPort());
 
 			this.readerRepository.save(reader);
@@ -62,9 +66,13 @@ public class ReaderService implements IReaderService {
 			if (request.getModel().isEmpty() || request.getModel().isBlank()) {
 				return null;
 			}
+			
+			Optional<Reader> findResult = this.readerRepository.findById(id);
+			
+			if (!findResult.isPresent()) {return null;}
 
-			Reader reader = this.readerRepository.findById(id).get();
-
+			Reader reader = findResult.get();
+			
 			reader.setModel(request.getModel());
 
 			this.readerRepository.save(reader);
@@ -83,15 +91,18 @@ public class ReaderService implements IReaderService {
 			if (request.getBrand().isEmpty() || request.getBrand().isBlank()) {
 				return null;
 			}
+			
+			Optional<Reader> findResult = this.readerRepository.findById(id);
+			
+			if (!findResult.isPresent()) {return null;}
 
-			Reader reader = this.readerRepository.findById(id).get();
-
+			Reader reader = findResult.get();
+			
 			reader.setBrand(request.getBrand());
 
 			this.readerRepository.save(reader);
 
 			return reader;
-
 		} catch (Exception e) {
 			return null;
 		}
@@ -104,9 +115,13 @@ public class ReaderService implements IReaderService {
 			if (request.getIp().isEmpty() || request.getIp().isBlank()) {
 				return null;
 			}
+			
+			Optional<Reader> findResult = this.readerRepository.findById(id);
+			
+			if (!findResult.isPresent()) {return null;}
 
-			Reader reader = this.readerRepository.findById(id).get();
-
+			Reader reader = findResult.get();
+			
 			reader.setIp(request.getIp());
 
 			this.readerRepository.save(reader);

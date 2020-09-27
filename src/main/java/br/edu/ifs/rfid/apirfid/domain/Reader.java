@@ -4,6 +4,7 @@ import java.util.Date;
 
 import javax.persistence.Id;
 
+import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -20,14 +21,14 @@ import lombok.NoArgsConstructor;
 public class Reader {
 
 	@Id
-	private String id;
+	private ObjectId id;
 
 	@JsonInclude(Include.NON_EMPTY)
 	private String port;
-	
+
 	@JsonInclude(Include.NON_EMPTY)
 	private String ip;
-	
+
 	private String model;
 	private String brand;
 	private Date createdAt;
@@ -40,5 +41,21 @@ public class Reader {
 		this.brand = brand;
 		this.createdAt = new Date();
 		this.updatedAt = new Date();
+	}
+
+	public Reader createReader(String port, String ip, String model, String brand) {
+
+		Reader reader = new Reader();
+
+		reader.id = new ObjectId();
+
+		reader.port = port;
+		reader.ip = ip;
+		reader.model = model;
+		reader.brand = brand;
+		reader.createdAt = new Date();
+		reader.updatedAt = new Date();
+
+		return reader;
 	}
 }

@@ -24,7 +24,7 @@ public class Reader {
 	private ObjectId id;
 
 	@JsonInclude(Include.NON_EMPTY)
-	private String port;
+	private int port;
 
 	@JsonInclude(Include.NON_EMPTY)
 	private String ip;
@@ -34,7 +34,7 @@ public class Reader {
 	private Date createdAt;
 	private Date updatedAt;
 
-	public Reader(String port, String ip, String model, String brand) {
+	public Reader(int port, String ip, String model, String brand) {
 		this.port = port;
 		this.ip = ip;
 		this.model = model;
@@ -43,7 +43,7 @@ public class Reader {
 		this.updatedAt = new Date();
 	}
 
-	public Reader createReader(String port, String ip, String model, String brand) {
+	public Reader createReader(int port, String ip, String model, String brand) {
 
 		Reader reader = new Reader();
 

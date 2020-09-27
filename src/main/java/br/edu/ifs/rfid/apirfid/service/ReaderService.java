@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import br.edu.ifs.rfid.apirfid.domain.Reader;
+import br.edu.ifs.rfid.apirfid.domain.Dto.ReaderDto;
 import br.edu.ifs.rfid.apirfid.exception.ReaderException;
 import br.edu.ifs.rfid.apirfid.repository.IReaderRepository;
 import br.edu.ifs.rfid.apirfid.service.interfaces.IReaderService;
@@ -21,9 +22,17 @@ public class ReaderService implements IReaderService {
 	private IReaderRepository readerRepository;
 
 	@Override
-	public Reader createReader(Reader request) {
+	public Reader createReader(ReaderDto request) {
 		try {
 
+			/**
+			 * With Mapper:
+			 * ModelMapper mapper = new ModelMapper();
+			 * Reader reader = mapper.map(request, Reader.class);
+			 * 
+			 * Use this top map the complete object to another class
+			 */
+			
 			Reader reader = new Reader();
 
 			reader = reader.createReader(request.getPort(), request.getIp(), request.getModel(), request.getBrand());
@@ -40,7 +49,7 @@ public class ReaderService implements IReaderService {
 	}
 
 	@Override
-	public Reader updatePort(String id, Reader request) {
+	public Reader updatePort(String id, ReaderDto request) {
 		try {
 
 			Reader reader = this.getReader(id);
@@ -59,7 +68,7 @@ public class ReaderService implements IReaderService {
 	}
 
 	@Override
-	public Reader updateModel(String id, Reader request) {
+	public Reader updateModel(String id, ReaderDto request) {
 		try {
 
 			Reader reader = this.getReader(id);
@@ -78,7 +87,7 @@ public class ReaderService implements IReaderService {
 	}
 
 	@Override
-	public Reader updateBrand(String id, Reader request) {
+	public Reader updateBrand(String id, ReaderDto request) {
 		try {
 
 			Reader reader = this.getReader(id);
@@ -97,7 +106,7 @@ public class ReaderService implements IReaderService {
 	}
 
 	@Override
-	public Reader updateIp(String id, Reader request) {
+	public Reader updateIp(String id, ReaderDto request) {
 		try {
 
 			Reader reader = this.getReader(id);

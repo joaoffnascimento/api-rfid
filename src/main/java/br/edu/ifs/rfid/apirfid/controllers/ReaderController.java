@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.edu.ifs.rfid.apirfid.domain.Reader;
+import br.edu.ifs.rfid.apirfid.domain.Dto.ReaderDto;
 import br.edu.ifs.rfid.apirfid.service.ReaderService;
 
 @RestController
@@ -35,17 +36,17 @@ public class ReaderController {
 	}
 
 	@PostMapping
-	public ResponseEntity<Reader> createReader(@RequestBody Reader reader) {
+	public ResponseEntity<Reader> createReader(@RequestBody ReaderDto reader) {
 		return ResponseEntity.status(HttpStatus.CREATED).body(readerService.createReader(reader));
 	}
 
 	@PutMapping("/{id}/reader-ip")
-	public ResponseEntity<Reader> updateReaderIp(@PathVariable String id, @RequestBody Reader reader) {
+	public ResponseEntity<Reader> updateReaderIp(@PathVariable String id, @RequestBody ReaderDto reader) {
 		return ResponseEntity.status(HttpStatus.OK).body(readerService.updateIp(id, reader));
 	}
 
 	@PutMapping("/{id}/reader-port")
-	public ResponseEntity<Reader> updateReaderPort(@PathVariable String id, @RequestBody Reader reader) {
+	public ResponseEntity<Reader> updateReaderPort(@PathVariable String id, @RequestBody ReaderDto reader) {
 		return ResponseEntity.status(HttpStatus.OK).body(readerService.updatePort(id, reader));
 	}
 

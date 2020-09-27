@@ -31,6 +31,7 @@ public class ReaderService implements IReaderService {
 		this.mapper = mapper;
 	}
 
+	@CacheEvict(allEntries = true)
 	@Override
 	public Reader createReader(ReaderDto request) {
 		try {
@@ -144,7 +145,8 @@ public class ReaderService implements IReaderService {
 			throw new ReaderException(Constants.getInternalServerErrorMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-
+	
+	@Cacheable(unless = "#result.size() < 10")
 	@Override
 	public List<Reader> getReaders() {
 		try {

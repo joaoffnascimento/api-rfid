@@ -2,6 +2,8 @@ package br.edu.ifs.rfid.apirfid.controllers;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,17 +38,17 @@ public class ReaderController {
 	}
 
 	@PostMapping
-	public ResponseEntity<Reader> createReader(@RequestBody ReaderDto reader) {
+	public ResponseEntity<Reader> createReader(@Valid @RequestBody ReaderDto reader) {
 		return ResponseEntity.status(HttpStatus.CREATED).body(readerService.createReader(reader));
 	}
 
 	@PutMapping("/{id}/reader-ip")
-	public ResponseEntity<Reader> updateReaderIp(@PathVariable String id, @RequestBody ReaderDto reader) {
+	public ResponseEntity<Reader> updateReaderIp(@Valid @PathVariable String id, @RequestBody ReaderDto reader) {
 		return ResponseEntity.status(HttpStatus.OK).body(readerService.updateIp(id, reader));
 	}
 
 	@PutMapping("/{id}/reader-port")
-	public ResponseEntity<Reader> updateReaderPort(@PathVariable String id, @RequestBody ReaderDto reader) {
+	public ResponseEntity<Reader> updateReaderPort(@Valid @PathVariable String id, @RequestBody ReaderDto reader) {
 		return ResponseEntity.status(HttpStatus.OK).body(readerService.updatePort(id, reader));
 	}
 

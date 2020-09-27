@@ -1,6 +1,5 @@
 package br.edu.ifs.rfid.apirfid.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,13 +25,12 @@ public class ReaderService implements IReaderService {
 		try {
 
 			/**
-			 * With Mapper:
-			 * ModelMapper mapper = new ModelMapper();
-			 * Reader reader = mapper.map(request, Reader.class);
+			 * With Mapper: ModelMapper mapper = new ModelMapper(); Reader reader =
+			 * mapper.map(request, Reader.class);
 			 * 
 			 * Use this top map the complete object to another class
 			 */
-			
+
 			Reader reader = new Reader();
 
 			reader = reader.createReader(request.getPort(), request.getIp(), request.getModel(), request.getBrand());

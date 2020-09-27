@@ -5,11 +5,14 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import br.edu.ifs.rfid.apirfid.domain.Reader;
+import br.edu.ifs.rfid.apirfid.exception.ReaderException;
 import br.edu.ifs.rfid.apirfid.repository.IReaderRepository;
 import br.edu.ifs.rfid.apirfid.service.interfaces.IReaderService;
+import br.edu.ifs.rfid.apirfid.shared.Constants;
 
 @Service
 public class ReaderService implements IReaderService {
@@ -29,8 +32,10 @@ public class ReaderService implements IReaderService {
 
 			return reader;
 
+		} catch (ReaderException r) {
+			throw r;
 		} catch (Exception e) {
-			return null;
+			throw new ReaderException(Constants.getInternalServerErrorMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -38,24 +43,18 @@ public class ReaderService implements IReaderService {
 	public Reader updatePort(String id, Reader request) {
 		try {
 
-			if (request.getPort().isEmpty() || request.getPort().isBlank()) {
-				return null;
-			}
-			
-			Optional<Reader> findResult = this.readerRepository.findById(id);
-			
-			if (!findResult.isPresent()) {return null;}
+			Reader reader = this.getReader(id);
 
-			Reader reader = findResult.get();
-			
 			reader.setPort(request.getPort());
 
 			this.readerRepository.save(reader);
 
 			return reader;
 
+		} catch (ReaderException r) {
+			throw r;
 		} catch (Exception e) {
-			return null;
+			throw new ReaderException(Constants.getInternalServerErrorMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -63,24 +62,18 @@ public class ReaderService implements IReaderService {
 	public Reader updateModel(String id, Reader request) {
 		try {
 
-			if (request.getModel().isEmpty() || request.getModel().isBlank()) {
-				return null;
-			}
-			
-			Optional<Reader> findResult = this.readerRepository.findById(id);
-			
-			if (!findResult.isPresent()) {return null;}
+			Reader reader = this.getReader(id);
 
-			Reader reader = findResult.get();
-			
 			reader.setModel(request.getModel());
 
 			this.readerRepository.save(reader);
 
 			return reader;
 
+		} catch (ReaderException r) {
+			throw r;
 		} catch (Exception e) {
-			return null;
+			throw new ReaderException(Constants.getInternalServerErrorMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -88,23 +81,18 @@ public class ReaderService implements IReaderService {
 	public Reader updateBrand(String id, Reader request) {
 		try {
 
-			if (request.getBrand().isEmpty() || request.getBrand().isBlank()) {
-				return null;
-			}
-			
-			Optional<Reader> findResult = this.readerRepository.findById(id);
-			
-			if (!findResult.isPresent()) {return null;}
+			Reader reader = this.getReader(id);
 
-			Reader reader = findResult.get();
-			
 			reader.setBrand(request.getBrand());
 
 			this.readerRepository.save(reader);
 
 			return reader;
+
+		} catch (ReaderException r) {
+			throw r;
 		} catch (Exception e) {
-			return null;
+			throw new ReaderException(Constants.getInternalServerErrorMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -112,24 +100,18 @@ public class ReaderService implements IReaderService {
 	public Reader updateIp(String id, Reader request) {
 		try {
 
-			if (request.getIp().isEmpty() || request.getIp().isBlank()) {
-				return null;
-			}
-			
-			Optional<Reader> findResult = this.readerRepository.findById(id);
-			
-			if (!findResult.isPresent()) {return null;}
+			Reader reader = this.getReader(id);
 
-			Reader reader = findResult.get();
-			
 			reader.setIp(request.getIp());
 
 			this.readerRepository.save(reader);
 
 			return reader;
 
+		} catch (ReaderException r) {
+			throw r;
 		} catch (Exception e) {
-			return null;
+			throw new ReaderException(Constants.getInternalServerErrorMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -139,8 +121,10 @@ public class ReaderService implements IReaderService {
 
 			return this.readerRepository.findAll();
 
+		} catch (ReaderException r) {
+			throw r;
 		} catch (Exception e) {
-			return new ArrayList<>();
+			throw new ReaderException(Constants.getInternalServerErrorMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -150,14 +134,16 @@ public class ReaderService implements IReaderService {
 
 			Optional<Reader> findResult = this.readerRepository.findById(id);
 
-			if (findResult.isPresent()) {
-				return findResult.get();
+			if (!findResult.isPresent()) {
+				throw new ReaderException("Reader not found!", HttpStatus.NOT_FOUND);
 			}
 
-			return null;
+			return findResult.get();
 
+		} catch (ReaderException r) {
+			throw r;
 		} catch (Exception e) {
-			return null;
+			throw new ReaderException(Constants.getInternalServerErrorMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -165,12 +151,16 @@ public class ReaderService implements IReaderService {
 	public Boolean deleteReader(String id) {
 		try {
 
+			this.getReader(id);
+
 			this.readerRepository.deleteById(id);
 
 			return true;
 
+		} catch (ReaderException r) {
+			throw r;
 		} catch (Exception e) {
-			return false;
+			throw new ReaderException(Constants.getInternalServerErrorMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 }

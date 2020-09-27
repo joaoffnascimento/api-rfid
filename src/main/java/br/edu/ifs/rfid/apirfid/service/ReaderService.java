@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,7 @@ import br.edu.ifs.rfid.apirfid.repository.IReaderRepository;
 import br.edu.ifs.rfid.apirfid.service.interfaces.IReaderService;
 import br.edu.ifs.rfid.apirfid.shared.Constants;
 
+@CacheConfig(cacheNames = "reader")
 @Service
 public class ReaderService implements IReaderService {
 
@@ -63,7 +65,7 @@ public class ReaderService implements IReaderService {
 	 * })
 	 */
 	
-	@CacheEvict(value = "reader", key = "#id")
+	@CacheEvict(key = "#id")
 	@Override
 	public Reader updatePort(String id, ReaderDto request) {
 		try {
@@ -83,7 +85,7 @@ public class ReaderService implements IReaderService {
 		}
 	}
 	
-	@CacheEvict(value = "reader", key = "#id")
+	@CacheEvict(key = "#id")
 	@Override
 	public Reader updateModel(String id, ReaderDto request) {
 		try {
@@ -103,7 +105,7 @@ public class ReaderService implements IReaderService {
 		}
 	}
 
-	@CacheEvict(value = "reader", key = "#id")
+	@CacheEvict(key = "#id")
 	@Override
 	public Reader updateBrand(String id, ReaderDto request) {
 		try {
@@ -123,7 +125,7 @@ public class ReaderService implements IReaderService {
 		}
 	}
 
-	@CacheEvict(value = "reader", key = "#id")
+	@CacheEvict(key = "#id")
 	@Override
 	public Reader updateIp(String id, ReaderDto request) {
 		try {
@@ -156,7 +158,7 @@ public class ReaderService implements IReaderService {
 		}
 	}
 
-	@Cacheable(value = "reader", key = "#id")
+	@Cacheable(key = "#id")
 	@Override
 	public Reader getReader(String id) {
 		try {

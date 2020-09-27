@@ -5,6 +5,8 @@ import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -20,13 +22,12 @@ public class ReaderService implements IReaderService {
 
 	private IReaderRepository readerRepository;
 	private ModelMapper mapper;
-	
+
 	@Autowired
 	public ReaderService(IReaderRepository readerRepository, ModelMapper mapper) {
 		this.readerRepository = readerRepository;
 		this.mapper = mapper;
 	}
-	
 
 	@Override
 	public Reader createReader(ReaderDto request) {
@@ -54,6 +55,15 @@ public class ReaderService implements IReaderService {
 		}
 	}
 
+	/**
+	 * -> Grouping same notations
+	 * @Caching(evict = {
+	 * 		@CacheEvict(value = "reader", key = "#id"),
+	 * 		@CacheEvict(value = "another entity", key = "#id")
+	 * })
+	 */
+	
+	@CacheEvict(value = "reader", key = "#id")
 	@Override
 	public Reader updatePort(String id, ReaderDto request) {
 		try {
@@ -72,7 +82,8 @@ public class ReaderService implements IReaderService {
 			throw new ReaderException(Constants.getInternalServerErrorMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-
+	
+	@CacheEvict(value = "reader", key = "#id")
 	@Override
 	public Reader updateModel(String id, ReaderDto request) {
 		try {
@@ -92,6 +103,7 @@ public class ReaderService implements IReaderService {
 		}
 	}
 
+	@CacheEvict(value = "reader", key = "#id")
 	@Override
 	public Reader updateBrand(String id, ReaderDto request) {
 		try {
@@ -111,6 +123,7 @@ public class ReaderService implements IReaderService {
 		}
 	}
 
+	@CacheEvict(value = "reader", key = "#id")
 	@Override
 	public Reader updateIp(String id, ReaderDto request) {
 		try {
@@ -143,6 +156,7 @@ public class ReaderService implements IReaderService {
 		}
 	}
 
+	@Cacheable(value = "reader", key = "#id")
 	@Override
 	public Reader getReader(String id) {
 		try {

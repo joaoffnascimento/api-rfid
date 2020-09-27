@@ -36,7 +36,7 @@ public class ReaderController {
 
 	@PostMapping
 	public ResponseEntity<Reader> createReader(@RequestBody Reader reader) {
-		return ResponseEntity.status(HttpStatus.OK).body(readerService.createReader(reader));
+		return ResponseEntity.status(HttpStatus.CREATED).body(readerService.createReader(reader));
 	}
 
 	@PutMapping("/{id}/reader-ip")

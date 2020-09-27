@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import br.edu.ifs.rfid.apirfid.exception.ReaderException;
+import br.edu.ifs.rfid.apirfid.shared.ErrorMapResponse;
+import br.edu.ifs.rfid.apirfid.shared.ErrorMapResponse.ErrorMapResponseBuilder;
 import br.edu.ifs.rfid.apirfid.shared.ErrorResponse;
 import br.edu.ifs.rfid.apirfid.shared.ErrorResponse.ErrorResponseBuilder;
 
@@ -22,7 +24,7 @@ public class ResourceHandler {
 	// Spring calls automatically
 
 	@ExceptionHandler(MethodArgumentNotValidException.class)
-	public ResponseEntity<Map<String, String>> MethodArgumentNotValidException(MethodArgumentNotValidException r) {
+	public ResponseEntity<ErrorMapResponse> MethodArgumentNotValidException(MethodArgumentNotValidException r) {
 
 		Map<String, String> errors = new HashMap<>();
 
@@ -32,7 +34,11 @@ public class ResourceHandler {
 			errors.put(field, message);
 		});
 
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
+		ErrorMapResponseBuilder error = ErrorMapResponse.builder();
+
+		error.errors(errors).httpStatus(HttpStatus.BAD_REQUEST.value()).timeStamp(System.currentTimeMillis());
+
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error.build());
 
 	}
 

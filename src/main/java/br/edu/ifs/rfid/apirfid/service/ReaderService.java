@@ -150,7 +150,7 @@ public class ReaderService implements IReaderService {
 			Optional<Reader> findResult = this.readerRepository.findById(id);
 
 			if (!findResult.isPresent()) {
-				throw new ReaderException("Reader not found!", HttpStatus.NOT_FOUND);
+				throw new ReaderException(Constants.getReaderNotFoundError(), HttpStatus.NOT_FOUND);
 			}
 
 			return findResult.get();

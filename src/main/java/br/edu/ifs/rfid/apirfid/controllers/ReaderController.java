@@ -1,6 +1,5 @@
 package br.edu.ifs.rfid.apirfid.controllers;
 
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,70 +15,43 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.edu.ifs.rfid.apirfid.domain.Reader;
-import br.edu.ifs.rfid.apirfid.repository.IReaderRepository;
+import br.edu.ifs.rfid.apirfid.service.ReaderService;
 
 @RestController
 @RequestMapping("/reader")
 public class ReaderController {
 
 	@Autowired
-	private IReaderRepository readerRepository;
+	private ReaderService readerService;
 
 	@GetMapping
 	public ResponseEntity<List<Reader>> getReaders() {
-		return ResponseEntity.status(HttpStatus.OK).body(readerRepository.findAll());
+		return ResponseEntity.status(HttpStatus.OK).body(readerService.getReaders());
 	}
 
 	@GetMapping("/{id}")
 	public ResponseEntity<Reader> getReader(@PathVariable String id) {
-		return ResponseEntity.status(HttpStatus.OK).body(readerRepository.findById(id).get());
+		return ResponseEntity.status(HttpStatus.OK).body(readerService.getReader(id));
 	}
 
 	@PostMapping
-	public ResponseEntity<Boolean> createReader(@RequestBody Reader reader) {
-		try {
-
-			Reader createReader = new Reader(reader.getPort(), reader.getIp(), reader.getModel(), reader.getBrand());
-
-			this.readerRepository.save(createReader);
-
-			return ResponseEntity.status(HttpStatus.OK).body(true);
-		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.OK).body(false);
-		}
+	public ResponseEntity<Reader> createReader(@RequestBody Reader reader) {
+		return ResponseEntity.status(HttpStatus.OK).body(readerService.createReader(reader));
 	}
 
-	@PutMapping("/{id}")
-	public ResponseEntity<Boolean> updateReader(@PathVariable String id, @RequestBody Reader reader) {
-		try {
+	@PutMapping("/{id}/reader-ip")
+	public ResponseEntity<Reader> updateReaderIp(@PathVariable String id, @RequestBody Reader reader) {
+		return ResponseEntity.status(HttpStatus.OK).body(readerService.updateIp(id, reader));
+	}
 
-			Reader oldReader = readerRepository.findById(id).get();
-
-			oldReader.setBrand(reader.getBrand());
-			oldReader.setIp(reader.getIp());
-			oldReader.setModel(reader.getModel());
-			oldReader.setPort(reader.getModel());
-			oldReader.setUpdatedAt(new Date());
-
-			this.readerRepository.save(oldReader);
-
-			return ResponseEntity.status(HttpStatus.OK).body(true);
-		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.OK).body(false);
-		}
+	@PutMapping("/{id}/reader-port")
+	public ResponseEntity<Reader> updateReaderPort(@PathVariable String id, @RequestBody Reader reader) {
+		return ResponseEntity.status(HttpStatus.OK).body(readerService.updatePort(id, reader));
 	}
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Boolean> excluirMateria(@PathVariable String id) {
-		try {
-
-			this.readerRepository.deleteById(id);
-
-			return ResponseEntity.status(HttpStatus.OK).body(true);
-
-		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(false);
-		}
+		return ResponseEntity.status(HttpStatus.OK).body(readerService.deleteReader(id));
 	}
 
 }

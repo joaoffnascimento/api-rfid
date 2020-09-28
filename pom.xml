@@ -16,7 +16,7 @@
 	<description>API que fará a gestão de inventários, facilitando o trabalho da Coordenação de Almoxarifado e patrimônio (COAP), que atualmente faz esse controle manualmente no Instituto Federal de Sergipe.</description>
 
 	<properties>
-		<java.version>11</java.version>
+		<java.version>8</java.version>
 	</properties>
 
 	<dependencies>

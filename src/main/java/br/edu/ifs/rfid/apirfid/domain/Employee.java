@@ -24,6 +24,6 @@ public class Employee {
 	private String senha;
 	private String profissao;
 	private Date inicioExercicio;
-	private Occupations occupation;
+	private Occupation occupation;
 	private Departament departament;
 }

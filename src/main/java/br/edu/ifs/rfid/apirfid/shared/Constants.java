@@ -6,11 +6,23 @@ public class Constants {
 	
 	private static final String READER_NOT_FOUND_ERROR = "Reader not found!";
 
+	private static final String DELETE = "DELETE";
+	
+	private static final String UPDATE = "PUT";
+
 	public static String getInternalServerErrorMsg() {
 		return INTERNAL_SERVER_ERROR_MSG;
 	}
 
 	public static String getReaderNotFoundError() {
 		return READER_NOT_FOUND_ERROR;
+	}
+
+	public static String getDelete() {
+		return DELETE;
+	}
+
+	public static String getUpdate() {
+		return UPDATE;
 	}
 }

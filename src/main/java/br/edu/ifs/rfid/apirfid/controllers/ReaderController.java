@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.edu.ifs.rfid.apirfid.domain.Reader;
-import br.edu.ifs.rfid.apirfid.domain.Dto.ReaderDto;
+import br.edu.ifs.rfid.apirfid.domain.dtoObjects.ReaderDto;
 import br.edu.ifs.rfid.apirfid.service.ReaderService;
 import br.edu.ifs.rfid.apirfid.shared.Constants;
 import br.edu.ifs.rfid.apirfid.shared.Response;
@@ -31,7 +31,7 @@ public class ReaderController {
 
 	@GetMapping
 	public ResponseEntity<Response<List<Reader>>> getReaders() {
-		Response<List<Reader>> response = new Response<>();
+		Response<List<Reader>> response = new Response<>(true);
 
 		response.setData(readerService.getReaders());
 		response.setStatusCode(HttpStatus.OK.value());
@@ -44,7 +44,7 @@ public class ReaderController {
 
 	@GetMapping("/{id}")
 	public ResponseEntity<Response<Reader>> getReader(@PathVariable String id) {
-		Response<Reader> response = new Response<>();
+		Response<Reader> response = new Response<>(true);
 
 		response.setData(readerService.getReader(id));
 		response.setStatusCode(HttpStatus.OK.value());
@@ -60,7 +60,7 @@ public class ReaderController {
 	@PostMapping
 	public ResponseEntity<Response<Reader>> createReader(@Valid @RequestBody ReaderDto request) {
 
-		Response<Reader> response = new Response<>();
+		Response<Reader> response = new Response<>(true);
 
 		response.setData(readerService.createReader(request));
 		response.setStatusCode(HttpStatus.OK.value());
@@ -74,7 +74,7 @@ public class ReaderController {
 	@PutMapping("/{id}/reader-ip")
 	public ResponseEntity<Response<Reader>> updateReaderIp(@Valid @PathVariable String id,
 			@RequestBody ReaderDto request) {
-		Response<Reader> response = new Response<>();
+		Response<Reader> response = new Response<>(true);
 
 		response.setData(readerService.updateIp(id, request));
 		response.setStatusCode(HttpStatus.OK.value());
@@ -86,27 +86,29 @@ public class ReaderController {
 	}
 
 	@PutMapping("/{id}/reader-port")
-	public ResponseEntity<Response<Reader>> updateReaderPort(@Valid @PathVariable String id, @RequestBody ReaderDto request) {
-		Response<Reader> response = new Response<>();
+	public ResponseEntity<Response<Reader>> updateReaderPort(@Valid @PathVariable String id,
+			@RequestBody ReaderDto request) {
+		Response<Reader> response = new Response<>(true);
 
 		response.setData(readerService.updatePort(id, request));
 		response.setStatusCode(HttpStatus.OK.value());
 
 		response.add(WebMvcLinkBuilder
-				.linkTo(WebMvcLinkBuilder.methodOn(ReaderController.class).updateReaderPort(id, request)).withSelfRel());
+				.linkTo(WebMvcLinkBuilder.methodOn(ReaderController.class).updateReaderPort(id, request))
+				.withSelfRel());
 
 		return ResponseEntity.status(HttpStatus.OK).body(response);
 	}
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Response<Boolean>> deleteReader(@PathVariable String id) {
-		Response<Boolean> response = new Response<>();
+		Response<Boolean> response = new Response<>(true);
 
 		response.setData(readerService.deleteReader(id));
 		response.setStatusCode(HttpStatus.OK.value());
 
-		response.add(WebMvcLinkBuilder
-				.linkTo(WebMvcLinkBuilder.methodOn(ReaderController.class).deleteReader(id)).withSelfRel());
+		response.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(ReaderController.class).deleteReader(id))
+				.withSelfRel());
 
 		return ResponseEntity.status(HttpStatus.OK).body(response);
 	}

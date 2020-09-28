@@ -10,7 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import br.edu.ifs.rfid.apirfid.domain.Reader;
-import br.edu.ifs.rfid.apirfid.domain.Dto.ReaderDto;
+import br.edu.ifs.rfid.apirfid.domain.dtoObjects.ReaderDto;
 import br.edu.ifs.rfid.apirfid.exception.ReaderException;
 import br.edu.ifs.rfid.apirfid.repository.IReaderRepository;
 import br.edu.ifs.rfid.apirfid.service.interfaces.IReaderService;
@@ -55,12 +55,12 @@ public class ReaderService implements IReaderService {
 
 	/**
 	 * -> Grouping same notations
+	 * 
 	 * @Caching(evict = {
-	 * 		@CacheEvict(value = "reader", key = "#id"),
-	 * 		@CacheEvict(value = "another entity", key = "#id")
-	 * })
+	 * @CacheEvict(value = "reader", key = "#id"),
+	 * @CacheEvict(value = "another entity", key = "#id") })
 	 */
-	
+
 	@Override
 	public Reader updatePort(String id, ReaderDto request) {
 		try {
@@ -79,7 +79,7 @@ public class ReaderService implements IReaderService {
 			throw new ReaderException(Constants.getInternalServerErrorMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	
+
 	@Override
 	public Reader updateModel(String id, ReaderDto request) {
 		try {
@@ -136,7 +136,7 @@ public class ReaderService implements IReaderService {
 			throw new ReaderException(Constants.getInternalServerErrorMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	
+
 	@CachePut(unless = "#result.size() < 10")
 	@Override
 	public List<Reader> getReaders() {

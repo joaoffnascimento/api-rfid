@@ -11,10 +11,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import br.edu.ifs.rfid.apirfid.exception.ReaderException;
-import br.edu.ifs.rfid.apirfid.shared.ErrorMapResponse;
-import br.edu.ifs.rfid.apirfid.shared.ErrorMapResponse.ErrorMapResponseBuilder;
-import br.edu.ifs.rfid.apirfid.shared.ErrorResponse;
-import br.edu.ifs.rfid.apirfid.shared.ErrorResponse.ErrorResponseBuilder;
+import br.edu.ifs.rfid.apirfid.shared.Response;
 
 @ControllerAdvice
 public class ResourceHandler {
@@ -24,7 +21,8 @@ public class ResourceHandler {
 	// Spring calls automatically
 
 	@ExceptionHandler(MethodArgumentNotValidException.class)
-	public ResponseEntity<ErrorMapResponse> MethodArgumentNotValidException(MethodArgumentNotValidException r) {
+	public ResponseEntity<Response<Map<String, String>>> methodArgumentNotValidException(
+			MethodArgumentNotValidException r) {
 
 		Map<String, String> errors = new HashMap<>();
 
@@ -34,24 +32,24 @@ public class ResourceHandler {
 			errors.put(field, message);
 		});
 
-		ErrorMapResponseBuilder error = ErrorMapResponse.builder();
+		Response<Map<String, String>> response = new Response<>(false);
 
-		error.errors(errors).httpStatus(HttpStatus.BAD_REQUEST.value()).timeStamp(System.currentTimeMillis());
+		response.setStatusCode(HttpStatus.BAD_REQUEST.value());
+		response.setData(errors);
 
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error.build());
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
 
 	}
 
 	@ExceptionHandler(ReaderException.class)
-	public ResponseEntity<ErrorResponse> handlerReaderException(ReaderException r) {
+	public ResponseEntity<Response<String>> handlerReaderException(ReaderException r) {
 
-		ErrorResponseBuilder error = ErrorResponse.builder();
+		Response<String> response = new Response<>(false);
 
-		error.httpStatus(r.getHttpStatus().value());
-		error.msg(r.getMessage());
-		error.timeStamp(System.currentTimeMillis());
+		response.setStatusCode(r.getHttpStatus().value());
+		response.setData(r.getMessage());
 
-		return ResponseEntity.status(r.getHttpStatus()).body(error.build());
+		return ResponseEntity.status(r.getHttpStatus()).body(response);
 
 	}
 }

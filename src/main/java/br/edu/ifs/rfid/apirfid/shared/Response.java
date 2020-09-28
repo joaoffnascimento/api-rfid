@@ -7,14 +7,16 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class Response<T> extends RepresentationModel<Response<T>>{
+public class Response<T> extends RepresentationModel<Response<T>> {
 	// link class atribute
-	
+
 	private Boolean r;
 	private int statusCode;
 	private T data;
-	
-	public Response() {
-		this.r = true;
+	private Long timeStamp;
+
+	public Response(Boolean r) {
+		this.r = r;
+		this.timeStamp = System.currentTimeMillis();
 	}
 }

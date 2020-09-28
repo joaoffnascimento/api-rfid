@@ -1,4 +1,4 @@
-package br.edu.ifs.rfid.apirfid.domain.Dto;
+package br.edu.ifs.rfid.apirfid.domain.dtoObjects;
 
 import java.util.Date;
 
@@ -16,9 +16,9 @@ import lombok.NoArgsConstructor;
 public class ReaderDto {
 
 	private ObjectId id;
-	
+
 	@Min(value = 1, message = "Port number is required")
-    @Max(value = 10000, message = "Port number is required")
+	@Max(value = 10000, message = "Port number is required")
 	private int port;
 
 	@NotBlank(message = "IP Addres is required")

@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import br.edu.ifs.rfid.apirfid.domain.Reader;
 
 @Repository
-public interface IReaderRepository extends MongoRepository<Reader, String>{
+public interface IReaderRepository extends MongoRepository<Reader, String> {
 
 }

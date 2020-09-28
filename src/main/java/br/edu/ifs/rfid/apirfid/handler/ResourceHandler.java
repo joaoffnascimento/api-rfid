@@ -10,7 +10,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import br.edu.ifs.rfid.apirfid.exception.ReaderException;
+import br.edu.ifs.rfid.apirfid.exception.CustomException;
 import br.edu.ifs.rfid.apirfid.shared.Response;
 
 @ControllerAdvice
@@ -41,8 +41,8 @@ public class ResourceHandler {
 
 	}
 
-	@ExceptionHandler(ReaderException.class)
-	public ResponseEntity<Response<String>> handlerReaderException(ReaderException r) {
+	@ExceptionHandler(CustomException.class)
+	public ResponseEntity<Response<String>> handlerReaderException(CustomException r) {
 
 		Response<String> response = new Response<>(false);
 

@@ -3,8 +3,9 @@ package br.edu.ifs.rfid.apirfid.service;
 import java.util.List;
 import java.util.Optional;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -15,18 +16,16 @@ import br.edu.ifs.rfid.apirfid.repository.IReaderRepository;
 import br.edu.ifs.rfid.apirfid.service.interfaces.IReaderService;
 import br.edu.ifs.rfid.apirfid.shared.Constants;
 
+@CacheConfig(cacheNames = "reader")
 @Service
 public class ReaderService implements IReaderService {
 
 	private IReaderRepository readerRepository;
-	private ModelMapper mapper;
-	
+
 	@Autowired
-	public ReaderService(IReaderRepository readerRepository, ModelMapper mapper) {
+	public ReaderService(IReaderRepository readerRepository) {
 		this.readerRepository = readerRepository;
-		this.mapper = mapper;
 	}
-	
 
 	@Override
 	public Reader createReader(ReaderDto request) {
@@ -54,6 +53,14 @@ public class ReaderService implements IReaderService {
 		}
 	}
 
+	/**
+	 * -> Grouping same notations
+	 * @Caching(evict = {
+	 * 		@CacheEvict(value = "reader", key = "#id"),
+	 * 		@CacheEvict(value = "another entity", key = "#id")
+	 * })
+	 */
+	
 	@Override
 	public Reader updatePort(String id, ReaderDto request) {
 		try {
@@ -72,7 +79,7 @@ public class ReaderService implements IReaderService {
 			throw new ReaderException(Constants.getInternalServerErrorMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-
+	
 	@Override
 	public Reader updateModel(String id, ReaderDto request) {
 		try {
@@ -129,7 +136,8 @@ public class ReaderService implements IReaderService {
 			throw new ReaderException(Constants.getInternalServerErrorMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-
+	
+	@CachePut(unless = "#result.size() < 10")
 	@Override
 	public List<Reader> getReaders() {
 		try {
@@ -143,6 +151,7 @@ public class ReaderService implements IReaderService {
 		}
 	}
 
+	@CachePut(key = "#id")
 	@Override
 	public Reader getReader(String id) {
 		try {

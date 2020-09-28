@@ -3,12 +3,9 @@ package br.edu.ifs.rfid.apirfid.service;
 import java.util.List;
 import java.util.Optional;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -24,12 +21,10 @@ import br.edu.ifs.rfid.apirfid.shared.Constants;
 public class ReaderService implements IReaderService {
 
 	private IReaderRepository readerRepository;
-	private ModelMapper mapper;
 
 	@Autowired
-	public ReaderService(IReaderRepository readerRepository, ModelMapper mapper) {
+	public ReaderService(IReaderRepository readerRepository) {
 		this.readerRepository = readerRepository;
-		this.mapper = mapper;
 	}
 
 	@Override

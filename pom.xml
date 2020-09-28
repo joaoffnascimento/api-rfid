@@ -82,6 +82,17 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-hateoas</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.llrp</groupId>
+			<artifactId>ltkjava</artifactId>
+			<version>1.0.0.7</version>
+		</dependency>
+		<dependency>
+			<groupId>org.llrp</groupId>
+			<artifactId>ltkjava-generator</artifactId>
+			<version>1.0.0.7</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>

@@ -13,7 +13,8 @@
 	<artifactId>api-rfid</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>api-rfid</name>
-	<description>API que fará a gestão de inventários, facilitando o trabalho da Coordenação de Almoxarifado e patrimônio (COAP), que atualmente faz esse controle manualmente no Instituto Federal de Sergipe.</description>
+	<description>pt: API que fará a gestão de inventários, facilitando o trabalho da Coordenação de Almoxarifado e patrimônio (COAP), que atualmente faz esse controle manualmente no Instituto Federal de Sergipe.
+	en: API that will manage inventories, facilitating the work of the Coordination of Warehouse and Heritage (COAP), which currently does this control manually at the Federal Institute of Sergipe.</description>
 
 	<properties>
 		<java.version>8</java.version>

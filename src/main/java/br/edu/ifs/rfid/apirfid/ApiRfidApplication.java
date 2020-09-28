@@ -8,9 +8,9 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.cache.annotation.EnableCaching;
 
 @EnableCaching
-@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class })
-public class ApiRfidApplication extends SpringBootServletInitializer{
-	
+@SpringBootApplication(exclude = { DataSourceAutoConfiguration.class })
+public class ApiRfidApplication extends SpringBootServletInitializer {
+
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder app) {
 		return app.sources(ApiRfidApplication.class);

@@ -3,7 +3,7 @@ package br.edu.ifs.rfid.apirfid.service.interfaces;
 import java.util.List;
 
 import br.edu.ifs.rfid.apirfid.domain.Reader;
-import br.edu.ifs.rfid.apirfid.domain.Dto.ReaderDto;
+import br.edu.ifs.rfid.apirfid.domain.dtoObjects.ReaderDto;
 
 public interface IReaderService {
 

@@ -10,21 +10,25 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import br.edu.ifs.rfid.apirfid.domain.Reader;
+import br.edu.ifs.rfid.apirfid.domain.dtoObjects.HostNameDto;
 import br.edu.ifs.rfid.apirfid.domain.dtoObjects.ReaderDto;
 import br.edu.ifs.rfid.apirfid.exception.CustomException;
 import br.edu.ifs.rfid.apirfid.repository.IReaderRepository;
 import br.edu.ifs.rfid.apirfid.service.interfaces.IReaderService;
 import br.edu.ifs.rfid.apirfid.shared.Constants;
+import br.edu.ifs.rfid.apirfid.shared.RfidMiddleware;
 
 @CacheConfig(cacheNames = "reader")
 @Service
 public class ReaderService implements IReaderService {
 
+	private RfidMiddleware rfidMiddleware;
 	private IReaderRepository readerRepository;
 
 	@Autowired
-	public ReaderService(IReaderRepository readerRepository) {
+	public ReaderService(IReaderRepository readerRepository, RfidMiddleware rfidMiddleware) {
 		this.readerRepository = readerRepository;
+		this.rfidMiddleware = rfidMiddleware;
 	}
 
 	@Override
@@ -183,6 +187,36 @@ public class ReaderService implements IReaderService {
 
 		} catch (CustomException r) {
 			throw r;
+		} catch (Exception e) {
+			throw new CustomException(Constants.getInternalServerErrorMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	@Override
+	public Boolean enableReader(HostNameDto request) {
+		try {
+
+			this.rfidMiddleware.run(request.getIp());
+
+			return Boolean.TRUE;
+
+		} catch (CustomException e) {
+			return Boolean.FALSE;
+		} catch (Exception e) {
+			throw new CustomException(Constants.getInternalServerErrorMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	@Override
+	public Boolean disableReader() {
+		try {
+
+			this.rfidMiddleware.stop();
+
+			return Boolean.TRUE;
+
+		} catch (CustomException e) {
+			return Boolean.FALSE;
 		} catch (Exception e) {
 			throw new CustomException(Constants.getInternalServerErrorMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}

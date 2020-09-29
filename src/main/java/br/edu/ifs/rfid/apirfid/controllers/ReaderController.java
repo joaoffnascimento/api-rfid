@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.edu.ifs.rfid.apirfid.domain.Reader;
+import br.edu.ifs.rfid.apirfid.domain.dtoObjects.HostNameDto;
 import br.edu.ifs.rfid.apirfid.domain.dtoObjects.ReaderDto;
 import br.edu.ifs.rfid.apirfid.service.ReaderService;
 import br.edu.ifs.rfid.apirfid.shared.Constants;
@@ -108,6 +109,33 @@ public class ReaderController {
 		response.setStatusCode(HttpStatus.OK.value());
 
 		response.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(ReaderController.class).deleteReader(id))
+				.withSelfRel());
+
+		return ResponseEntity.status(HttpStatus.OK).body(response);
+	}
+
+	@PostMapping("/enable")
+	public ResponseEntity<Response<Boolean>> enableReader(@RequestBody HostNameDto request) {
+
+		Response<Boolean> response = new Response<>(true);
+
+		response.setData(readerService.enableReader(request));
+		response.setStatusCode(HttpStatus.OK.value());
+
+		response.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(ReaderController.class).enableReader(request))
+				.withSelfRel());
+
+		return ResponseEntity.status(HttpStatus.OK).body(response);
+	}
+
+	@PostMapping("/disable")
+	public ResponseEntity<Response<Boolean>> disableReader() {
+		Response<Boolean> response = new Response<>(true);
+
+		response.setData(readerService.disableReader());
+		response.setStatusCode(HttpStatus.OK.value());
+
+		response.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(ReaderController.class).disableReader())
 				.withSelfRel());
 
 		return ResponseEntity.status(HttpStatus.OK).body(response);

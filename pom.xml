@@ -13,7 +13,8 @@
 	<artifactId>api-rfid</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>api-rfid</name>
-	<description>API que fará a gestão de inventários, facilitando o trabalho da Coordenação de Almoxarifado e patrimônio (COAP), que atualmente faz esse controle manualmente no Instituto Federal de Sergipe.</description>
+	<description>pt: API que fará a gestão de inventários, facilitando o trabalho da Coordenação de Almoxarifado e patrimônio (COAP), que atualmente faz esse controle manualmente no Instituto Federal de Sergipe.
+	en: API that will manage inventories, facilitating the work of the Coordination of Warehouse and Heritage (COAP), which currently does this control manually at the Federal Institute of Sergipe.</description>
 
 	<properties>
 		<java.version>8</java.version>
@@ -82,6 +83,45 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-hateoas</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.llrp</groupId>
+			<artifactId>ltkjava</artifactId>
+			<version>1.0.0.7</version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.sun.jmx</groupId>
+					<artifactId>jmxri</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.sun.jdmk</groupId>
+					<artifactId>jmxtools</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>javax.jms</groupId>
+					<artifactId>jms</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.llrp</groupId>
+			<artifactId>ltkjava-generator</artifactId>
+			<version>1.0.0.7</version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.sun.jmx</groupId>
+					<artifactId>jmxri</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.sun.jdmk</groupId>
+					<artifactId>jmxtools</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>javax.jms</groupId>
+					<artifactId>jms</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
 	</dependencies>
 
 	<build>

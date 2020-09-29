@@ -3,6 +3,7 @@ package br.edu.ifs.rfid.apirfid.service.interfaces;
 import java.util.List;
 
 import br.edu.ifs.rfid.apirfid.domain.Reader;
+import br.edu.ifs.rfid.apirfid.domain.dtoObjects.HostNameDto;
 import br.edu.ifs.rfid.apirfid.domain.dtoObjects.ReaderDto;
 
 public interface IReaderService {
@@ -22,4 +23,8 @@ public interface IReaderService {
 	public List<Reader> getReaders();
 
 	public Boolean deleteReader(final String id);
+	
+	public Boolean enableReader(HostNameDto request);
+	
+	public Boolean disableReader();
 }

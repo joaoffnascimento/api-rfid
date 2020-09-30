@@ -3,8 +3,8 @@ package br.edu.ifs.rfid.apirfid.service.interfaces;
 import java.util.List;
 
 import br.edu.ifs.rfid.apirfid.domain.Reader;
-import br.edu.ifs.rfid.apirfid.domain.dtoObjects.HostNameDto;
-import br.edu.ifs.rfid.apirfid.domain.dtoObjects.ReaderDto;
+import br.edu.ifs.rfid.apirfid.domain.dto.HostNameDto;
+import br.edu.ifs.rfid.apirfid.domain.dto.ReaderDto;
 
 public interface IReaderService {
 

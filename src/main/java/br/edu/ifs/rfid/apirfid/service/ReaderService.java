@@ -10,8 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import br.edu.ifs.rfid.apirfid.domain.Reader;
-import br.edu.ifs.rfid.apirfid.domain.dtoObjects.HostNameDto;
-import br.edu.ifs.rfid.apirfid.domain.dtoObjects.ReaderDto;
+import br.edu.ifs.rfid.apirfid.domain.dto.HostNameDto;
+import br.edu.ifs.rfid.apirfid.domain.dto.ReaderDto;
 import br.edu.ifs.rfid.apirfid.exception.CustomException;
 import br.edu.ifs.rfid.apirfid.repository.IReaderRepository;
 import br.edu.ifs.rfid.apirfid.service.interfaces.IReaderService;

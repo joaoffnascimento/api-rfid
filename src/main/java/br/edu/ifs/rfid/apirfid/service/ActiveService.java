@@ -9,7 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import br.edu.ifs.rfid.apirfid.domain.Active;
-import br.edu.ifs.rfid.apirfid.domain.dtoObjects.ActiveDto;
+import br.edu.ifs.rfid.apirfid.domain.dto.ActiveDto;
 import br.edu.ifs.rfid.apirfid.exception.CustomException;
 import br.edu.ifs.rfid.apirfid.repository.IActiveRepository;
 import br.edu.ifs.rfid.apirfid.service.interfaces.IActiveService;

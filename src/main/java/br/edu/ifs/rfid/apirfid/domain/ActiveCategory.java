@@ -1,7 +1,5 @@
 package br.edu.ifs.rfid.apirfid.domain;
 
-import java.util.List;
-
 import javax.persistence.Id;
 
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -20,6 +18,4 @@ public class ActiveCategory {
 	private int id;
 	private String sigla;
 	private String descricao;
-
-	private List<Active> listActives;
 }

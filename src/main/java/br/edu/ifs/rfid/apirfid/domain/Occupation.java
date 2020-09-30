@@ -1,7 +1,6 @@
 package br.edu.ifs.rfid.apirfid.domain;
 
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Id;
 
@@ -17,9 +16,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Occupation {
+
 	@Id
 	private ObjectId id;
 	private String descricao;
 	private Date dataInicioFuncao;
-	private List<Employee> listEmployers;
 }

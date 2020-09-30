@@ -20,7 +20,6 @@ public class Active {
 
 	@Id
 	private ObjectId id;
-
 	private int numeroPatrimonio;
 	private String nomeHost;
 	private String marca;
@@ -28,14 +27,11 @@ public class Active {
 	private Date dataAquisicao;
 	private Date dataFinalGarantia;
 	private Boolean hasGarantia;
-
 	private float dtAquisTMSTMP;
 	private float dtFinalTMSTMP;
-
-	private Tag tag;
-	private Location location;
-	private ActiveCategory activeCategory;
-
+	private ObjectId tagId;
+	private ObjectId locationId;
+	private ObjectId activeCategoryId;
 	private Date createdAt;
 	private Date updatedAt;
 

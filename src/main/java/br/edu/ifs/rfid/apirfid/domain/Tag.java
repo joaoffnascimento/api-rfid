@@ -19,6 +19,5 @@ public class Tag {
 	private ObjectId id;
 	private String epc;
 	private String tipo;
-
-	private Active active;
+	private ObjectId activeId;
 }

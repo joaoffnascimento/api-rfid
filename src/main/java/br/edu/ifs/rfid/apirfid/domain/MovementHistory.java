@@ -2,6 +2,8 @@ package br.edu.ifs.rfid.apirfid.domain;
 
 import java.util.Date;
 
+import javax.persistence.Id;
+
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -15,9 +17,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class MovementHistory {
 
+	@Id
 	private ObjectId id;
 	private Date dataHoraMovimentacao;
 	private int tipoMovimentacao;
-
-	private Active active;
+	private ObjectId activeId;
 }

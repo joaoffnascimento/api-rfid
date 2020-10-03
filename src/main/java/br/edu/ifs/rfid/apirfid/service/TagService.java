@@ -1,5 +1,6 @@
 package br.edu.ifs.rfid.apirfid.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +57,19 @@ public class TagService implements ITagService {
 			}
 
 			return findResult.get();
+
+		} catch (CustomException r) {
+			throw r;
+		} catch (Exception e) {
+			throw new CustomException(Constants.getInternalServerErrorMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	@Override
+	public List<Tag> getAllTags() {
+		try {
+			
+			return this.tagRepository.findAll();
 
 		} catch (CustomException r) {
 			throw r;

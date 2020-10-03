@@ -1,5 +1,7 @@
 package br.edu.ifs.rfid.apirfid.controllers;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +49,20 @@ public class TagController {
 		response.setStatusCode(HttpStatus.CREATED.value());
 
 		response.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(TagController.class).getTagByEpc(epc))
+				.withSelfRel());
+
+		return ResponseEntity.status(HttpStatus.CREATED).body(response);
+	}
+	
+	@GetMapping
+	public ResponseEntity<Response<List<Tag>>> getAllTags() {
+
+		Response<List<Tag>> response = new Response<>(true);
+
+		response.setData(tagService.getAllTags());
+		response.setStatusCode(HttpStatus.CREATED.value());
+
+		response.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(TagController.class).getAllTags())
 				.withSelfRel());
 
 		return ResponseEntity.status(HttpStatus.CREATED).body(response);

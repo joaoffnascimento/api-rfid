@@ -1,11 +1,9 @@
 package br.edu.ifs.rfid.apirfid.domain;
 
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Id;
 
-import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.AllArgsConstructor;
@@ -19,7 +17,7 @@ import lombok.NoArgsConstructor;
 public class Active {
 
 	@Id
-	private ObjectId id;
+	private String id;
 	private int numeroPatrimonio;
 	private String nomeHost;
 	private String marca;
@@ -29,20 +27,19 @@ public class Active {
 	private Boolean hasGarantia;
 	private float dtAquisTMSTMP;
 	private float dtFinalTMSTMP;
-	private ObjectId tagId;
-	private ObjectId locationId;
-	private ObjectId activeCategoryId;
+	@Id
+	private String tagId;
+	@Id
+	private String locationId;
+	@Id
+	private String activeCategoryId;
 	private Date createdAt;
 	private Date updatedAt;
-
-	private List<MovementHistory> listMovementHistory;
 
 	public Active createActive(int numeroPatrimonio, String nomeHost, String marca, String modelo, Date dataAquisicao,
 			Date dataFinalGarantia, Boolean hasGarantia) {
 
 		Active active = new Active();
-
-		active.id = new ObjectId();
 
 		active.numeroPatrimonio = numeroPatrimonio;
 		active.nomeHost = nomeHost;

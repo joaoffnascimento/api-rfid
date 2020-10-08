@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.edu.ifs.rfid.apirfid.domain.Reader;
-import br.edu.ifs.rfid.apirfid.domain.dtoObjects.HostNameDto;
-import br.edu.ifs.rfid.apirfid.domain.dtoObjects.ReaderDto;
+import br.edu.ifs.rfid.apirfid.domain.dto.HostNameDto;
+import br.edu.ifs.rfid.apirfid.domain.dto.ReaderDto;
 import br.edu.ifs.rfid.apirfid.service.ReaderService;
 import br.edu.ifs.rfid.apirfid.shared.Constants;
 import br.edu.ifs.rfid.apirfid.shared.Response;

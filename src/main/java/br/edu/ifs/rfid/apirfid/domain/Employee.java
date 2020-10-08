@@ -24,6 +24,6 @@ public class Employee {
 	private String senha;
 	private String profissao;
 	private Date inicioExercicio;
-	private Occupation occupation;
-	private Departament departament;
+	private ObjectId occupationId;
+	private ObjectId departamentId;
 }

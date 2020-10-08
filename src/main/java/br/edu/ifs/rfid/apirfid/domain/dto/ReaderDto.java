@@ -1,12 +1,11 @@
-package br.edu.ifs.rfid.apirfid.domain.dtoObjects;
+package br.edu.ifs.rfid.apirfid.domain.dto;
 
 import java.util.Date;
 
+import javax.persistence.Id;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
-
-import org.bson.types.ObjectId;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,7 +14,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ReaderDto {
 
-	private ObjectId id;
+	@Id
+	private String id;
 
 	@Min(value = 1, message = "Port number is required")
 	@Max(value = 10000, message = "Port number is required")

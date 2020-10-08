@@ -1,7 +1,5 @@
 package br.edu.ifs.rfid.apirfid.domain;
 
-import java.util.List;
-
 import javax.persistence.Id;
 
 import org.bson.types.ObjectId;
@@ -21,6 +19,4 @@ public class Departament {
 	private ObjectId id;
 	private String sigla;
 	private String descricao;
-	private List<Location> listLocation;
-	private List<Employee> listEmployers;
 }

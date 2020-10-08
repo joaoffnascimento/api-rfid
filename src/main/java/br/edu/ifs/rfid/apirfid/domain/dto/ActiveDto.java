@@ -1,4 +1,4 @@
-package br.edu.ifs.rfid.apirfid.domain.dtoObjects;
+package br.edu.ifs.rfid.apirfid.domain.dto;
 
 import java.util.Date;
 

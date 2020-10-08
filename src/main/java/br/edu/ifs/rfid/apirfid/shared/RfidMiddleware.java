@@ -1,5 +1,8 @@
 package br.edu.ifs.rfid.apirfid.shared;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +41,7 @@ import org.llrp.ltk.generated.parameters.AccessSpecStopTrigger;
 import org.llrp.ltk.generated.parameters.C1G2Read;
 import org.llrp.ltk.generated.parameters.C1G2TagSpec;
 import org.llrp.ltk.generated.parameters.C1G2TargetTag;
+import org.llrp.ltk.generated.parameters.EPC_96;
 import org.llrp.ltk.generated.parameters.InventoryParameterSpec;
 import org.llrp.ltk.generated.parameters.PeriodicTriggerValue;
 import org.llrp.ltk.generated.parameters.ROBoundarySpec;
@@ -61,9 +65,17 @@ import org.llrp.ltk.types.UnsignedShort;
 import org.llrp.ltk.types.UnsignedShortArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.edu.ifs.rfid.apirfid.domain.Active;
+import br.edu.ifs.rfid.apirfid.domain.MovementHistory;
+import br.edu.ifs.rfid.apirfid.service.ActiveService;
+import br.edu.ifs.rfid.apirfid.service.ReaderService;
+import lombok.Data;
+
 @Service
+@Data
 public class RfidMiddleware implements LLRPEndpoint {
 
 	private static Logger logger = LoggerFactory.getLogger(RfidMiddleware.class);
@@ -78,6 +90,11 @@ public class RfidMiddleware implements LLRPEndpoint {
 	public List<String> listaLeiturasEPC = new ArrayList<String>();
 
 	int count = 0;
+
+	private int realizarAtualizacaoEstoque;
+
+	@Autowired
+	private ActiveService activeService;
 
 	public ROSpec buildROSpec() {
 
@@ -375,15 +392,15 @@ public class RfidMiddleware implements LLRPEndpoint {
 		accessSpec.setAccessSpecID(new UnsignedInteger(accessSpecID));
 
 		accessSpec.setROSpecID(new UnsignedInteger(0));
-		
+
 		accessSpec.setAntennaID(new UnsignedShort(0));
 		accessSpec.setProtocolID(new AirProtocols(AirProtocols.EPCGlobalClass1Gen2));
-		
+
 		accessSpec.setCurrentState(new AccessSpecState(AccessSpecState.Disabled));
 		AccessSpecStopTrigger stopTrigger = new AccessSpecStopTrigger();
-		
+
 		stopTrigger.setAccessSpecStopTrigger(new AccessSpecStopTriggerType(AccessSpecStopTriggerType.Operation_Count));
-		
+
 		stopTrigger.setOperationCountValue(new UnsignedShort(0));
 		accessSpec.setAccessSpecStopTrigger(stopTrigger);
 
@@ -466,12 +483,80 @@ public class RfidMiddleware implements LLRPEndpoint {
 	}
 
 	@Override
-	public void messageReceived(LLRPMessage message) {
-		logger.info("contador: " + count++ + " -->Entrou na MessageReceived!");
+	public String toString() {
+		return "Middleware_LLRP SistemaMonitoramentodeAtivos";
+	}
+
+	public void inserirNoHistorico(MovementHistory historico, String epc) {
+
+		// 1 - In / 0 - out
+		
+		Active active = activeService.getActiveByEpc(epc);
+
+		if (historico == null) {
+			logger.info("O ATIVO AINDA NAO POSSUI UM HISTORICO INSERIDO!");
+			activeService.insertMovimentacao(1, active.getNumeroPatrimonio(), active.getId());
+			
+		} else {
+			
+			logger.info("O ATIVO --JÁ--- POSSUI UM HISTORICO INSERIDO!");
+			if (historico.getTipoMovimentacao() == 1) {
+				
+				logger.info("ULTIMA MOVIMENTACAO IF::: " + historico.getTipoMovimentacao());
+				activeService.insertMovimentacao(0, active.getNumeroPatrimonio(), active.getId());
+			} else {
+				
+				logger.info("ULTIMA MOVIMENTACAO ELSE::: " + historico.getTipoMovimentacao());
+				activeService.insertMovimentacao(1, active.getNumeroPatrimonio(), active.getId());
+			}
+		}
+	}
+
+	public long diferencaEmMinutos(MovementHistory historico) {
+		LocalDateTime dataHoraAtual = LocalDateTime.now();
+
+		String dataEmString = historico.getDataHoraMovimentacaoEmString();
+
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+		LocalDateTime dataHoraRegistro = LocalDateTime.parse(dataEmString, formatter);
+
+		return ChronoUnit.MINUTES.between(dataHoraRegistro, dataHoraAtual);
 	}
 
 	@Override
-	public String toString() {
-		return "Middleware_LLRP SistemaMonitoramentodeAtivos";
+	public void messageReceived(LLRPMessage message) {
+		logger.info("contador: " + count++ + " -->Entrou na MessageReceived!");
+
+		if (message.getTypeNum() == RO_ACCESS_REPORT.TYPENUM) {
+
+			RO_ACCESS_REPORT relatorio = (RO_ACCESS_REPORT) message;
+
+			List<TagReportData> tags = relatorio.getTagReportDataList();
+
+			for (TagReportData tag : tags) {
+
+				String epc = ((EPC_96) tag.getEPCParameter()).getEPC().toString();
+
+				logger.info("código EPC capturado:" + epc);
+
+				/*if (!this.listaLeiturasEPC.contains(epc)) {
+
+					this.listaLeiturasEPC.add(epc);
+
+					logger.info("NÃO ESTA NA LISTA DE LEITURAS! -> ADICIONADO NA LISTAEPC-->" + epc + "\n\n");
+
+					inserirNoHistorico(histDao.ultimoHistorico(epc), epc);
+				} else {
+					logger.info("JA ESTA NA LISTA DE LEITURAS: " + epc + "\n\n");
+
+					if (diferencaEmMinutos(histDao.ultimoHistorico(epc)) >= 5) {
+						logger.info("POSSUI DIFERENCA DE 5 MIN");
+						inserirNoHistorico(histDao.ultimoHistorico(epc), epc);
+
+					}
+				}*/
+			}
+		}
 	}
 }

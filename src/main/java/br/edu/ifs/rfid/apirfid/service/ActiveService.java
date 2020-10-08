@@ -149,7 +149,14 @@ public class ActiveService implements IActiveService {
 
 	@Override
 	public MovementHistory getLastMovmentHistoryByActiveId(String activeId) {
-		return movementCustomRepository.getLastgetLastMovmentHistoryByActiveId(activeId);
-	}
+		try {
 
+			return movementCustomRepository.getLastgetLastMovmentHistoryByActiveId(activeId);
+
+		} catch (CustomException r) {
+			throw r;
+		} catch (Exception e) {
+			throw new CustomException(Constants.getInternalServerErrorMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 }

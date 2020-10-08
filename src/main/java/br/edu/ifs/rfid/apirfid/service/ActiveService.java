@@ -12,8 +12,8 @@ import br.edu.ifs.rfid.apirfid.domain.Active;
 import br.edu.ifs.rfid.apirfid.domain.MovementHistory;
 import br.edu.ifs.rfid.apirfid.domain.dto.ActiveDto;
 import br.edu.ifs.rfid.apirfid.exception.CustomException;
-import br.edu.ifs.rfid.apirfid.repository.IActiveRepository;
-import br.edu.ifs.rfid.apirfid.repository.IMovementHistory;
+import br.edu.ifs.rfid.apirfid.repository.interfaces.IActiveRepository;
+import br.edu.ifs.rfid.apirfid.repository.interfaces.IMovementHistory;
 import br.edu.ifs.rfid.apirfid.service.interfaces.IActiveService;
 import br.edu.ifs.rfid.apirfid.shared.Constants;
 
@@ -110,7 +110,7 @@ public class ActiveService implements IActiveService {
 			MovementHistory movementHistory = new MovementHistory();
 
 			movementHistory = movementHistory.createMovement(tipoMovimentacao, activeId, numPatrimonio);
-			
+
 			this.movementHistoryRepository.save(movementHistory);
 
 			return Boolean.TRUE;

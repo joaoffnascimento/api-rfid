@@ -13,7 +13,7 @@ import br.edu.ifs.rfid.apirfid.domain.Reader;
 import br.edu.ifs.rfid.apirfid.domain.dto.HostNameDto;
 import br.edu.ifs.rfid.apirfid.domain.dto.ReaderDto;
 import br.edu.ifs.rfid.apirfid.exception.CustomException;
-import br.edu.ifs.rfid.apirfid.repository.IReaderRepository;
+import br.edu.ifs.rfid.apirfid.repository.interfaces.IReaderRepository;
 import br.edu.ifs.rfid.apirfid.service.interfaces.IReaderService;
 import br.edu.ifs.rfid.apirfid.shared.Constants;
 import br.edu.ifs.rfid.apirfid.shared.RfidMiddleware;

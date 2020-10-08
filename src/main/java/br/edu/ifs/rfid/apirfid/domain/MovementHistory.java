@@ -22,8 +22,6 @@ public class MovementHistory extends Entity {
 	@Id
 	private String activeId;
 	private Date dataHoraMovimentacao;
-	private Date createdAt;
-	private Date updatedAt;
 	private int tipoMovimentacao;
 	private int numPatrimonio;
 
@@ -37,8 +35,6 @@ public class MovementHistory extends Entity {
 		movementHistory.activeId = activeId;
 		movementHistory.dataHoraMovimentacao = new Date();
 		movementHistory.numPatrimonio = numPatrimonio;
-		movementHistory.createdAt = new Date();
-		movementHistory.updatedAt = new Date();
 
 		return movementHistory;
 	}

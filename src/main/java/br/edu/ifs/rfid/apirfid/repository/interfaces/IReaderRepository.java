@@ -1,4 +1,4 @@
-package br.edu.ifs.rfid.apirfid.repository;
+package br.edu.ifs.rfid.apirfid.repository.interfaces;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;

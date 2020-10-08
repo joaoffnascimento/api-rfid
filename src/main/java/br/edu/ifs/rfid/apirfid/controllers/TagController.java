@@ -39,7 +39,7 @@ public class TagController {
 
 		return ResponseEntity.status(HttpStatus.CREATED).body(response);
 	}
-	
+
 	@GetMapping("/epc/{epc}")
 	public ResponseEntity<Response<Tag>> getTagByEpc(@PathVariable String epc) {
 
@@ -53,7 +53,7 @@ public class TagController {
 
 		return ResponseEntity.status(HttpStatus.CREATED).body(response);
 	}
-	
+
 	@GetMapping
 	public ResponseEntity<Response<List<Tag>>> getAllTags() {
 
@@ -62,8 +62,8 @@ public class TagController {
 		response.setData(tagService.getAllTags());
 		response.setStatusCode(HttpStatus.CREATED.value());
 
-		response.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(TagController.class).getAllTags())
-				.withSelfRel());
+		response.add(
+				WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(TagController.class).getAllTags()).withSelfRel());
 
 		return ResponseEntity.status(HttpStatus.CREATED).body(response);
 	}

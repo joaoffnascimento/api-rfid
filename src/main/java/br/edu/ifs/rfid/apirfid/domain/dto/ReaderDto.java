@@ -1,21 +1,18 @@
 package br.edu.ifs.rfid.apirfid.domain.dto;
 
-import java.util.Date;
-
-import javax.persistence.Id;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 
+import br.edu.ifs.rfid.apirfid.domain.Entity;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class ReaderDto {
-
-	@Id
-	private String id;
+@EqualsAndHashCode(callSuper = false)
+public class ReaderDto extends Entity {
 
 	@Min(value = 1, message = "Port number is required")
 	@Max(value = 10000, message = "Port number is required")
@@ -26,6 +23,4 @@ public class ReaderDto {
 	private String model;
 	private String brand;
 
-	private Date createdAt;
-	private Date updatedAt;
 }

@@ -8,16 +8,23 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Document
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Active {
+@EqualsAndHashCode(callSuper = false)
+public class Active extends Entity {
 
 	@Id
-	private String id;
+	private String tagId;
+	@Id
+	private String locationId;
+	@Id
+	private String activeCategoryId;
+
 	private int numeroPatrimonio;
 	private String nomeHost;
 	private String marca;
@@ -27,14 +34,6 @@ public class Active {
 	private Boolean hasGarantia;
 	private float dtAquisTMSTMP;
 	private float dtFinalTMSTMP;
-	@Id
-	private String tagId;
-	@Id
-	private String locationId;
-	@Id
-	private String activeCategoryId;
-	private Date createdAt;
-	private Date updatedAt;
 
 	public Active createActive(int numeroPatrimonio, String nomeHost, String marca, String modelo, Date dataAquisicao,
 			Date dataFinalGarantia, Boolean hasGarantia) {
@@ -51,9 +50,6 @@ public class Active {
 
 		active.dtAquisTMSTMP = System.currentTimeMillis();
 		active.dtFinalTMSTMP = System.currentTimeMillis();
-
-		active.createdAt = new Date();
-		active.updatedAt = new Date();
 
 		return active;
 	}

@@ -9,23 +9,23 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Document
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class MovementHistory {
+@EqualsAndHashCode(callSuper = false)
+public class MovementHistory extends Entity {
 
 	@Id
-	private String id;
+	private String activeId;
 	private Date dataHoraMovimentacao;
 	private Date createdAt;
 	private Date updatedAt;
 	private int tipoMovimentacao;
 	private int numPatrimonio;
-	@Id
-	private String activeId;
 
 	public MovementHistory createMovement(int tipoMovimentacao, String activeId, int numPatrimonio) {
 

@@ -1,18 +1,17 @@
 package br.edu.ifs.rfid.apirfid.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import br.edu.ifs.rfid.apirfid.domain.Reader;
 import br.edu.ifs.rfid.apirfid.domain.Tag;
 import br.edu.ifs.rfid.apirfid.domain.dto.TagDto;
 import br.edu.ifs.rfid.apirfid.exception.CustomException;
-import br.edu.ifs.rfid.apirfid.repository.ITagRepository;
+import br.edu.ifs.rfid.apirfid.repository.TagRepository;
+import br.edu.ifs.rfid.apirfid.repository.interfaces.ITagRepository;
 import br.edu.ifs.rfid.apirfid.service.interfaces.ITagService;
 import br.edu.ifs.rfid.apirfid.shared.Constants;
 
@@ -21,10 +20,13 @@ import br.edu.ifs.rfid.apirfid.shared.Constants;
 public class TagService implements ITagService {
 
 	private ITagRepository tagRepository;
+	private TagRepository tagCustomRepository;
+	
 
 	@Autowired
-	public TagService(ITagRepository tagRepository) {
+	public TagService(ITagRepository tagRepository, TagRepository tagCustomRepository) {
 		this.tagRepository = tagRepository;
+		this.tagCustomRepository = tagCustomRepository;
 	}
 
 	@Override
@@ -49,14 +51,14 @@ public class TagService implements ITagService {
 	@Override
 	public Tag getTagByEpc(String epc) {
 		try {
-			
-			Optional<Tag> findResult = this.tagRepository.findByEpc(epc);
 
-			if (!findResult.isPresent()) {
+			Tag tag = this.tagCustomRepository.findByEpc(epc);
+
+			if (tag == null) {
 				throw new CustomException(Constants.getReaderNotFoundError(), HttpStatus.NOT_FOUND);
 			}
 
-			return findResult.get();
+			return tag;
 
 		} catch (CustomException r) {
 			throw r;
@@ -64,11 +66,11 @@ public class TagService implements ITagService {
 			throw new CustomException(Constants.getInternalServerErrorMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	
+
 	@Override
 	public List<Tag> getAllTags() {
 		try {
-			
+
 			return this.tagRepository.findAll();
 
 		} catch (CustomException r) {

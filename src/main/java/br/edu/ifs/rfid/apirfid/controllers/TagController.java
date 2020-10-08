@@ -46,12 +46,12 @@ public class TagController {
 		Response<Tag> response = new Response<>(true);
 
 		response.setData(tagService.getTagByEpc(epc));
-		response.setStatusCode(HttpStatus.CREATED.value());
+		response.setStatusCode(HttpStatus.OK.value());
 
 		response.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(TagController.class).getTagByEpc(epc))
 				.withSelfRel());
 
-		return ResponseEntity.status(HttpStatus.CREATED).body(response);
+		return ResponseEntity.status(HttpStatus.OK).body(response);
 	}
 
 	@GetMapping
@@ -60,11 +60,11 @@ public class TagController {
 		Response<List<Tag>> response = new Response<>(true);
 
 		response.setData(tagService.getAllTags());
-		response.setStatusCode(HttpStatus.CREATED.value());
+		response.setStatusCode(HttpStatus.OK.value());
 
 		response.add(
 				WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(TagController.class).getAllTags()).withSelfRel());
 
-		return ResponseEntity.status(HttpStatus.CREATED).body(response);
+		return ResponseEntity.status(HttpStatus.OK).body(response);
 	}
 }

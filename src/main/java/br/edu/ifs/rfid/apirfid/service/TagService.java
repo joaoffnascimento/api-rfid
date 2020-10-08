@@ -21,7 +21,6 @@ public class TagService implements ITagService {
 
 	private ITagRepository tagRepository;
 	private TagRepository tagCustomRepository;
-	
 
 	@Autowired
 	public TagService(ITagRepository tagRepository, TagRepository tagCustomRepository) {

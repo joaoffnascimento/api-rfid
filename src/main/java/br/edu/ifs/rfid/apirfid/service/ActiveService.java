@@ -12,6 +12,8 @@ import br.edu.ifs.rfid.apirfid.domain.Active;
 import br.edu.ifs.rfid.apirfid.domain.MovementHistory;
 import br.edu.ifs.rfid.apirfid.domain.dto.ActiveDto;
 import br.edu.ifs.rfid.apirfid.exception.CustomException;
+import br.edu.ifs.rfid.apirfid.repository.ActiveRepository;
+import br.edu.ifs.rfid.apirfid.repository.MovementHistoryRepository;
 import br.edu.ifs.rfid.apirfid.repository.interfaces.IActiveRepository;
 import br.edu.ifs.rfid.apirfid.repository.interfaces.IMovementHistory;
 import br.edu.ifs.rfid.apirfid.service.interfaces.IActiveService;
@@ -23,11 +25,16 @@ public class ActiveService implements IActiveService {
 
 	private IActiveRepository activeRepository;
 	private IMovementHistory movementHistoryRepository;
+	private ActiveRepository activeCustomRepository;
+	private MovementHistoryRepository movementCustomRepository;
 
 	@Autowired
-	public ActiveService(IActiveRepository activeRepository, IMovementHistory movementHistoryRepository) {
+	public ActiveService(IActiveRepository activeRepository, IMovementHistory movementHistoryRepository,
+			ActiveRepository activeCustomRepository, MovementHistoryRepository movementCustomRepository) {
 		this.activeRepository = activeRepository;
 		this.movementHistoryRepository = movementHistoryRepository;
+		this.activeCustomRepository = activeCustomRepository;
+		this.movementCustomRepository = movementCustomRepository;
 	}
 
 	@Override
@@ -71,16 +78,34 @@ public class ActiveService implements IActiveService {
 
 	@Override
 	public Active getActiveByEpc(String epc) {
-		// TRASH
 		try {
 
-			Optional<Active> findResult = this.activeRepository.findById(epc);
+			Active active = this.activeCustomRepository.getActiveByEpc(epc);
 
-			if (!findResult.isPresent()) {
+			if (active == null) {
 				throw new CustomException(Constants.getReaderNotFoundError(), HttpStatus.NOT_FOUND);
 			}
 
-			return findResult.get();
+			return active;
+
+		} catch (CustomException r) {
+			throw r;
+		} catch (Exception e) {
+			throw new CustomException(Constants.getInternalServerErrorMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	@Override
+	public Active getActiveByTagId(String tagId) {
+		try {
+
+			Active active = this.activeCustomRepository.getActiveByTagId(tagId);
+
+			if (active == null) {
+				throw new CustomException(Constants.getReaderNotFoundError(), HttpStatus.NOT_FOUND);
+			}
+
+			return active;
 
 		} catch (CustomException r) {
 			throw r;
@@ -104,7 +129,7 @@ public class ActiveService implements IActiveService {
 	}
 
 	@Override
-	public Boolean insertMovimentacao(int tipoMovimentacao, int numPatrimonio, String activeId) {
+	public Boolean updateMovimentacao(int tipoMovimentacao, String activeId, int numPatrimonio) {
 		try {
 
 			MovementHistory movementHistory = new MovementHistory();
@@ -113,7 +138,7 @@ public class ActiveService implements IActiveService {
 
 			this.movementHistoryRepository.save(movementHistory);
 
-			return Boolean.TRUE;
+			return activeCustomRepository.updateLastMovimentacao(activeId, tipoMovimentacao);
 
 		} catch (CustomException r) {
 			throw r;
@@ -121,4 +146,10 @@ public class ActiveService implements IActiveService {
 			throw new CustomException(Constants.getInternalServerErrorMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+
+	@Override
+	public MovementHistory getLastMovmentHistoryByActiveId(String activeId) {
+		return movementCustomRepository.getLastgetLastMovmentHistoryByActiveId(activeId);
+	}
+
 }

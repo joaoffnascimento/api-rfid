@@ -34,6 +34,7 @@ public class Active extends Entity {
 	private Boolean hasGarantia;
 	private float dtAquisTMSTMP;
 	private float dtFinalTMSTMP;
+	private int lastMovimentacao;
 
 	public Active createActive(int numeroPatrimonio, String nomeHost, String marca, String modelo, Date dataAquisicao,
 			Date dataFinalGarantia, Boolean hasGarantia) {
@@ -48,10 +49,11 @@ public class Active extends Entity {
 		active.dataFinalGarantia = dataFinalGarantia;
 		active.hasGarantia = hasGarantia;
 
+		active.lastMovimentacao = 0;
+		
 		active.dtAquisTMSTMP = System.currentTimeMillis();
 		active.dtFinalTMSTMP = System.currentTimeMillis();
 
 		return active;
 	}
-
 }

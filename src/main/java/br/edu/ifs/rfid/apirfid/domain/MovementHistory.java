@@ -31,6 +31,8 @@ public class MovementHistory extends Entity {
 
 		MovementHistory movementHistory = new MovementHistory();
 
+		movementHistory.activeId = activeId;
+
 		movementHistory.tipoMovimentacao = tipoMovimentacao;
 		movementHistory.activeId = activeId;
 		movementHistory.dataHoraMovimentacao = new Date();

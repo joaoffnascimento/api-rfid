@@ -14,7 +14,11 @@ public interface IActiveService {
 
 	public List<Active> getActivesByPatrimonio(final int patrimonio);
 	
-	public Boolean insertMovimentacao(int tipoMovimentacao, int numPatrimonio, String activeId);
+	public Boolean updateMovimentacao(int tipoMovimentacao, String activeId, int numPatrimoni);
 	
 	public Active getActiveById(String id);
+	
+	public Active getActiveByTagId(String id);
+	
+	public MovementHistory getLastMovmentHistoryByActiveId(String activeId);
 }

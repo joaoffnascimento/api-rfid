@@ -70,8 +70,9 @@ import org.springframework.stereotype.Service;
 
 import br.edu.ifs.rfid.apirfid.domain.Active;
 import br.edu.ifs.rfid.apirfid.domain.MovementHistory;
+import br.edu.ifs.rfid.apirfid.domain.Tag;
 import br.edu.ifs.rfid.apirfid.service.ActiveService;
-import br.edu.ifs.rfid.apirfid.service.ReaderService;
+import br.edu.ifs.rfid.apirfid.service.TagService;
 import lombok.Data;
 
 @Service
@@ -87,14 +88,20 @@ public class RfidMiddleware implements LLRPEndpoint {
 	private static final int TIMEOUT_MS = 10000;
 	private static final int ROSPEC_ID = 123;
 
-	public List<String> listaLeiturasEPC = new ArrayList<String>();
+	public List<String> epcList = new ArrayList<String>();
 
 	int count = 0;
 
 	private int realizarAtualizacaoEstoque;
 
-	@Autowired
+	private TagService tagService;
 	private ActiveService activeService;
+
+	@Autowired
+	public RfidMiddleware(TagService tagService, ActiveService activeService) {
+		this.tagService = tagService;
+		this.activeService = activeService;
+	}
 
 	public ROSpec buildROSpec() {
 
@@ -487,28 +494,37 @@ public class RfidMiddleware implements LLRPEndpoint {
 		return "Middleware_LLRP SistemaMonitoramentodeAtivos";
 	}
 
-	public void inserirNoHistorico(MovementHistory historico, String epc) {
+	public void inserirNoHistorico(String epc) {
 
 		// 1 - In / 0 - out
-		
-		Active active = activeService.getActiveByEpc(epc);
 
-		if (historico == null) {
-			logger.info("O ATIVO AINDA NAO POSSUI UM HISTORICO INSERIDO!");
-			activeService.insertMovimentacao(1, active.getNumeroPatrimonio(), active.getId());
-			
+		Tag tag = tagService.getTagByEpc(epc);
+
+		if (tag == null) {
+
+			logger.info("TAG NAO CADASTRADA");
+
 		} else {
-			
-			logger.info("O ATIVO --JÁ--- POSSUI UM HISTORICO INSERIDO!");
-			if (historico.getTipoMovimentacao() == 1) {
-				
-				logger.info("ULTIMA MOVIMENTACAO IF::: " + historico.getTipoMovimentacao());
-				activeService.insertMovimentacao(0, active.getNumeroPatrimonio(), active.getId());
-			} else {
-				
-				logger.info("ULTIMA MOVIMENTACAO ELSE::: " + historico.getTipoMovimentacao());
-				activeService.insertMovimentacao(1, active.getNumeroPatrimonio(), active.getId());
+
+			logger.info("TAG CADASTRADA - BUSCANDO ATIVO ASSOCIADO A TAG");
+
+			Active active = activeService.getActiveByTagId(tag.getId());
+
+			if (active == null) {
+
+				logger.info("ATIVO NAO EXISTE");
 			}
+
+			if (active.getLastMovimentacao() == 1) {
+
+				activeService.updateMovimentacao(0, active.getId(), active.getNumeroPatrimonio());
+
+			} else {
+
+				activeService.updateMovimentacao(1, active.getId(), active.getNumeroPatrimonio());
+			}
+
+			logger.info("ULTIMA MOVIMENTACAO: " + active.getLastMovimentacao());
 		}
 	}
 
@@ -540,22 +556,26 @@ public class RfidMiddleware implements LLRPEndpoint {
 
 				logger.info("código EPC capturado:" + epc);
 
-				/*if (!this.listaLeiturasEPC.contains(epc)) {
+				if (!this.epcList.contains(epc)) {
 
-					this.listaLeiturasEPC.add(epc);
+					this.epcList.add(epc);
 
-					logger.info("NÃO ESTA NA LISTA DE LEITURAS! -> ADICIONADO NA LISTAEPC-->" + epc + "\n\n");
+					logger.info("Now on epcList-->" + epc);
 
-					inserirNoHistorico(histDao.ultimoHistorico(epc), epc);
+					inserirNoHistorico(epc);
+
 				} else {
-					logger.info("JA ESTA NA LISTA DE LEITURAS: " + epc + "\n\n");
+					logger.info("JA ESTA NA LISTA DE LEITURAS: " + epc);
 
-					if (diferencaEmMinutos(histDao.ultimoHistorico(epc)) >= 5) {
+					Active active = activeService.getActiveByEpc(epc);
+
+					MovementHistory movementHistory = activeService.getLastMovmentHistoryByActiveId(active.getId());
+
+					if (diferencaEmMinutos(movementHistory) >= 5) {
 						logger.info("POSSUI DIFERENCA DE 5 MIN");
-						inserirNoHistorico(histDao.ultimoHistorico(epc), epc);
-
+						inserirNoHistorico(epc);
 					}
-				}*/
+				}
 			}
 		}
 	}

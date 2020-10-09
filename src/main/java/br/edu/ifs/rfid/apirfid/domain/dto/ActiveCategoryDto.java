@@ -1,6 +1,5 @@
 package br.edu.ifs.rfid.apirfid.domain.dto;
 
-import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
 
 import br.edu.ifs.rfid.apirfid.domain.Entity;
@@ -11,12 +10,12 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-public class TagDto extends Entity {
+public class ActiveCategoryDto extends Entity {
 
-	@NotBlank(message = "epc Addres is required")
-	private String epc;
-	@NotBlank(message = "tipo Addres is required")
+	@NotBlank(message = "Sigla is required")
+	private String sigla;
+	@NotBlank(message = "Descricao is required")
+	private String descricao;
+	@NotBlank(message = "tipo is required")
 	private String tipo;
-	@Id
-	private String activeId;
 }

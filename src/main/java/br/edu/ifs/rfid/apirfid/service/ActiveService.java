@@ -101,9 +101,10 @@ public class ActiveService implements IActiveService {
 
 			Active active = this.activeCustomRepository.getActiveByTagId(tagId);
 
-			if (active == null) {
-				throw new CustomException(Constants.getReaderNotFoundError(), HttpStatus.NOT_FOUND);
-			}
+			/*
+			 * if (active == null) { throw new
+			 * CustomException(Constants.getReaderNotFoundError(), HttpStatus.NOT_FOUND); }
+			 */
 
 			return active;
 

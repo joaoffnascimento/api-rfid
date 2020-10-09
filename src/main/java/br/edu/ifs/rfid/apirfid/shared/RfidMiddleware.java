@@ -565,16 +565,16 @@ public class RfidMiddleware implements LLRPEndpoint {
 					inserirNoHistorico(epc);
 
 				} else {
-					logger.info("JA ESTA NA LISTA DE LEITURAS: " + epc);
+					//logger.info("JA ESTA NA LISTA DE LEITURAS: " + epc);
 
-					Active active = activeService.getActiveByEpc(epc);
+					//Active active = activeService.getActiveByEpc(epc);
 
-					MovementHistory movementHistory = activeService.getLastMovmentHistoryByActiveId(active.getId());
+					//MovementHistory movementHistory = activeService.getLastMovmentHistoryByActiveId(active.getId());
 
-					if (diferencaEmMinutos(movementHistory) >= 5) {
-						logger.info("POSSUI DIFERENCA DE 5 MIN");
-						inserirNoHistorico(epc);
-					}
+					//if (diferencaEmMinutos(movementHistory) >= 5) {
+						//logger.info("POSSUI DIFERENCA DE 5 MIN");
+						//inserirNoHistorico(epc);
+					//}
 				}
 			}
 		}

@@ -44,7 +44,7 @@ public class ActiveService implements IActiveService {
 
 			active = active.createActive(request.getNumeroPatrimonio(), request.getNomeHost(), request.getMarca(),
 					request.getModelo(), request.getDataAquisicao(), request.getDataFinalGarantia(),
-					request.getHasGarantia());
+					request.getHasGarantia(), request.getActiveCategoryId(), request.getTagId());
 
 			this.activeRepository.save(active);
 

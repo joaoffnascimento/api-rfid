@@ -513,18 +513,20 @@ public class RfidMiddleware implements LLRPEndpoint {
 			if (active == null) {
 
 				logger.info("ATIVO NAO EXISTE");
-			}
-
-			if (active.getLastMovimentacao() == 1) {
-
-				activeService.updateMovimentacao(0, active.getId(), active.getNumeroPatrimonio());
-
+				
 			} else {
+				
+				if (active.getLastMovimentacao() == 1) {
 
-				activeService.updateMovimentacao(1, active.getId(), active.getNumeroPatrimonio());
+					activeService.updateMovimentacao(0, active.getId(), active.getNumeroPatrimonio());
+
+				} else {
+
+					activeService.updateMovimentacao(1, active.getId(), active.getNumeroPatrimonio());
+				}
+
+				logger.info("ULTIMA MOVIMENTACAO: " + active.getLastMovimentacao());
 			}
-
-			logger.info("ULTIMA MOVIMENTACAO: " + active.getLastMovimentacao());
 		}
 	}
 

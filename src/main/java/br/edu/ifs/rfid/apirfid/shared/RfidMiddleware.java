@@ -494,7 +494,7 @@ public class RfidMiddleware implements LLRPEndpoint {
 		return "Middleware_LLRP SistemaMonitoramentodeAtivos";
 	}
 
-	public void inserirNoHistorico(String epc) {
+	public void inserirNoHistorico(String epc, Boolean calculaTempo) {
 
 		// 1 - In / 0 - out
 
@@ -502,27 +502,39 @@ public class RfidMiddleware implements LLRPEndpoint {
 
 		if (tag == null) {
 
-			logger.info("TAG NAO CADASTRADA");
+			logger.info("TAG: " + epc + " NAO CADASTRADA");
 
 		} else {
 
-			logger.info("TAG CADASTRADA - BUSCANDO ATIVO ASSOCIADO A TAG");
+			logger.info("TAG: " + epc + " CADASTRADA - BUSCANDO ATIVO ASSOCIADO A TAG");
 
 			Active active = activeService.getActiveByTagId(tag.getId());
 
 			if (active == null) {
 
 				logger.info("ATIVO NAO EXISTE");
-				
+
 			} else {
-				
+
 				if (active.getLastMovimentacao() == 1) {
 
 					activeService.updateMovimentacao(0, active.getId(), active.getNumeroPatrimonio());
 
 				} else {
+					MovementHistory movementHistory = activeService.getLastMovmentHistoryByActiveId(active.getId());
 
-					activeService.updateMovimentacao(1, active.getId(), active.getNumeroPatrimonio());
+					if (movementHistory == null) {
+
+						activeService.updateMovimentacao(1, active.getId(), active.getNumeroPatrimonio());
+						
+					} else {
+						if (calculaTempo && diferencaEmMinutos(movementHistory) >= 1) {
+
+							activeService.updateMovimentacao(1, active.getId(), active.getNumeroPatrimonio());
+							
+							logger.info(active.getModelo() + " - POSSUI DIFERENCA DE 1 MIN - MOVIMENTANDO");
+						}
+					}
 				}
 
 				logger.info("ULTIMA MOVIMENTACAO: " + active.getLastMovimentacao());
@@ -544,7 +556,10 @@ public class RfidMiddleware implements LLRPEndpoint {
 
 	@Override
 	public void messageReceived(LLRPMessage message) {
-		logger.info("contador: " + count++ + " -->Entrou na MessageReceived!");
+
+		Boolean calcularTempo = false;
+
+		// logger.info("contador: " + count++ + " -->Entrou na MessageReceived!");
 
 		if (message.getTypeNum() == RO_ACCESS_REPORT.TYPENUM) {
 
@@ -556,27 +571,24 @@ public class RfidMiddleware implements LLRPEndpoint {
 
 				String epc = ((EPC_96) tag.getEPCParameter()).getEPC().toString();
 
-				logger.info("código EPC capturado:" + epc);
+				logger.info("captured EPC code: " + epc);
 
 				if (!this.epcList.contains(epc)) {
 
 					this.epcList.add(epc);
 
-					logger.info("Now on epcList-->" + epc);
+					logger.info("Code: " + epc + " added on epcList");
 
-					inserirNoHistorico(epc);
+					inserirNoHistorico(epc, calcularTempo);
 
 				} else {
-					//logger.info("JA ESTA NA LISTA DE LEITURAS: " + epc);
 
-					//Active active = activeService.getActiveByEpc(epc);
+					calcularTempo = true;
 
-					//MovementHistory movementHistory = activeService.getLastMovmentHistoryByActiveId(active.getId());
+					logger.info("EPC code is in the list: " + epc);
 
-					//if (diferencaEmMinutos(movementHistory) >= 5) {
-						//logger.info("POSSUI DIFERENCA DE 5 MIN");
-						//inserirNoHistorico(epc);
-					//}
+					inserirNoHistorico(epc, calcularTempo);
+
 				}
 			}
 		}

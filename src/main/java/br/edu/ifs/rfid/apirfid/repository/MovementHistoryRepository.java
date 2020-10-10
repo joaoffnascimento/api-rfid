@@ -25,6 +25,10 @@ public class MovementHistoryRepository {
 
 		List<MovementHistory> result = mongoTemplate.find(query, MovementHistory.class);
 		
+		if(result.size() == 0) {
+			return null;
+		}
+		
 		return result.get(0);
 	}
 }

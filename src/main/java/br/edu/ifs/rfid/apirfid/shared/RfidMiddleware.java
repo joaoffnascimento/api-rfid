@@ -494,51 +494,74 @@ public class RfidMiddleware implements LLRPEndpoint {
 		return "Middleware_LLRP SistemaMonitoramentodeAtivos";
 	}
 
-	public void inserirNoHistorico(String epc, Boolean calculaTempo) {
+	public Boolean inserirNoHistorico(String epc, Boolean calculaTempo) {
 
-		// 1 - In / 0 - out
+		try {
 
-		Tag tag = tagService.getTagByEpc(epc);
+			/**
+			 * 0 - Out 1 - In
+			 */
 
-		if (tag == null) {
+			// Search for registered tag with EPC code captured by reader
+			Tag tag = tagService.getTagByEpc(epc);
 
-			logger.info("TAG: " + epc + " NAO CADASTRADA");
+			if (tag == null) {
 
-		} else {
+				logger.info("EPC: " + epc + " NOT REGISTERED");
 
-			logger.info("TAG: " + epc + " CADASTRADA - BUSCANDO ATIVO ASSOCIADO A TAG");
+				return Boolean.FALSE;
 
+			}
+
+			logger.info("EPC: " + epc + " REGISTERED - SEEKING ASSET ASSOCIATED WITH TAG");
+
+			// Search for a registered asset
 			Active active = activeService.getActiveByTagId(tag.getId());
 
 			if (active == null) {
 
-				logger.info("ATIVO NAO EXISTE");
+				logger.info("ACTIVE DOES NOT EXIST");
 
-			} else {
+				return Boolean.FALSE;
 
+			}
+
+			// Retrieving last asset movement
+			MovementHistory movementHistory = activeService.getLastMovmentHistoryByActiveId(active.getId());
+
+			if (movementHistory == null) {
+
+				// If there is no movement history, the asset is exiting
+				activeService.updateMovimentacao(0, active.getId(), active.getNumeroPatrimonio());
+
+				return Boolean.TRUE;
+			}
+			
+			Boolean isToMove = FnUtil.isToMove(calculaTempo, diferencaEmMinutos(movementHistory));
+					
+			if (Boolean.TRUE.equals(isToMove)) {
+
+				logger.info(active.getModelo() + " - It's been five minutes since the last move... Moving");
+				
 				if (active.getLastMovimentacao() == 1) {
 
 					activeService.updateMovimentacao(0, active.getId(), active.getNumeroPatrimonio());
 
+					return Boolean.TRUE;
 				} else {
-					MovementHistory movementHistory = activeService.getLastMovmentHistoryByActiveId(active.getId());
 
-					if (movementHistory == null) {
-
-						activeService.updateMovimentacao(1, active.getId(), active.getNumeroPatrimonio());
-						
-					} else {
-						if (calculaTempo && diferencaEmMinutos(movementHistory) >= 1) {
-
-							activeService.updateMovimentacao(1, active.getId(), active.getNumeroPatrimonio());
-							
-							logger.info(active.getModelo() + " - POSSUI DIFERENCA DE 1 MIN - MOVIMENTANDO");
-						}
-					}
+					activeService.updateMovimentacao(1, active.getId(), active.getNumeroPatrimonio());
+					
+					return Boolean.TRUE;
 				}
-
-				logger.info("ULTIMA MOVIMENTACAO: " + active.getLastMovimentacao());
 			}
+
+			logger.info("LAST MOVEMENT: " + active.getLastMovimentacao());
+
+			return Boolean.TRUE;
+			
+		} catch (Exception e) {
+			return Boolean.FALSE;
 		}
 	}
 
@@ -559,7 +582,7 @@ public class RfidMiddleware implements LLRPEndpoint {
 
 		Boolean calcularTempo = false;
 
-		// logger.info("contador: " + count++ + " -->Entrou na MessageReceived!");
+		// logger.info("Count: " + count++ + " --> Joined MessageReceived!");
 
 		if (message.getTypeNum() == RO_ACCESS_REPORT.TYPENUM) {
 
@@ -583,6 +606,8 @@ public class RfidMiddleware implements LLRPEndpoint {
 
 				} else {
 
+					// If an epc already exists in the list, check if there are 5 minutes since the
+					// last move
 					calcularTempo = true;
 
 					logger.info("EPC code is in the list: " + epc);

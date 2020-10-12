@@ -84,7 +84,7 @@ public class ActiveService implements IActiveService {
 			Active active = this.activeCustomRepository.getActiveByEpc(epc);
 
 			if (active == null) {
-				throw new CustomException(Constants.getReaderNotFoundError(), HttpStatus.NOT_FOUND);
+				throw new CustomException(Constants.getActiveNotFoundError(), HttpStatus.NOT_FOUND);
 			}
 
 			return active;

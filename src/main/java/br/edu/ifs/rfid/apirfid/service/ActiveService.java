@@ -152,7 +152,7 @@ public class ActiveService implements IActiveService {
 	public MovementHistory getLastMovmentHistoryByActiveId(String activeId) {
 		try {
 
-			return movementCustomRepository.getLastgetLastMovmentHistoryByActiveId(activeId);
+			return movementCustomRepository.getLastMovmentHistoryByActiveId(activeId);
 
 		} catch (CustomException r) {
 			throw r;

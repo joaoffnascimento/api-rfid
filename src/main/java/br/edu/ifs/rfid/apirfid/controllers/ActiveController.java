@@ -56,7 +56,8 @@ public class ActiveController {
 		return ResponseEntity.status(HttpStatus.OK).body(response);
 	}
 	
-	@GetMapping()
+	
+	@GetMapping("/patrimonio")
 	public ResponseEntity<Response<List<Active>>> getActivesByPatrimonio(@RequestParam(name = "patrimonio") int patrimonio) {
 
 		Response<List<Active>> response = new Response<>(true);
@@ -65,6 +66,20 @@ public class ActiveController {
 		response.setStatusCode(HttpStatus.OK.value());
 
 		response.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(ActiveController.class).getActivesByPatrimonio(patrimonio))
+				.withSelfRel());
+
+		return ResponseEntity.status(HttpStatus.OK).body(response);
+	}
+	
+	@GetMapping()
+	public ResponseEntity<Response<List<Active>>> getAllActives() {
+
+		Response<List<Active>> response = new Response<>(true);
+
+		response.setData(activeService.getAllActives());
+		response.setStatusCode(HttpStatus.OK.value());
+
+		response.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(ActiveController.class).getAllActives())
 				.withSelfRel());
 
 		return ResponseEntity.status(HttpStatus.OK).body(response);

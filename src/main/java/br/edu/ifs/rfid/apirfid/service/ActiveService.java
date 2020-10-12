@@ -114,7 +114,7 @@ public class ActiveService implements IActiveService {
 	public List<Active> getActivesByPatrimonio(int patrimonio) {
 		try {
 
-			return this.activeRepository.findAll();
+			return this.activeCustomRepository.getActivesByPatrimonio(patrimonio);
 
 		} catch (CustomException r) {
 			throw r;
@@ -147,6 +147,20 @@ public class ActiveService implements IActiveService {
 		try {
 
 			return movementCustomRepository.getLastMovmentHistoryByActiveId(activeId);
+
+		} catch (CustomException r) {
+			throw r;
+		} catch (Exception e) {
+			throw new CustomException(Constants.getInternalServerErrorMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	@CachePut(unless = "#result.size() < 10")
+	@Override
+	public List<Active> getAllActives() {
+		try {
+
+			return this.activeRepository.findAll();
 
 		} catch (CustomException r) {
 			throw r;

@@ -196,10 +196,8 @@ public class ReaderService implements IReaderService {
 	public Boolean enableReader(HostNameDto request) {
 		try {
 
-			this.rfidMiddleware.run(request.getIp());
-
-			return Boolean.TRUE;
-
+			return this.rfidMiddleware.run(request.getIp());
+			
 		} catch (CustomException e) {
 			return Boolean.FALSE;
 		} catch (Exception e) {
@@ -211,9 +209,7 @@ public class ReaderService implements IReaderService {
 	public Boolean disableReader() {
 		try {
 
-			this.rfidMiddleware.stop();
-
-			return Boolean.TRUE;
+			return this.rfidMiddleware.stop();
 
 		} catch (CustomException e) {
 			return Boolean.FALSE;

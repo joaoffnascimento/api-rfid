@@ -423,7 +423,10 @@ public class RfidMiddleware implements LLRPEndpoint {
 		try {
 
 			logger.info("1 - Connecting to the Reader");
-			connect(hostname);
+			Boolean connect = connect(hostname);
+
+			if (Boolean.FALSE.equals(connect))
+				return Boolean.FALSE;
 
 			logger.info("2 - Deselecting Accespecs");
 			deleteAccessSpecs();
@@ -457,7 +460,9 @@ public class RfidMiddleware implements LLRPEndpoint {
 		try {
 
 			logger.info("1 - Delete AccessSpecs");
-			deleteAccessSpecs();
+			Boolean deleteAccessSpecs = deleteAccessSpecs();
+			if (Boolean.FALSE.equals(deleteAccessSpecs))
+				return Boolean.FALSE;
 
 			logger.info("2 - Delete ROSPec");
 			deleteROSpecs();

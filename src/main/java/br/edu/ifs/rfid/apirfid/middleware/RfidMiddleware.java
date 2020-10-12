@@ -1,4 +1,4 @@
-package br.edu.ifs.rfid.apirfid.shared;
+package br.edu.ifs.rfid.apirfid.middleware;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,6 +65,7 @@ import br.edu.ifs.rfid.apirfid.domain.MovementHistory;
 import br.edu.ifs.rfid.apirfid.domain.Tag;
 import br.edu.ifs.rfid.apirfid.service.ActiveService;
 import br.edu.ifs.rfid.apirfid.service.TagService;
+import br.edu.ifs.rfid.apirfid.shared.FnUtil;
 import lombok.Data;
 
 @Service

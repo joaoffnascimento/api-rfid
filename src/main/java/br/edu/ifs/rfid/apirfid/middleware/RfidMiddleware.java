@@ -81,7 +81,7 @@ public class RfidMiddleware implements LLRPEndpoint {
 	private static final int TIMEOUT_MS = 10000;
 	private static final int ROSPEC_ID = 123;
 
-	public List<String> epcList = new ArrayList<>();
+	protected static final List<String> epcList = new ArrayList<>();
 
 	int count = 0;
 
@@ -562,9 +562,9 @@ public class RfidMiddleware implements LLRPEndpoint {
 
 				logger.info("captured EPC code: " + epc);
 
-				if (!this.epcList.contains(epc)) {
+				if (!RfidMiddleware.epcList.contains(epc)) {
 
-					this.epcList.add(epc);
+					RfidMiddleware.epcList.add(epc);
 
 					logger.info("Code: " + epc + " added on epcList");
 

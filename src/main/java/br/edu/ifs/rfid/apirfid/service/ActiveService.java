@@ -168,4 +168,21 @@ public class ActiveService implements IActiveService {
 			throw new CustomException(Constants.getInternalServerErrorMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+
+	@Override
+	public Boolean deleteActive(String activeId) {
+		try {
+
+			this.getActiveById(activeId);
+			
+			this.activeRepository.deleteById(activeId);
+			
+			return Boolean.TRUE;
+			
+		} catch (CustomException r) {
+			throw r;
+		} catch (Exception e) {
+			throw new CustomException(Constants.getInternalServerErrorMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 }

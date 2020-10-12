@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -42,7 +43,7 @@ public class ActiveService implements IActiveService {
 		try {
 			Active active = new Active();
 
-			active = active.createActive(request.getNumeroPatrimonio(), request.getNomeHost(), request.getMarca(),
+			active = active.createActive(request.getNumeroPatrimonio(), request.getMarca(),
 					request.getModelo(), request.getDataAquisicao(), request.getDataFinalGarantia(),
 					request.getHasGarantia(), request.getActiveCategoryId(), request.getTagId());
 
@@ -99,14 +100,7 @@ public class ActiveService implements IActiveService {
 	public Active getActiveByTagId(String tagId) {
 		try {
 
-			Active active = this.activeCustomRepository.getActiveByTagId(tagId);
-
-			/*
-			 * if (active == null) { throw new
-			 * CustomException(Constants.getReaderNotFoundError(), HttpStatus.NOT_FOUND); }
-			 */
-
-			return active;
+			return this.activeCustomRepository.getActiveByTagId(tagId);
 
 		} catch (CustomException r) {
 			throw r;
@@ -115,9 +109,9 @@ public class ActiveService implements IActiveService {
 		}
 	}
 
+	@CachePut(unless = "#result.size() < 10")
 	@Override
 	public List<Active> getActivesByPatrimonio(int patrimonio) {
-		// TRASH
 		try {
 
 			return this.activeRepository.findAll();

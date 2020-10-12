@@ -1,5 +1,7 @@
 package br.edu.ifs.rfid.apirfid.controllers;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.edu.ifs.rfid.apirfid.domain.Active;
@@ -48,6 +51,20 @@ public class ActiveController {
 		response.setStatusCode(HttpStatus.OK.value());
 
 		response.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(ActiveController.class).getActiveById(id))
+				.withSelfRel());
+
+		return ResponseEntity.status(HttpStatus.OK).body(response);
+	}
+	
+	@GetMapping()
+	public ResponseEntity<Response<List<Active>>> getActivesByPatrimonio(@RequestParam(name = "patrimonio") int patrimonio) {
+
+		Response<List<Active>> response = new Response<>(true);
+
+		response.setData(activeService.getActivesByPatrimonio(patrimonio));
+		response.setStatusCode(HttpStatus.OK.value());
+
+		response.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(ActiveController.class).getActivesByPatrimonio(patrimonio))
 				.withSelfRel());
 
 		return ResponseEntity.status(HttpStatus.OK).body(response);

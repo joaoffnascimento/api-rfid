@@ -17,7 +17,7 @@ public class MovementHistoryRepository {
 	@Autowired
 	MongoTemplate mongoTemplate;
 
-	public MovementHistory getLastgetLastMovmentHistoryByActiveId(String activeId) {
+	public MovementHistory getLastMovmentHistoryByActiveId(String activeId) {
 
 		Query query = new Query();
 
@@ -25,7 +25,7 @@ public class MovementHistoryRepository {
 
 		List<MovementHistory> result = mongoTemplate.find(query, MovementHistory.class);
 		
-		if(result.size() == 0) {
+		if(result.isEmpty()) {
 			return null;
 		}
 		

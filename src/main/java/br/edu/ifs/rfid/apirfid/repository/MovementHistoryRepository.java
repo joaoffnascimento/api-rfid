@@ -17,13 +17,17 @@ public class MovementHistoryRepository {
 	@Autowired
 	MongoTemplate mongoTemplate;
 
-	public MovementHistory getLastgetLastMovmentHistoryByActiveId(String activeId) {
+	public MovementHistory getLastMovmentHistoryByActiveId(String activeId) {
 
 		Query query = new Query();
 
 		query.addCriteria(Criteria.where("activeId").is(activeId)).with(Sort.by(Sort.Direction.DESC, "dataHoraMovimentacao"));
 
 		List<MovementHistory> result = mongoTemplate.find(query, MovementHistory.class);
+		
+		if(result.isEmpty()) {
+			return null;
+		}
 		
 		return result.get(0);
 	}

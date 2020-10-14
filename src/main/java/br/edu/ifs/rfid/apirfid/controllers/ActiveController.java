@@ -1,16 +1,20 @@
 package br.edu.ifs.rfid.apirfid.controllers;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.edu.ifs.rfid.apirfid.domain.Active;
@@ -48,6 +52,49 @@ public class ActiveController {
 		response.setStatusCode(HttpStatus.OK.value());
 
 		response.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(ActiveController.class).getActiveById(id))
+				.withSelfRel());
+
+		return ResponseEntity.status(HttpStatus.OK).body(response);
+	}
+	
+	
+	@GetMapping("/patrimonio")
+	public ResponseEntity<Response<List<Active>>> getActivesByPatrimonio(@RequestParam(name = "patrimonio") int patrimonio) {
+
+		Response<List<Active>> response = new Response<>(true);
+
+		response.setData(activeService.getActivesByPatrimonio(patrimonio));
+		response.setStatusCode(HttpStatus.OK.value());
+
+		response.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(ActiveController.class).getActivesByPatrimonio(patrimonio))
+				.withSelfRel());
+
+		return ResponseEntity.status(HttpStatus.OK).body(response);
+	}
+	
+	@GetMapping()
+	public ResponseEntity<Response<List<Active>>> getAllActives() {
+
+		Response<List<Active>> response = new Response<>(true);
+
+		response.setData(activeService.getAllActives());
+		response.setStatusCode(HttpStatus.OK.value());
+
+		response.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(ActiveController.class).getAllActives())
+				.withSelfRel());
+
+		return ResponseEntity.status(HttpStatus.OK).body(response);
+	}
+	
+	@DeleteMapping("/{activeId}")
+	public ResponseEntity<Response<Boolean>> deleteActive(@PathVariable String activeId) {
+
+		Response<Boolean> response = new Response<>(true);
+
+		response.setData(activeService.deleteActive(activeId));
+		response.setStatusCode(HttpStatus.OK.value());
+
+		response.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(ActiveController.class).deleteActive(activeId))
 				.withSelfRel());
 
 		return ResponseEntity.status(HttpStatus.OK).body(response);

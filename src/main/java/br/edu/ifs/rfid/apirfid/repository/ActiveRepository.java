@@ -1,5 +1,7 @@
 package br.edu.ifs.rfid.apirfid.repository;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -53,5 +55,14 @@ public class ActiveRepository {
 		}
 
 		return Boolean.TRUE;
+	}
+	
+	public List<Active> getActivesByPatrimonio(int patrimonio) {
+
+		Query query = new Query();
+
+		query.addCriteria(Criteria.where("numeroPatrimonio").is(patrimonio));
+
+		return mongoTemplate.find(query, Active.class);
 	}
 }

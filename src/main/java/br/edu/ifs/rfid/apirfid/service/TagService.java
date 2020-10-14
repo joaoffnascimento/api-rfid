@@ -54,7 +54,7 @@ public class TagService implements ITagService {
 			Tag tag = this.tagCustomRepository.findByEpc(epc);
 
 			if (tag == null) {
-				throw new CustomException(Constants.getReaderNotFoundError(), HttpStatus.NOT_FOUND);
+				throw new CustomException(Constants.getTagNotFoundError(), HttpStatus.NOT_FOUND);
 			}
 
 			return tag;

@@ -22,9 +22,6 @@ public class ActiveDto extends Entity {
 	@Min(value = 1, message = "numeroPatrimonio number is required")
 	@Max(value = 10000, message = "numeroPatrimonio number is required")
 	private int numeroPatrimonio;
-
-	@NotBlank(message = "Nome Host required")
-	private String nomeHost;
 	
 	@NotBlank(message = "ActiveCategory is required")
 	private String activeCategoryId;
@@ -48,21 +45,20 @@ public class ActiveDto extends Entity {
 	
 	private int lastMovimentacao;
 	
-	public ActiveDto createActive(int numeroPatrimonio, String nomeHost, String marca, String modelo, Date dataAquisicao,
+	public ActiveDto createActive(int numeroPatrimonio, String marca, String modelo, Date dataAquisicao,
 			Date dataFinalGarantia, Boolean hasGarantia, String activeCategoryId, String tagId) {
 
 		ActiveDto activeDto = new ActiveDto();
 
 		activeDto.numeroPatrimonio = numeroPatrimonio;
-		activeDto.nomeHost = nomeHost;
 		activeDto.marca = marca;
 		activeDto.modelo = modelo;
 		activeDto.dataAquisicao = dataAquisicao;
 		activeDto.dataFinalGarantia = dataFinalGarantia;
 		activeDto.hasGarantia = hasGarantia;
 		
-		//activeDto.activeCategoryId = new ObjectId(activeCategoryId);
-		//activeDto.tagId = new ObjectId(tagId);
+		activeDto.activeCategoryId = activeCategoryId;
+		activeDto.tagId = tagId;
 
 		activeDto.lastMovimentacao = 0;
 		

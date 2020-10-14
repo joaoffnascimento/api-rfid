@@ -1,6 +1,8 @@
 package br.edu.ifs.rfid.apirfid.shared;
 
 public class Constants {
+	
+	// DEPRECIADO
 
 	private static final String INTERNAL_SERVER_ERROR_MSG = "Internal Server Error, please contact our support";
 
@@ -18,9 +20,15 @@ public class Constants {
 	private static final String IP_REQUIRED = "IP is required";
 
 	private static final String PORT_REQUIRED = "PORT is required";
+	
+	private static final String EMPLOYEE_NOT_FOUND_ERROR = "Employee not found!";
+	
+	private static final String ACTIVE_NOT_FOUND_ERROR = "Active not found!";
+	
+	private static final String TAG_NOT_FOUND_ERROR = "Tag not found!";
 
 	private Constants() {
-
+		
 	}
 
 	public static String getInternalServerErrorMsg() {
@@ -46,6 +54,16 @@ public class Constants {
 	public static String getPortRequired() {
 		return PORT_REQUIRED;
 	}
-	
-	
+
+	public static String getEmployeeNotFoundError() {
+		return EMPLOYEE_NOT_FOUND_ERROR;
+	}
+
+	public static String getActiveNotFoundError() {
+		return ACTIVE_NOT_FOUND_ERROR;
+	}
+
+	public static String getTagNotFoundError() {
+		return TAG_NOT_FOUND_ERROR;
+	}	
 }

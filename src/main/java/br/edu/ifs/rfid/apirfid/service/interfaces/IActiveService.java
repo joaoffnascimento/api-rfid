@@ -21,4 +21,8 @@ public interface IActiveService {
 	public Active getActiveByTagId(String id);
 	
 	public MovementHistory getLastMovmentHistoryByActiveId(String activeId);
+	
+	public List<Active> getAllActives();	
+
+	public Boolean deleteActive(String activeId);
 }

@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.edu.ifs.rfid.apirfid.domain.User;
+import br.edu.ifs.rfid.apirfid.domain.Employee;
 import br.edu.ifs.rfid.apirfid.domain.dto.UserDto;
-import br.edu.ifs.rfid.apirfid.service.UserService;
+import br.edu.ifs.rfid.apirfid.service.EmployeeService;
 import br.edu.ifs.rfid.apirfid.shared.Response;
 
 @RestController
@@ -20,14 +20,14 @@ import br.edu.ifs.rfid.apirfid.shared.Response;
 public class LoginController {
 
 	@Autowired
-	private UserService userService;
+	private EmployeeService employeeService;
 
 	@PostMapping
-	public ResponseEntity<Response<User>> efetuarLogin(@Valid @RequestBody UserDto request) {
+	public ResponseEntity<Response<Employee>> efetuarLogin(@Valid @RequestBody UserDto request) {
 
-		Response<User> response = new Response<>(true);
+		Response<Employee> response = new Response<>(true);
 
-		response.setData(userService.login(request));
+		response.setData(employeeService.login(request));
 		response.setStatusCode(HttpStatus.OK.value());
 
 		return ResponseEntity.status(HttpStatus.OK).body(response);

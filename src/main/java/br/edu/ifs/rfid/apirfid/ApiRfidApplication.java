@@ -15,7 +15,7 @@ import br.edu.ifs.rfid.apirfid.shared.SecurityFilter;
 @SpringBootApplication(exclude = { DataSourceAutoConfiguration.class })
 public class ApiRfidApplication extends SpringBootServletInitializer {
 
-	private static final String URL_PATTERN = "/*";
+	private static final String URL_PATTERN = "/api/*";
 
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder app) {

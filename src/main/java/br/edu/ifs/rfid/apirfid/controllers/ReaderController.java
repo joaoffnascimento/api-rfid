@@ -25,7 +25,7 @@ import br.edu.ifs.rfid.apirfid.shared.Constants;
 import br.edu.ifs.rfid.apirfid.shared.Response;
 
 @RestController
-@RequestMapping("/reader")
+@RequestMapping("/api/reader")
 public class ReaderController {
 	@Autowired
 	private ReaderService readerService;

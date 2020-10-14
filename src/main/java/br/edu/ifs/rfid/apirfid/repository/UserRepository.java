@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
+import br.edu.ifs.rfid.apirfid.domain.Employee;
 import br.edu.ifs.rfid.apirfid.domain.User;
 
 @Repository
@@ -25,6 +26,15 @@ public class UserRepository {
 
 		return mongoTemplate.findOne(query, User.class);
 	}
+	
+	public Employee findEmployeerByEmail(String email) {
+
+		Query query = new Query();
+
+		query.addCriteria(Criteria.where("email").is(email));
+
+		return mongoTemplate.findOne(query, Employee.class);
+	}
 
 	public Boolean updateTokenUser(String userId, String token) {
 
@@ -39,7 +49,7 @@ public class UserRepository {
 
 		update.set("updatedAt", new Date());
 
-		User updateResult = mongoTemplate.findAndModify(query, update, User.class);
+		Employee updateResult = mongoTemplate.findAndModify(query, update, Employee.class);
 
 		if (updateResult == null) {
 

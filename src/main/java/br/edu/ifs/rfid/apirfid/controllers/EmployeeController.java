@@ -23,7 +23,7 @@ import br.edu.ifs.rfid.apirfid.shared.Constants;
 import br.edu.ifs.rfid.apirfid.shared.Response;
 
 @RestController
-@RequestMapping("/employee")
+@RequestMapping("/api/employee")
 public class EmployeeController {
 
 	private EmployeeService employeeService;
@@ -31,20 +31,6 @@ public class EmployeeController {
 	@Autowired
 	public EmployeeController(EmployeeService employeeService) {
 		this.employeeService = employeeService;
-	}
-
-	@PostMapping
-	public ResponseEntity<Response<Employee>> createEmployee(@Valid @RequestBody EmployeeDto request) {
-
-		Response<Employee> response = new Response<>(true);
-
-		response.setData(employeeService.createEmployee(request));
-		response.setStatusCode(HttpStatus.OK.value());
-
-		response.add(WebMvcLinkBuilder
-				.linkTo(WebMvcLinkBuilder.methodOn(EmployeeController.class).createEmployee(request)).withSelfRel());
-
-		return ResponseEntity.status(HttpStatus.CREATED).body(response);
 	}
 
 	@DeleteMapping("/{id}")

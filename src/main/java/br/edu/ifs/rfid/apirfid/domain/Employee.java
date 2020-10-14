@@ -24,7 +24,11 @@ public class Employee extends Entity {
 	private String occupationId;
 	private String departamentId;
 	
-	public Employee create(int matSiape, String nome, String profissao, Date inicioExercicio, String occupationId, String departamentId) {
+	private String email;
+	private String password;
+	private String token;
+	
+	public Employee create(int matSiape, String nome, String profissao, Date inicioExercicio, String occupationId, String departamentId, String email, String password) {
 		Employee employee = new Employee();
 		
 		employee.matSiape = matSiape;
@@ -33,6 +37,9 @@ public class Employee extends Entity {
 		employee.inicioExercicio = inicioExercicio;
 		employee.occupationId = occupationId;
 		employee.departamentId = departamentId;
+
+		employee.email = email;
+		employee.password = password;
 		
 		return employee;
 	}

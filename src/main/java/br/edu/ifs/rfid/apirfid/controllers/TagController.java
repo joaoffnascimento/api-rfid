@@ -21,7 +21,7 @@ import br.edu.ifs.rfid.apirfid.service.TagService;
 import br.edu.ifs.rfid.apirfid.shared.Response;
 
 @RestController
-@RequestMapping("/tag")
+@RequestMapping("/api/tag")
 public class TagController {
 	@Autowired
 	private TagService tagService;

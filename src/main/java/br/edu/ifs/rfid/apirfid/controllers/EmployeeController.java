@@ -33,20 +33,6 @@ public class EmployeeController {
 		this.employeeService = employeeService;
 	}
 
-	@PostMapping
-	public ResponseEntity<Response<Employee>> createEmployee(@Valid @RequestBody EmployeeDto request) {
-
-		Response<Employee> response = new Response<>(true);
-
-		response.setData(employeeService.createEmployee(request));
-		response.setStatusCode(HttpStatus.OK.value());
-
-		response.add(WebMvcLinkBuilder
-				.linkTo(WebMvcLinkBuilder.methodOn(EmployeeController.class).createEmployee(request)).withSelfRel());
-
-		return ResponseEntity.status(HttpStatus.CREATED).body(response);
-	}
-
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Response<Boolean>> deleteEmployee(@PathVariable String id) {
 		Response<Boolean> response = new Response<>(true);

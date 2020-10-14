@@ -16,8 +16,6 @@ public interface IEmployeeService {
 
 	public Boolean deleteEmployeeById(String employeeId);
 
-	public Employee getEmployeerByEmail(String email);
-
 	public Employee login(UserDto userDto);
 
 }

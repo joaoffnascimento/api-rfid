@@ -41,11 +41,13 @@ public class EmployeeService implements IEmployeeService {
 
 			String token = createToken(userDto);
 
-			Employee result = getEmployeerByEmail(userDto.getEmail());
+			Optional<Employee> findEmployee = Optional.ofNullable(this.userRepository.findEmployeerByEmail(userDto.getEmail()));
 
-			if (result == null) {
-				throw new CustomException("Employee not found!", HttpStatus.NOT_FOUND);
+			if (!findEmployee.isPresent()) {
+				throw new CustomException("Employee not found!", HttpStatus.BAD_REQUEST);
 			}
+			
+			Employee result = findEmployee.get();
 
 			userRepository.updateTokenUser(result.getId(), token);
 
@@ -71,31 +73,12 @@ public class EmployeeService implements IEmployeeService {
 	}
 
 	@Override
-	public Employee getEmployeerByEmail(String email) {
-		try {
-
-			Optional<Employee> findResult = Optional.ofNullable(this.userRepository.findEmployeerByEmail(email));
-
-			if (!findResult.isPresent()) {
-				throw new CustomException("User not found!", HttpStatus.NOT_FOUND);
-			}
-
-			return findResult.get();
-
-		} catch (CustomException r) {
-			throw r;
-		} catch (Exception e) {
-			throw new CustomException(Constants.getInternalServerErrorMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-	}
-
-	@Override
 	public Employee createEmployee(EmployeeDto request) {
 		try {
 
-			Employee result = getEmployeerByEmail(request.getEmail());
+			Optional<Employee> findResult = Optional.ofNullable(this.userRepository.findEmployeerByEmail(request.getEmail()));
 
-			if (result == null) {
+			if (findResult.isPresent()) {
 				throw new CustomException("Employee already exists", HttpStatus.BAD_REQUEST);
 			}
 

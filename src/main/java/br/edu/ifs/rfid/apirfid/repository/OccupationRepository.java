@@ -35,13 +35,13 @@ public class OccupationRepository {
 
 		Update update = new Update();
 
-		if (occupation.getFuncao() == null)
+		if (occupation.getFuncao() != null)
 			update.set("funcao", occupation.getFuncao());
 
-		if (occupation.getDescricao() == null)
+		if (occupation.getDescricao() != null)
 			update.set("descricao", occupation.getDescricao());
 
-		if (occupation.getDataInicioFuncao() == null)
+		if (occupation.getDataInicioFuncao() != null)
 			update.set("dataInicioFuncao", occupation.getDataInicioFuncao());
 
 		update.set("updatedAt", new Date());

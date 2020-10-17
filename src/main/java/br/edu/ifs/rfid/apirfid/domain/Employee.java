@@ -2,7 +2,6 @@ package br.edu.ifs.rfid.apirfid.domain;
 
 import java.util.Date;
 
-import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.AllArgsConstructor;
@@ -23,14 +22,15 @@ public class Employee extends Entity {
 	private Date inicioExercicio;
 	private String occupationId;
 	private String departamentId;
-	
+
 	private String email;
 	private String password;
 	private String token;
-	
-	public Employee create(int matSiape, String nome, String profissao, Date inicioExercicio, String occupationId, String departamentId, String email, String password) {
+
+	public Employee create(int matSiape, String nome, String profissao, Date inicioExercicio, String occupationId,
+			String departamentId, String email, String password) {
 		Employee employee = new Employee();
-		
+
 		employee.matSiape = matSiape;
 		employee.nome = nome;
 		employee.profissao = profissao;
@@ -40,7 +40,7 @@ public class Employee extends Entity {
 
 		employee.email = email;
 		employee.password = password;
-		
+
 		return employee;
 	}
 }

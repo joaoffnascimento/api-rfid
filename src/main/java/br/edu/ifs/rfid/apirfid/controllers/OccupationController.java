@@ -96,5 +96,4 @@ public class OccupationController {
 
 		return ResponseEntity.status(HttpStatus.OK).body(response);
 	}
-	
 }

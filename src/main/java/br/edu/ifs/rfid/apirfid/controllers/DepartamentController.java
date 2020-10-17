@@ -73,7 +73,7 @@ public class DepartamentController {
 
 	@PatchMapping("/{id}")
 	public ResponseEntity<Response<Departament>> updateDepartament(@PathVariable String id,
-			@Valid @RequestBody DepartamentDto request) {
+			@RequestBody DepartamentDto request) {
 
 		Response<Departament> response = new Response<>(true);
 

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ import br.edu.ifs.rfid.apirfid.repository.interfaces.IDepartamentRepository;
 import br.edu.ifs.rfid.apirfid.service.interfaces.IDepartamentService;
 import br.edu.ifs.rfid.apirfid.shared.Constants;
 
+@CacheConfig(cacheNames = "occupation")
 @Service
 public class DepartamentService implements IDepartamentService {
 

@@ -16,6 +16,17 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = false)
 public class Occupation extends Entity {
 
+	private String funcao;
 	private String descricao;
 	private Date dataInicioFuncao;
+
+	public Occupation createOccupation(String funcao, String descricao, Date dataInicioFuncao) {
+		Occupation occupation = new Occupation();
+		
+		occupation.funcao = funcao;
+		occupation.descricao = descricao;
+		occupation.dataInicioFuncao = dataInicioFuncao;
+		
+		return occupation;
+	}
 }

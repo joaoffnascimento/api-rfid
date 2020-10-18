@@ -10,6 +10,8 @@ public interface ITagService {
 	public Tag createTag(TagDto tag);
 
 	public Tag getTagByEpc(String epc);
+	
+	public Tag getTagByActiveId(String activeId);
 
 	public List<Tag> getAllTags();
 }

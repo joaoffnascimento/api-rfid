@@ -67,4 +67,18 @@ public class TagController {
 
 		return ResponseEntity.status(HttpStatus.OK).body(response);
 	}
+	
+	@GetMapping("/active/{activeId}")
+	public ResponseEntity<Response<Tag>> getTabByActiveId(@PathVariable String activeId) {
+
+		Response<Tag> response = new Response<>(true);
+
+		response.setData(tagService.getTagByActiveId(activeId));
+		response.setStatusCode(HttpStatus.OK.value());
+
+		response.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(TagController.class).getTabByActiveId(activeId))
+				.withSelfRel());
+
+		return ResponseEntity.status(HttpStatus.OK).body(response);
+	}
 }

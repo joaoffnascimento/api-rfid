@@ -65,82 +65,6 @@ public class ReaderService implements IReaderService {
 	 * @CacheEvict(value = "another entity", key = "#id") })
 	 */
 
-	@Override
-	public Reader updatePort(String id, ReaderDto request) {
-		try {
-
-			Reader reader = this.getReader(id);
-
-			reader.setPort(request.getPort());
-
-			this.readerRepository.save(reader);
-
-			return reader;
-
-		} catch (CustomException r) {
-			throw r;
-		} catch (Exception e) {
-			throw new CustomException(Constants.getInternalServerErrorMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-	}
-
-	@Override
-	public Reader updateModel(String id, ReaderDto request) {
-		try {
-
-			Reader reader = this.getReader(id);
-
-			reader.setModel(request.getModel());
-
-			this.readerRepository.save(reader);
-
-			return reader;
-
-		} catch (CustomException r) {
-			throw r;
-		} catch (Exception e) {
-			throw new CustomException(Constants.getInternalServerErrorMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-	}
-
-	@Override
-	public Reader updateBrand(String id, ReaderDto request) {
-		try {
-
-			Reader reader = this.getReader(id);
-
-			reader.setBrand(request.getBrand());
-
-			this.readerRepository.save(reader);
-
-			return reader;
-
-		} catch (CustomException r) {
-			throw r;
-		} catch (Exception e) {
-			throw new CustomException(Constants.getInternalServerErrorMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-	}
-
-	@Override
-	public Reader updateIp(String id, ReaderDto request) {
-		try {
-
-			Reader reader = this.getReader(id);
-
-			reader.setIp(request.getIp());
-
-			this.readerRepository.save(reader);
-
-			return reader;
-
-		} catch (CustomException r) {
-			throw r;
-		} catch (Exception e) {
-			throw new CustomException(Constants.getInternalServerErrorMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-	}
-
 	@CachePut(unless = "#result.size() < 10")
 	@Override
 	public List<Reader> getReaders() {
@@ -197,7 +121,7 @@ public class ReaderService implements IReaderService {
 		try {
 
 			return this.rfidMiddleware.run(request.getIp());
-			
+
 		} catch (CustomException e) {
 			return Boolean.FALSE;
 		} catch (Exception e) {

@@ -18,4 +18,6 @@ public interface IEmployeeService {
 
 	public Employee login(UserDto userDto);
 
+	public Employee updateEmployee(String employeeId, EmployeeDto employeeDto);
+
 }

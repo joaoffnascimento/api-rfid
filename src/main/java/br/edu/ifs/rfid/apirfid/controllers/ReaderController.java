@@ -72,35 +72,6 @@ public class ReaderController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(response);
 	}
 
-	@PutMapping("/{id}/reader-ip")
-	public ResponseEntity<Response<Reader>> updateReaderIp(@Valid @PathVariable String id,
-			@RequestBody ReaderDto request) {
-		Response<Reader> response = new Response<>(true);
-
-		response.setData(readerService.updateIp(id, request));
-		response.setStatusCode(HttpStatus.OK.value());
-
-		response.add(WebMvcLinkBuilder
-				.linkTo(WebMvcLinkBuilder.methodOn(ReaderController.class).updateReaderIp(id, request)).withSelfRel());
-
-		return ResponseEntity.status(HttpStatus.OK).body(response);
-	}
-
-	@PutMapping("/{id}/reader-port")
-	public ResponseEntity<Response<Reader>> updateReaderPort(@Valid @PathVariable String id,
-			@RequestBody ReaderDto request) {
-		Response<Reader> response = new Response<>(true);
-
-		response.setData(readerService.updatePort(id, request));
-		response.setStatusCode(HttpStatus.OK.value());
-
-		response.add(WebMvcLinkBuilder
-				.linkTo(WebMvcLinkBuilder.methodOn(ReaderController.class).updateReaderPort(id, request))
-				.withSelfRel());
-
-		return ResponseEntity.status(HttpStatus.OK).body(response);
-	}
-
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Response<Boolean>> deleteReader(@PathVariable String id) {
 		Response<Boolean> response = new Response<>(true);

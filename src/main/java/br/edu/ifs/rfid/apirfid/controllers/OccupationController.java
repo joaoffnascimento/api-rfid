@@ -71,7 +71,7 @@ public class OccupationController {
 	}
 	
 	@PatchMapping("/{id}")
-	public ResponseEntity<Response<Occupation>> updateOccupation(@PathVariable String id, @Valid @RequestBody OccupationDto request) {
+	public ResponseEntity<Response<Occupation>> updateOccupation(@PathVariable String id, @RequestBody OccupationDto request) {
 
 		Response<Occupation> response = new Response<>(true);
 

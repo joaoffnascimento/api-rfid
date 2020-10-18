@@ -78,4 +78,23 @@ public class TagService implements ITagService {
 			throw new CustomException(Constants.getInternalServerErrorMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+
+	@Override
+	public Tag getTagByActiveId(String activeId) {
+		try {
+
+			Tag tag = this.tagCustomRepository.findTagByActiveId(activeId);
+
+			if (tag == null) {
+				throw new CustomException(Constants.getTagNotFoundError(), HttpStatus.NOT_FOUND);
+			}
+
+			return tag;
+
+		} catch (CustomException r) {
+			throw r;
+		} catch (Exception e) {
+			throw new CustomException(Constants.getInternalServerErrorMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 }

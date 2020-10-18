@@ -22,5 +22,13 @@ public class TagRepository {
 
 		return mongoTemplate.findOne(query, Tag.class);
 	}
+	
+	public Tag findTagByActiveId(String activeId) {
 
+		Query query = new Query();
+
+		query.addCriteria(Criteria.where("activeId").is(activeId));
+
+		return mongoTemplate.findOne(query, Tag.class);
+	}
 }

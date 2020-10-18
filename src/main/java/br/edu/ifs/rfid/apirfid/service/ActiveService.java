@@ -185,4 +185,21 @@ public class ActiveService implements IActiveService {
 			throw new CustomException(Constants.getInternalServerErrorMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+
+	@Override
+	public Active updateActive(String activeId, ActiveDto activeDto) {
+		try {
+
+			this.getActiveById(activeId);
+
+			return activeCustomRepository.updateActive(activeId, activeDto);
+
+		} catch (CustomException r) {
+			throw r;
+		} catch (Exception e) {
+			throw new CustomException(Constants.getInternalServerErrorMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	
 }

@@ -9,8 +9,10 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
+import br.edu.ifs.rfid.apirfid.domain.Active;
 import br.edu.ifs.rfid.apirfid.domain.Employee;
 import br.edu.ifs.rfid.apirfid.domain.User;
+import br.edu.ifs.rfid.apirfid.domain.dto.EmployeeDto;
 
 @Repository
 public class UserRepository {
@@ -26,7 +28,7 @@ public class UserRepository {
 
 		return mongoTemplate.findOne(query, User.class);
 	}
-	
+
 	public Employee findEmployeerByEmail(String email) {
 
 		Query query = new Query();
@@ -57,5 +59,54 @@ public class UserRepository {
 		}
 
 		return Boolean.TRUE;
+	}
+
+	public Employee findEmployeerById(String id) {
+
+		Query query = new Query();
+
+		query.addCriteria(Criteria.where("id").is(id));
+
+		return mongoTemplate.findOne(query, Employee.class);
+	}
+
+	public Employee updateEmployee(String employeerId, EmployeeDto employeeDto) {
+
+		Query query = new Query();
+
+		query.addCriteria(Criteria.where("id").is(employeerId));
+
+		Update update = new Update();
+
+		if (employeeDto.getMatSiape() != 0)
+			update.set("matSiape", employeeDto.getMatSiape());
+
+		if (employeeDto.getNome() != null)
+			update.set("nome", employeeDto.getNome());
+
+		if (employeeDto.getProfissao() != null)
+			update.set("profissao", employeeDto.getProfissao());
+
+		if (employeeDto.getInicioExercicio() != null)
+			update.set("inicioExercicio", employeeDto.getInicioExercicio());
+
+		if (employeeDto.getOccupationId() != null)
+			update.set("occupationId", employeeDto.getOccupationId());
+
+		if (employeeDto.getDepartamentId() != null)
+			update.set("departamentId", employeeDto.getDepartamentId());
+
+		if (employeeDto.getEmail() != null)
+			update.set("email", employeeDto.getEmail());
+
+		if (employeeDto.getPassword() != null)
+			update.set("password", employeeDto.getPassword());
+
+		update.set("updatedAt", new Date());
+
+		mongoTemplate.findAndModify(query, update, Active.class);
+
+		return findEmployeerById(employeerId);
+
 	}
 }

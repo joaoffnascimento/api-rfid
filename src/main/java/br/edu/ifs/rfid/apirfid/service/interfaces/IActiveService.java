@@ -25,4 +25,6 @@ public interface IActiveService {
 	public List<Active> getAllActives();	
 
 	public Boolean deleteActive(String activeId);
+	
+	public Active updateActive(String activeId, ActiveDto activeDto);
 }

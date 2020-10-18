@@ -191,6 +191,9 @@ public class ActiveService implements IActiveService {
 		try {
 
 			this.getActiveById(activeId);
+			
+			if (activeDto.isEmpty())
+				throw new CustomException("Bad Request", HttpStatus.BAD_REQUEST);
 
 			return activeCustomRepository.updateActive(activeId, activeDto);
 

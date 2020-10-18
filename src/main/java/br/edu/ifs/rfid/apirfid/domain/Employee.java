@@ -4,6 +4,7 @@ import java.util.Date;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import br.edu.ifs.rfid.apirfid.shared.FnUtil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -16,7 +17,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = false)
 public class Employee extends Entity {
 
-	private int matSiape;
+	private String matSiape;
 	private String nome;
 	private String profissao;
 	private Date inicioExercicio;
@@ -27,7 +28,7 @@ public class Employee extends Entity {
 	private String password;
 	private String token;
 
-	public Employee create(int matSiape, String nome, String profissao, Date inicioExercicio, String occupationId,
+	public Employee create(String matSiape, String nome, String profissao, Date inicioExercicio, String occupationId,
 			String departamentId, String email, String password) {
 		Employee employee = new Employee();
 
@@ -39,7 +40,7 @@ public class Employee extends Entity {
 		employee.departamentId = departamentId;
 
 		employee.email = email;
-		employee.password = password;
+		employee.password = FnUtil.bcryptEncode(password);
 
 		return employee;
 	}

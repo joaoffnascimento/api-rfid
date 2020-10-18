@@ -10,9 +10,7 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
 import br.edu.ifs.rfid.apirfid.domain.ActiveCategory;
-import br.edu.ifs.rfid.apirfid.domain.Occupation;
 import br.edu.ifs.rfid.apirfid.domain.dto.ActiveCategoryDto;
-import br.edu.ifs.rfid.apirfid.domain.dto.OccupationDto;
 
 @Repository
 public class ActiveCategoryRepository {

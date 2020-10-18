@@ -107,6 +107,9 @@ public class OccupationService implements IOccupationService {
 
 			this.getOccupationById(occupationId);
 
+			if (request.isEmpty())
+				throw new CustomException("Bad Request", HttpStatus.BAD_REQUEST);
+
 			return occupationRepoCustom.updateOccupation(occupationId, request);
 
 		} catch (CustomException r) {

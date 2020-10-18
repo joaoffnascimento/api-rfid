@@ -18,11 +18,13 @@ import br.edu.ifs.rfid.apirfid.repository.MovementHistoryRepository;
 import br.edu.ifs.rfid.apirfid.repository.interfaces.IActiveRepository;
 import br.edu.ifs.rfid.apirfid.repository.interfaces.IMovementHistory;
 import br.edu.ifs.rfid.apirfid.service.interfaces.IActiveService;
-import br.edu.ifs.rfid.apirfid.shared.Constants;
 
 @CacheConfig(cacheNames = "active")
 @Service
 public class ActiveService implements IActiveService {
+
+	private static final String ACTIVE_NOT_FOUND_ERROR = "Active not found!";
+	private static final String INTERNAL_SERVER_ERROR_MSG = "Internal Server Error, please contact our support";
 
 	private IActiveRepository activeRepository;
 	private IMovementHistory movementHistoryRepository;
@@ -43,9 +45,9 @@ public class ActiveService implements IActiveService {
 		try {
 			Active active = new Active();
 
-			active = active.createActive(request.getNumeroPatrimonio(), request.getMarca(),
-					request.getModelo(), request.getDataAquisicao(), request.getDataFinalGarantia(),
-					request.getHasGarantia(), request.getActiveCategoryId(), request.getTagId());
+			active = active.createActive(request.getNumeroPatrimonio(), request.getMarca(), request.getModelo(),
+					request.getDataAquisicao(), request.getDataFinalGarantia(), request.getHasGarantia(),
+					request.getActiveCategoryId(), request.getTagId());
 
 			this.activeRepository.save(active);
 
@@ -54,7 +56,7 @@ public class ActiveService implements IActiveService {
 		} catch (CustomException r) {
 			throw r;
 		} catch (Exception e) {
-			throw new CustomException(Constants.getInternalServerErrorMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
+			throw new CustomException(INTERNAL_SERVER_ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -73,7 +75,7 @@ public class ActiveService implements IActiveService {
 		} catch (CustomException r) {
 			throw r;
 		} catch (Exception e) {
-			throw new CustomException(Constants.getInternalServerErrorMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
+			throw new CustomException(INTERNAL_SERVER_ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -84,7 +86,7 @@ public class ActiveService implements IActiveService {
 			Active active = this.activeCustomRepository.getActiveByEpc(epc);
 
 			if (active == null) {
-				throw new CustomException(Constants.getActiveNotFoundError(), HttpStatus.NOT_FOUND);
+				throw new CustomException(ACTIVE_NOT_FOUND_ERROR, HttpStatus.NOT_FOUND);
 			}
 
 			return active;
@@ -92,7 +94,7 @@ public class ActiveService implements IActiveService {
 		} catch (CustomException r) {
 			throw r;
 		} catch (Exception e) {
-			throw new CustomException(Constants.getInternalServerErrorMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
+			throw new CustomException(INTERNAL_SERVER_ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -105,7 +107,7 @@ public class ActiveService implements IActiveService {
 		} catch (CustomException r) {
 			throw r;
 		} catch (Exception e) {
-			throw new CustomException(Constants.getInternalServerErrorMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
+			throw new CustomException(INTERNAL_SERVER_ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -119,7 +121,7 @@ public class ActiveService implements IActiveService {
 		} catch (CustomException r) {
 			throw r;
 		} catch (Exception e) {
-			throw new CustomException(Constants.getInternalServerErrorMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
+			throw new CustomException(INTERNAL_SERVER_ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -138,7 +140,7 @@ public class ActiveService implements IActiveService {
 		} catch (CustomException r) {
 			throw r;
 		} catch (Exception e) {
-			throw new CustomException(Constants.getInternalServerErrorMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
+			throw new CustomException(INTERNAL_SERVER_ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -151,10 +153,10 @@ public class ActiveService implements IActiveService {
 		} catch (CustomException r) {
 			throw r;
 		} catch (Exception e) {
-			throw new CustomException(Constants.getInternalServerErrorMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
+			throw new CustomException(INTERNAL_SERVER_ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	
+
 	@CachePut(unless = "#result.size() < 10")
 	@Override
 	public List<Active> getAllActives() {
@@ -165,7 +167,7 @@ public class ActiveService implements IActiveService {
 		} catch (CustomException r) {
 			throw r;
 		} catch (Exception e) {
-			throw new CustomException(Constants.getInternalServerErrorMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
+			throw new CustomException(INTERNAL_SERVER_ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -174,15 +176,15 @@ public class ActiveService implements IActiveService {
 		try {
 
 			this.getActiveById(activeId);
-			
+
 			this.activeRepository.deleteById(activeId);
-			
+
 			return Boolean.TRUE;
-			
+
 		} catch (CustomException r) {
 			throw r;
 		} catch (Exception e) {
-			throw new CustomException(Constants.getInternalServerErrorMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
+			throw new CustomException(INTERNAL_SERVER_ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -191,7 +193,7 @@ public class ActiveService implements IActiveService {
 		try {
 
 			this.getActiveById(activeId);
-			
+
 			if (activeDto.isEmpty())
 				throw new CustomException("Bad Request", HttpStatus.BAD_REQUEST);
 
@@ -200,9 +202,8 @@ public class ActiveService implements IActiveService {
 		} catch (CustomException r) {
 			throw r;
 		} catch (Exception e) {
-			throw new CustomException(Constants.getInternalServerErrorMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
+			throw new CustomException(INTERNAL_SERVER_ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	
-	
+
 }

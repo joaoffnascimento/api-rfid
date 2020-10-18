@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import br.edu.ifs.rfid.apirfid.domain.Employee;
 import br.edu.ifs.rfid.apirfid.domain.dto.EmployeeDto;
 import br.edu.ifs.rfid.apirfid.service.EmployeeService;
-import br.edu.ifs.rfid.apirfid.shared.Constants;
 import br.edu.ifs.rfid.apirfid.shared.Response;
 
 @RestController
@@ -67,19 +66,21 @@ public class EmployeeController {
 		response.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(EmployeeController.class).getEmployeeById(id))
 				.withSelfRel());
 		response.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(EmployeeController.class).deleteEmployee(id))
-				.withRel(Constants.getDelete()));
+				.withRel("DELETE"));
 
 		return ResponseEntity.status(HttpStatus.OK).body(response);
 	}
-	
+
 	@PatchMapping("/{id}")
-	public ResponseEntity<Response<Employee>> updateEmployee(@PathVariable String id, @RequestBody EmployeeDto employeeDto) {
+	public ResponseEntity<Response<Employee>> updateEmployee(@PathVariable String id,
+			@RequestBody EmployeeDto employeeDto) {
 		Response<Employee> response = new Response<>(true);
 
 		response.setData(employeeService.updateEmployee(id, employeeDto));
 		response.setStatusCode(HttpStatus.OK.value());
 
-		response.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(EmployeeController.class).updateEmployee(id, employeeDto))
+		response.add(WebMvcLinkBuilder
+				.linkTo(WebMvcLinkBuilder.methodOn(EmployeeController.class).updateEmployee(id, employeeDto))
 				.withSelfRel());
 
 		return ResponseEntity.status(HttpStatus.OK).body(response);

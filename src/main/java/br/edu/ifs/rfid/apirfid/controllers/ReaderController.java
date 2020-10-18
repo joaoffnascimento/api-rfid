@@ -20,7 +20,6 @@ import br.edu.ifs.rfid.apirfid.domain.Reader;
 import br.edu.ifs.rfid.apirfid.domain.dto.HostNameDto;
 import br.edu.ifs.rfid.apirfid.domain.dto.ReaderDto;
 import br.edu.ifs.rfid.apirfid.service.ReaderService;
-import br.edu.ifs.rfid.apirfid.shared.Constants;
 import br.edu.ifs.rfid.apirfid.shared.Response;
 
 @RestController
@@ -52,7 +51,7 @@ public class ReaderController {
 		response.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(ReaderController.class).getReader(id))
 				.withSelfRel());
 		response.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(ReaderController.class).deleteReader(id))
-				.withRel(Constants.getDelete()));
+				.withRel("DELETE"));
 
 		return ResponseEntity.status(HttpStatus.OK).body(response);
 	}

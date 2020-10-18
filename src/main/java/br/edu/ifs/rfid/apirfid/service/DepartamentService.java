@@ -15,11 +15,12 @@ import br.edu.ifs.rfid.apirfid.exception.CustomException;
 import br.edu.ifs.rfid.apirfid.repository.DepartamentRepository;
 import br.edu.ifs.rfid.apirfid.repository.interfaces.IDepartamentRepository;
 import br.edu.ifs.rfid.apirfid.service.interfaces.IDepartamentService;
-import br.edu.ifs.rfid.apirfid.shared.Constants;
 
 @CacheConfig(cacheNames = "occupation")
 @Service
 public class DepartamentService implements IDepartamentService {
+
+	private static final String INTERNAL_SERVER_ERROR_MSG = "Internal Server Error, please contact our support";
 
 	private IDepartamentRepository departamentRepository;
 	private DepartamentRepository departamentRepositoryCustom;
@@ -46,7 +47,7 @@ public class DepartamentService implements IDepartamentService {
 		} catch (CustomException r) {
 			throw r;
 		} catch (Exception e) {
-			throw new CustomException(Constants.getInternalServerErrorMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
+			throw new CustomException(INTERNAL_SERVER_ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -66,7 +67,7 @@ public class DepartamentService implements IDepartamentService {
 		} catch (CustomException r) {
 			throw r;
 		} catch (Exception e) {
-			throw new CustomException(Constants.getInternalServerErrorMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
+			throw new CustomException(INTERNAL_SERVER_ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -80,7 +81,7 @@ public class DepartamentService implements IDepartamentService {
 		} catch (CustomException r) {
 			throw r;
 		} catch (Exception e) {
-			throw new CustomException(Constants.getInternalServerErrorMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
+			throw new CustomException(INTERNAL_SERVER_ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -97,7 +98,7 @@ public class DepartamentService implements IDepartamentService {
 		} catch (CustomException r) {
 			throw r;
 		} catch (Exception e) {
-			throw new CustomException(Constants.getInternalServerErrorMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
+			throw new CustomException(INTERNAL_SERVER_ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -106,7 +107,7 @@ public class DepartamentService implements IDepartamentService {
 		try {
 
 			this.getDepartamentById(departamentId);
-			
+
 			if (request.isEmpty())
 				throw new CustomException("Bad Request", HttpStatus.BAD_REQUEST);
 
@@ -115,7 +116,7 @@ public class DepartamentService implements IDepartamentService {
 		} catch (CustomException r) {
 			throw r;
 		} catch (Exception e) {
-			throw new CustomException(Constants.getInternalServerErrorMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
+			throw new CustomException(INTERNAL_SERVER_ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 }

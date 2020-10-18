@@ -21,14 +21,15 @@ public class MovementHistoryRepository {
 
 		Query query = new Query();
 
-		query.addCriteria(Criteria.where("activeId").is(activeId)).with(Sort.by(Sort.Direction.DESC, "dataHoraMovimentacao"));
+		query.addCriteria(Criteria.where("activeId").is(activeId))
+				.with(Sort.by(Sort.Direction.DESC, "dataHoraMovimentacao"));
 
 		List<MovementHistory> result = mongoTemplate.find(query, MovementHistory.class);
-		
-		if(result.isEmpty()) {
+
+		if (result.isEmpty()) {
 			return null;
 		}
-		
+
 		return result.get(0);
 	}
 }

@@ -46,12 +46,12 @@ public class Active extends Entity {
 		active.dataAquisicao = dataAquisicao;
 		active.dataFinalGarantia = dataFinalGarantia;
 		active.hasGarantia = hasGarantia;
-		
+
 		active.activeCategoryId = activeCategoryId;
 		active.tagId = tagId;
 
 		active.lastMovimentacao = 0;
-		
+
 		active.dtAquisTMSTMP = System.currentTimeMillis();
 		active.dtFinalTMSTMP = System.currentTimeMillis();
 

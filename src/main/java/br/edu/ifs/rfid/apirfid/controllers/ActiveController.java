@@ -57,22 +57,23 @@ public class ActiveController {
 
 		return ResponseEntity.status(HttpStatus.OK).body(response);
 	}
-	
-	
+
 	@GetMapping("/patrimonio")
-	public ResponseEntity<Response<List<Active>>> getActivesByPatrimonio(@RequestParam(name = "patrimonio") int patrimonio) {
+	public ResponseEntity<Response<List<Active>>> getActivesByPatrimonio(
+			@RequestParam(name = "patrimonio") int patrimonio) {
 
 		Response<List<Active>> response = new Response<>(true);
 
 		response.setData(activeService.getActivesByPatrimonio(patrimonio));
 		response.setStatusCode(HttpStatus.OK.value());
 
-		response.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(ActiveController.class).getActivesByPatrimonio(patrimonio))
+		response.add(WebMvcLinkBuilder
+				.linkTo(WebMvcLinkBuilder.methodOn(ActiveController.class).getActivesByPatrimonio(patrimonio))
 				.withSelfRel());
 
 		return ResponseEntity.status(HttpStatus.OK).body(response);
 	}
-	
+
 	@GetMapping()
 	public ResponseEntity<Response<List<Active>>> getAllActives() {
 
@@ -86,7 +87,7 @@ public class ActiveController {
 
 		return ResponseEntity.status(HttpStatus.OK).body(response);
 	}
-	
+
 	@DeleteMapping("/{activeId}")
 	public ResponseEntity<Response<Boolean>> deleteActive(@PathVariable String activeId) {
 
@@ -100,7 +101,7 @@ public class ActiveController {
 
 		return ResponseEntity.status(HttpStatus.OK).body(response);
 	}
-	
+
 	@PatchMapping("/{id}")
 	public ResponseEntity<Response<Active>> updateActive(@PathVariable String id, @RequestBody ActiveDto activeDto) {
 		Response<Active> response = new Response<>(true);

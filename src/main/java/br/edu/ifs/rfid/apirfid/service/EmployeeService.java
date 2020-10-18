@@ -16,12 +16,14 @@ import br.edu.ifs.rfid.apirfid.exception.CustomException;
 import br.edu.ifs.rfid.apirfid.repository.UserRepository;
 import br.edu.ifs.rfid.apirfid.repository.interfaces.IEmployeeRepository;
 import br.edu.ifs.rfid.apirfid.service.interfaces.IEmployeeService;
-import br.edu.ifs.rfid.apirfid.shared.Constants;
 import br.edu.ifs.rfid.apirfid.shared.FnUtil;
 
 @CacheConfig(cacheNames = "employee")
 @Service
 public class EmployeeService implements IEmployeeService {
+
+	private static final String EMPLOYEE_NOT_FOUND_ERROR = "Employee not found!";
+	private static final String INTERNAL_SERVER_ERROR_MSG = "Internal Server Error, please contact our support";
 
 	private IEmployeeRepository employeeRepository;
 	private UserRepository userRepository;
@@ -65,7 +67,7 @@ public class EmployeeService implements IEmployeeService {
 		} catch (CustomException r) {
 			throw r;
 		} catch (Exception e) {
-			throw new CustomException(Constants.getInternalServerErrorMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
+			throw new CustomException(INTERNAL_SERVER_ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -93,7 +95,7 @@ public class EmployeeService implements IEmployeeService {
 		} catch (CustomException r) {
 			throw r;
 		} catch (Exception e) {
-			throw new CustomException(Constants.getInternalServerErrorMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
+			throw new CustomException(INTERNAL_SERVER_ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -105,7 +107,7 @@ public class EmployeeService implements IEmployeeService {
 			Optional<Employee> findResult = this.employeeRepository.findById(employeeId);
 
 			if (!findResult.isPresent()) {
-				throw new CustomException(Constants.getEmployeeNotFoundError(), HttpStatus.NOT_FOUND);
+				throw new CustomException(EMPLOYEE_NOT_FOUND_ERROR, HttpStatus.NOT_FOUND);
 			}
 
 			return findResult.get();
@@ -113,7 +115,7 @@ public class EmployeeService implements IEmployeeService {
 		} catch (CustomException r) {
 			throw r;
 		} catch (Exception e) {
-			throw new CustomException(Constants.getInternalServerErrorMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
+			throw new CustomException(INTERNAL_SERVER_ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -125,7 +127,7 @@ public class EmployeeService implements IEmployeeService {
 			Optional<Employee> findResult = Optional.ofNullable(this.userRepository.findEmployeeByEmail(employeeEmail));
 
 			if (!findResult.isPresent()) {
-				throw new CustomException(Constants.getEmployeeNotFoundError(), HttpStatus.NOT_FOUND);
+				throw new CustomException(EMPLOYEE_NOT_FOUND_ERROR, HttpStatus.NOT_FOUND);
 			}
 
 			return findResult.get();
@@ -133,7 +135,7 @@ public class EmployeeService implements IEmployeeService {
 		} catch (CustomException r) {
 			throw r;
 		} catch (Exception e) {
-			throw new CustomException(Constants.getInternalServerErrorMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
+			throw new CustomException(INTERNAL_SERVER_ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -147,7 +149,7 @@ public class EmployeeService implements IEmployeeService {
 		} catch (CustomException r) {
 			throw r;
 		} catch (Exception e) {
-			throw new CustomException(Constants.getInternalServerErrorMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
+			throw new CustomException(INTERNAL_SERVER_ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -164,7 +166,7 @@ public class EmployeeService implements IEmployeeService {
 		} catch (CustomException r) {
 			throw r;
 		} catch (Exception e) {
-			throw new CustomException(Constants.getInternalServerErrorMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
+			throw new CustomException(INTERNAL_SERVER_ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -182,7 +184,7 @@ public class EmployeeService implements IEmployeeService {
 		} catch (CustomException r) {
 			throw r;
 		} catch (Exception e) {
-			throw new CustomException(Constants.getInternalServerErrorMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
+			throw new CustomException(INTERNAL_SERVER_ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -205,7 +207,7 @@ public class EmployeeService implements IEmployeeService {
 		} catch (CustomException r) {
 			throw r;
 		} catch (Exception e) {
-			throw new CustomException(Constants.getInternalServerErrorMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
+			throw new CustomException(INTERNAL_SERVER_ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 }

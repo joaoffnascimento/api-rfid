@@ -74,22 +74,23 @@ public class ActiveCategoryController {
 
 		return ResponseEntity.status(HttpStatus.OK).body(response);
 	}
-	
+
 	@PatchMapping("/{id}")
-	public ResponseEntity<Response<ActiveCategory>> updateActiveCategory(@PathVariable String id, @RequestBody ActiveCategoryDto activeCategoryDto) {
+	public ResponseEntity<Response<ActiveCategory>> updateActiveCategory(@PathVariable String id,
+			@RequestBody ActiveCategoryDto activeCategoryDto) {
 
 		Response<ActiveCategory> response = new Response<>(true);
 
 		response.setData(activeCategoryService.updateActiveCategory(id, activeCategoryDto));
 		response.setStatusCode(HttpStatus.OK.value());
 
-		response.add(WebMvcLinkBuilder
-				.linkTo(WebMvcLinkBuilder.methodOn(ActiveCategoryController.class).updateActiveCategory(id, activeCategoryDto))
+		response.add(WebMvcLinkBuilder.linkTo(
+				WebMvcLinkBuilder.methodOn(ActiveCategoryController.class).updateActiveCategory(id, activeCategoryDto))
 				.withSelfRel());
 
 		return ResponseEntity.status(HttpStatus.OK).body(response);
 	}
-	
+
 	@DeleteMapping("/{id")
 	public ResponseEntity<Response<Boolean>> deleteActiveCategory(@PathVariable String id) {
 

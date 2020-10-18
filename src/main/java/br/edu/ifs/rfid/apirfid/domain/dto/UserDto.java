@@ -22,11 +22,11 @@ public class UserDto extends Entity {
 	private String email;
 	@NotBlank(message = "Password is required")
 	private String password;
-	
+
 	private String oldPassword;
-	
+
 	private String token;
-	
+
 	public String getToken() {
 		return token;
 	}

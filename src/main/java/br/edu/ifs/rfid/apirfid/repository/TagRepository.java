@@ -22,7 +22,7 @@ public class TagRepository {
 
 		return mongoTemplate.findOne(query, Tag.class);
 	}
-	
+
 	public Tag findTagByActiveId(String activeId) {
 
 		Query query = new Query();

@@ -2,8 +2,6 @@ package br.edu.ifs.rfid.apirfid.domain.dto;
 
 import java.util.Date;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 

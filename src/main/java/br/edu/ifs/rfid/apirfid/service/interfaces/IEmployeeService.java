@@ -20,4 +20,7 @@ public interface IEmployeeService {
 
 	public Employee updateEmployee(String employeeId, EmployeeDto employeeDto);
 
+	public Employee changePassword(UserDto employeeDto);
+	
+	public Employee getEmployeeByEmail(String employeeEmail);
 }

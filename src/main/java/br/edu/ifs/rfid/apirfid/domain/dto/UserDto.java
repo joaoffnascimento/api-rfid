@@ -23,6 +23,8 @@ public class UserDto extends Entity {
 	@NotBlank(message = "Password is required")
 	private String password;
 	
+	private String oldPassword;
+	
 	private String token;
 	
 	public String getToken() {

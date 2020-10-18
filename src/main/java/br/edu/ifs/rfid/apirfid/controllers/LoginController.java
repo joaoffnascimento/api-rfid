@@ -48,4 +48,18 @@ public class LoginController {
 
 		return ResponseEntity.status(HttpStatus.CREATED).body(response);
 	}
+	
+	@PostMapping("/change-password")
+	public ResponseEntity<Response<Employee>> changePassword(@Valid @RequestBody UserDto request) {
+
+		Response<Employee> response = new Response<>(true);
+
+		response.setData(employeeService.changePassword(request));
+		response.setStatusCode(HttpStatus.OK.value());
+
+		response.add(WebMvcLinkBuilder
+				.linkTo(WebMvcLinkBuilder.methodOn(LoginController.class).changePassword(request)).withSelfRel());
+
+		return ResponseEntity.status(HttpStatus.CREATED).body(response);
+	}
 }

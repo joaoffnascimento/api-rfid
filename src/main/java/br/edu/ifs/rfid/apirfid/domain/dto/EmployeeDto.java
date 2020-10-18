@@ -15,9 +15,8 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 public class EmployeeDto extends Entity {
 
-	@Min(value = 1, message = "numeroPatrimonio number is required")
-	@Max(value = 1000000000, message = "numeroPatrimonio number is required")
-	private int matSiape;
+	@NotBlank(message = "matSiape is required")
+	private String matSiape;
 
 	@NotBlank(message = "Nome is required")
 	private String nome;

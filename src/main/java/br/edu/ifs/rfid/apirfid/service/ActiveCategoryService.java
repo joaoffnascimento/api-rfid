@@ -87,6 +87,9 @@ public class ActiveCategoryService implements IActiveCategoryService {
 		try {
 
 			this.getActiveCategoryById(activeCategoryId);
+			
+			if (activeCategoryDto.isEmpty())
+				throw new CustomException("Bad Request", HttpStatus.BAD_REQUEST);
 
 			return activeCategoryRepositoryCustom.updateActiveCategory(activeCategoryId, activeCategoryDto);
 

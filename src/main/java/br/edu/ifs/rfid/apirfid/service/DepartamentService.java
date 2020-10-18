@@ -106,6 +106,9 @@ public class DepartamentService implements IDepartamentService {
 		try {
 
 			this.getDepartamentById(departamentId);
+			
+			if (request.isEmpty())
+				throw new CustomException("Bad Request", HttpStatus.BAD_REQUEST);
 
 			return departamentRepositoryCustom.updateDepartament(departamentId, request);
 

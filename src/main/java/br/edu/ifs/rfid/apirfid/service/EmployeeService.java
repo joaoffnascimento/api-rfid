@@ -1,8 +1,6 @@
 package br.edu.ifs.rfid.apirfid.service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +16,8 @@ import br.edu.ifs.rfid.apirfid.exception.CustomException;
 import br.edu.ifs.rfid.apirfid.repository.UserRepository;
 import br.edu.ifs.rfid.apirfid.repository.interfaces.IEmployeeRepository;
 import br.edu.ifs.rfid.apirfid.service.interfaces.IEmployeeService;
-import br.edu.ifs.rfid.apirfid.shared.Auth;
 import br.edu.ifs.rfid.apirfid.shared.Constants;
-import io.jsonwebtoken.Jwts;
+import br.edu.ifs.rfid.apirfid.shared.FnUtil;
 
 @CacheConfig(cacheNames = "employee")
 @Service
@@ -39,16 +36,21 @@ public class EmployeeService implements IEmployeeService {
 	public Employee login(UserDto userDto) {
 		try {
 
-			String token = createToken(userDto);
+			String token = FnUtil.createToken(userDto);
 
 			Optional<Employee> findEmployee = Optional
-					.ofNullable(this.userRepository.findEmployeerByEmail(userDto.getEmail()));
+					.ofNullable(this.userRepository.findEmployeeByEmail(userDto.getEmail()));
 
 			if (!findEmployee.isPresent()) {
 				throw new CustomException("Employee not found!", HttpStatus.BAD_REQUEST);
 			}
 
 			Employee result = findEmployee.get();
+
+			Boolean pwdMatch = FnUtil.bcryptMatch(userDto.getPassword(), result.getPassword());
+
+			if (pwdMatch.equals(Boolean.FALSE))
+				throw new CustomException("Invalid password.", HttpStatus.FORBIDDEN);
 
 			userRepository.updateTokenUser(result.getId(), token);
 
@@ -67,18 +69,12 @@ public class EmployeeService implements IEmployeeService {
 		}
 	}
 
-	private String createToken(UserDto user) {
-		Map<String, Object> claims = new HashMap<>();
-		claims.put("usuarioSistema", user);
-		return Auth.createToken(Jwts.claims(claims));
-	}
-
 	@Override
 	public Employee createEmployee(EmployeeDto request) {
 		try {
 
 			Optional<Employee> findResult = Optional
-					.ofNullable(this.userRepository.findEmployeerByEmail(request.getEmail()));
+					.ofNullable(this.userRepository.findEmployeeByEmail(request.getEmail()));
 
 			if (findResult.isPresent()) {
 				throw new CustomException("Employee already exists", HttpStatus.BAD_REQUEST);
@@ -107,6 +103,26 @@ public class EmployeeService implements IEmployeeService {
 		try {
 
 			Optional<Employee> findResult = this.employeeRepository.findById(employeeId);
+
+			if (!findResult.isPresent()) {
+				throw new CustomException(Constants.getEmployeeNotFoundError(), HttpStatus.NOT_FOUND);
+			}
+
+			return findResult.get();
+
+		} catch (CustomException r) {
+			throw r;
+		} catch (Exception e) {
+			throw new CustomException(Constants.getInternalServerErrorMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	@CachePut(key = "#employeeEmail")
+	@Override
+	public Employee getEmployeeByEmail(String employeeEmail) {
+		try {
+
+			Optional<Employee> findResult = Optional.ofNullable(this.userRepository.findEmployeeByEmail(employeeEmail));
 
 			if (!findResult.isPresent()) {
 				throw new CustomException(Constants.getEmployeeNotFoundError(), HttpStatus.NOT_FOUND);
@@ -158,7 +174,33 @@ public class EmployeeService implements IEmployeeService {
 
 			this.getEmployeeById(employeeId);
 
+			if (employeeDto.isEmpty())
+				throw new CustomException("Bad Request", HttpStatus.BAD_REQUEST);
+
 			return userRepository.updateEmployee(employeeId, employeeDto);
+
+		} catch (CustomException r) {
+			throw r;
+		} catch (Exception e) {
+			throw new CustomException(Constants.getInternalServerErrorMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	@Override
+	public Employee changePassword(UserDto userDto) {
+		try {
+
+			Employee result = this.getEmployeeByEmail(userDto.getEmail());
+
+			if ((userDto.isEmpty()) || userDto.getOldPassword() == null)
+				throw new CustomException("Bad Request", HttpStatus.BAD_REQUEST);
+
+			Boolean oldPassMatch = FnUtil.bcryptMatch(userDto.getOldPassword(), result.getPassword());
+
+			if (oldPassMatch.equals(Boolean.FALSE))
+				throw new CustomException("Previous password entered is invalid.", HttpStatus.BAD_REQUEST);
+
+			return userRepository.changePassword(userDto);
 
 		} catch (CustomException r) {
 			throw r;

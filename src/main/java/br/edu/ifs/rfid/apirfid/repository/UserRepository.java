@@ -1,17 +1,22 @@
 package br.edu.ifs.rfid.apirfid.repository;
 
 import java.util.Date;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 
 import br.edu.ifs.rfid.apirfid.domain.Employee;
 import br.edu.ifs.rfid.apirfid.domain.User;
 import br.edu.ifs.rfid.apirfid.domain.dto.EmployeeDto;
+import br.edu.ifs.rfid.apirfid.domain.dto.UserDto;
+import br.edu.ifs.rfid.apirfid.exception.CustomException;
+import br.edu.ifs.rfid.apirfid.shared.FnUtil;
 
 @Repository
 public class UserRepository {
@@ -28,7 +33,7 @@ public class UserRepository {
 		return mongoTemplate.findOne(query, User.class);
 	}
 
-	public Employee findEmployeerByEmail(String email) {
+	public Employee findEmployeeByEmail(String email) {
 
 		Query query = new Query();
 
@@ -71,13 +76,19 @@ public class UserRepository {
 
 	public Employee updateEmployee(String employeerId, EmployeeDto employeeDto) {
 
+		Optional<Employee> findResult = Optional.ofNullable(findEmployeeByEmail(employeeDto.getEmail()));
+
+		if (findResult.isPresent()) {
+			throw new CustomException("Email already exists.", HttpStatus.NOT_FOUND);
+		}
+
 		Query query = new Query();
 
 		query.addCriteria(Criteria.where("id").is(employeerId));
 
 		Update update = new Update();
 
-		if (employeeDto.getMatSiape() != 0)
+		if (employeeDto.getMatSiape() != null)
 			update.set("matSiape", employeeDto.getMatSiape());
 
 		if (employeeDto.getNome() != null)
@@ -98,14 +109,32 @@ public class UserRepository {
 		if (employeeDto.getEmail() != null)
 			update.set("email", employeeDto.getEmail());
 
-		if (employeeDto.getPassword() != null)
-			update.set("password", employeeDto.getPassword());
+		// if (employeeDto.getPassword() != null)
+		// update.set("password", FnUtil.bcryptEncode(employeeDto.getPassword()));
 
 		update.set("updatedAt", new Date());
 
 		mongoTemplate.findAndModify(query, update, Employee.class);
 
 		return findEmployeerById(employeerId);
+	}
+
+	public Employee changePassword(UserDto userDto) {
+
+		Query query = new Query();
+
+		query.addCriteria(Criteria.where("email").is(userDto.getEmail()));
+
+		Update update = new Update();
+
+		if (userDto.getPassword() != null)
+			update.set("password", FnUtil.bcryptEncode(userDto.getPassword()));
+
+		update.set("updatedAt", new Date());
+
+		mongoTemplate.findAndModify(query, update, Employee.class);
+
+		return findEmployeeByEmail(userDto.getEmail());
 
 	}
 }

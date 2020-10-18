@@ -9,7 +9,6 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
-import br.edu.ifs.rfid.apirfid.domain.Active;
 import br.edu.ifs.rfid.apirfid.domain.Employee;
 import br.edu.ifs.rfid.apirfid.domain.User;
 import br.edu.ifs.rfid.apirfid.domain.dto.EmployeeDto;
@@ -104,7 +103,7 @@ public class UserRepository {
 
 		update.set("updatedAt", new Date());
 
-		mongoTemplate.findAndModify(query, update, Active.class);
+		mongoTemplate.findAndModify(query, update, Employee.class);
 
 		return findEmployeerById(employeerId);
 

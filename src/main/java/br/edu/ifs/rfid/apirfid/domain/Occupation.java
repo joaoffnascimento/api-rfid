@@ -22,11 +22,11 @@ public class Occupation extends Entity {
 
 	public Occupation createOccupation(String funcao, String descricao, Date dataInicioFuncao) {
 		Occupation occupation = new Occupation();
-		
+
 		occupation.funcao = funcao;
 		occupation.descricao = descricao;
 		occupation.dataInicioFuncao = dataInicioFuncao;
-		
+
 		return occupation;
 	}
 }

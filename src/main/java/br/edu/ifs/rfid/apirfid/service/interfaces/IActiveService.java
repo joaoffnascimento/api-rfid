@@ -14,7 +14,7 @@ public interface IActiveService {
 
 	public List<Active> getActivesByPatrimonio(final int patrimonio);
 	
-	public Boolean updateMovimentacao(int tipoMovimentacao, String activeId, int numPatrimoni);
+	public Boolean updateMovimentacao(int tipoMovimentacao, String activeId, String numPatrimonio);
 	
 	public Active getActiveById(String id);
 	

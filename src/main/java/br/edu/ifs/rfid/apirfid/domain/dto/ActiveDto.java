@@ -16,13 +16,15 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = false)
 public class ActiveDto extends Entity {
 
-	@Min(value = 1, message = "numeroPatrimonio number is required")
-	@Max(value = 10000, message = "numeroPatrimonio number is required")
-	private int numeroPatrimonio;
+	@NotBlank(message = "numeroPatrimonio number is required")
+	private String numeroPatrimonio;
 
 	@NotBlank(message = "ActiveCategory is required")
 	private String activeCategoryId;
 
+	@NotBlank(message = "departamentId is required")
+	private String departamentId;
+	
 	@NotBlank(message = "TagId is required")
 	private String tagId;
 
@@ -42,8 +44,8 @@ public class ActiveDto extends Entity {
 
 	private int lastMovimentacao;
 
-	public ActiveDto createActive(int numeroPatrimonio, String marca, String modelo, Date dataAquisicao,
-			Date dataFinalGarantia, Boolean hasGarantia, String activeCategoryId, String tagId) {
+	public ActiveDto createActive(String numeroPatrimonio, String marca, String modelo, Date dataAquisicao,
+			Date dataFinalGarantia, Boolean hasGarantia, String activeCategoryId, String departamentId, String tagId) {
 
 		ActiveDto activeDto = new ActiveDto();
 
@@ -54,6 +56,7 @@ public class ActiveDto extends Entity {
 		activeDto.dataFinalGarantia = dataFinalGarantia;
 		activeDto.hasGarantia = hasGarantia;
 
+		activeDto.departamentId = departamentId;
 		activeDto.activeCategoryId = activeCategoryId;
 		activeDto.tagId = tagId;
 

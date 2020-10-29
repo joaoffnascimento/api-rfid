@@ -16,11 +16,13 @@ import br.edu.ifs.rfid.apirfid.exception.CustomException;
 import br.edu.ifs.rfid.apirfid.middleware.RfidMiddleware;
 import br.edu.ifs.rfid.apirfid.repository.interfaces.IReaderRepository;
 import br.edu.ifs.rfid.apirfid.service.interfaces.IReaderService;
-import br.edu.ifs.rfid.apirfid.shared.Constants;
 
 @CacheConfig(cacheNames = "reader")
 @Service
 public class ReaderService implements IReaderService {
+
+	private static final String READER_NOT_FOUND_ERROR = "Reader not found!";
+	private static final String INTERNAL_SERVER_ERROR_MSG = "Internal Server Error, please contact our support";
 
 	private RfidMiddleware rfidMiddleware;
 	private IReaderRepository readerRepository;
@@ -53,7 +55,7 @@ public class ReaderService implements IReaderService {
 		} catch (CustomException r) {
 			throw r;
 		} catch (Exception e) {
-			throw new CustomException(Constants.getInternalServerErrorMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
+			throw new CustomException(INTERNAL_SERVER_ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -75,7 +77,7 @@ public class ReaderService implements IReaderService {
 		} catch (CustomException r) {
 			throw r;
 		} catch (Exception e) {
-			throw new CustomException(Constants.getInternalServerErrorMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
+			throw new CustomException(INTERNAL_SERVER_ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -87,7 +89,7 @@ public class ReaderService implements IReaderService {
 			Optional<Reader> findResult = this.readerRepository.findById(id);
 
 			if (!findResult.isPresent()) {
-				throw new CustomException(Constants.getReaderNotFoundError(), HttpStatus.NOT_FOUND);
+				throw new CustomException(READER_NOT_FOUND_ERROR, HttpStatus.NOT_FOUND);
 			}
 
 			return findResult.get();
@@ -95,7 +97,7 @@ public class ReaderService implements IReaderService {
 		} catch (CustomException r) {
 			throw r;
 		} catch (Exception e) {
-			throw new CustomException(Constants.getInternalServerErrorMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
+			throw new CustomException(INTERNAL_SERVER_ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -112,7 +114,7 @@ public class ReaderService implements IReaderService {
 		} catch (CustomException r) {
 			throw r;
 		} catch (Exception e) {
-			throw new CustomException(Constants.getInternalServerErrorMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
+			throw new CustomException(INTERNAL_SERVER_ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -125,7 +127,7 @@ public class ReaderService implements IReaderService {
 		} catch (CustomException e) {
 			return Boolean.FALSE;
 		} catch (Exception e) {
-			throw new CustomException(Constants.getInternalServerErrorMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
+			throw new CustomException(INTERNAL_SERVER_ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -138,7 +140,7 @@ public class ReaderService implements IReaderService {
 		} catch (CustomException e) {
 			return Boolean.FALSE;
 		} catch (Exception e) {
-			throw new CustomException(Constants.getInternalServerErrorMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
+			throw new CustomException(INTERNAL_SERVER_ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 }

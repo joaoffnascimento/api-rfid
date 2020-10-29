@@ -13,11 +13,13 @@ import br.edu.ifs.rfid.apirfid.exception.CustomException;
 import br.edu.ifs.rfid.apirfid.repository.TagRepository;
 import br.edu.ifs.rfid.apirfid.repository.interfaces.ITagRepository;
 import br.edu.ifs.rfid.apirfid.service.interfaces.ITagService;
-import br.edu.ifs.rfid.apirfid.shared.Constants;
 
 @CacheConfig(cacheNames = "tag")
 @Service
 public class TagService implements ITagService {
+
+	private static final String TAG_NOT_FOUND_ERROR = "Tag not found!";
+	private static final String INTERNAL_SERVER_ERROR_MSG = "Internal Server Error, please contact our support";
 
 	private ITagRepository tagRepository;
 	private TagRepository tagCustomRepository;
@@ -43,7 +45,7 @@ public class TagService implements ITagService {
 		} catch (CustomException r) {
 			throw r;
 		} catch (Exception e) {
-			throw new CustomException(Constants.getInternalServerErrorMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
+			throw new CustomException(INTERNAL_SERVER_ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -54,7 +56,7 @@ public class TagService implements ITagService {
 			Tag tag = this.tagCustomRepository.findByEpc(epc);
 
 			if (tag == null) {
-				throw new CustomException(Constants.getTagNotFoundError(), HttpStatus.NOT_FOUND);
+				throw new CustomException(TAG_NOT_FOUND_ERROR, HttpStatus.NOT_FOUND);
 			}
 
 			return tag;
@@ -62,7 +64,7 @@ public class TagService implements ITagService {
 		} catch (CustomException r) {
 			throw r;
 		} catch (Exception e) {
-			throw new CustomException(Constants.getInternalServerErrorMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
+			throw new CustomException(INTERNAL_SERVER_ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -75,7 +77,7 @@ public class TagService implements ITagService {
 		} catch (CustomException r) {
 			throw r;
 		} catch (Exception e) {
-			throw new CustomException(Constants.getInternalServerErrorMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
+			throw new CustomException(INTERNAL_SERVER_ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -86,7 +88,7 @@ public class TagService implements ITagService {
 			Tag tag = this.tagCustomRepository.findTagByActiveId(activeId);
 
 			if (tag == null) {
-				throw new CustomException(Constants.getTagNotFoundError(), HttpStatus.NOT_FOUND);
+				throw new CustomException(TAG_NOT_FOUND_ERROR, HttpStatus.NOT_FOUND);
 			}
 
 			return tag;
@@ -94,7 +96,7 @@ public class TagService implements ITagService {
 		} catch (CustomException r) {
 			throw r;
 		} catch (Exception e) {
-			throw new CustomException(Constants.getInternalServerErrorMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
+			throw new CustomException(INTERNAL_SERVER_ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 }

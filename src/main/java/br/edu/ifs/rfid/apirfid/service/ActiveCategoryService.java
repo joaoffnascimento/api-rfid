@@ -15,11 +15,12 @@ import br.edu.ifs.rfid.apirfid.exception.CustomException;
 import br.edu.ifs.rfid.apirfid.repository.ActiveCategoryRepository;
 import br.edu.ifs.rfid.apirfid.repository.interfaces.IActiveCategoryRepository;
 import br.edu.ifs.rfid.apirfid.service.interfaces.IActiveCategoryService;
-import br.edu.ifs.rfid.apirfid.shared.Constants;
 
 @CacheConfig(cacheNames = "activeCategory")
 @Service
 public class ActiveCategoryService implements IActiveCategoryService {
+
+	private static final String INTERNAL_SERVER_ERROR_MSG = "Internal Server Error, please contact our support";
 
 	private IActiveCategoryRepository activeCategoryRepository;
 	private ActiveCategoryRepository activeCategoryRepositoryCustom;
@@ -46,7 +47,7 @@ public class ActiveCategoryService implements IActiveCategoryService {
 		} catch (CustomException r) {
 			throw r;
 		} catch (Exception e) {
-			throw new CustomException(Constants.getInternalServerErrorMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
+			throw new CustomException(INTERNAL_SERVER_ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -65,7 +66,7 @@ public class ActiveCategoryService implements IActiveCategoryService {
 		} catch (CustomException r) {
 			throw r;
 		} catch (Exception e) {
-			throw new CustomException(Constants.getInternalServerErrorMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
+			throw new CustomException(INTERNAL_SERVER_ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -78,7 +79,7 @@ public class ActiveCategoryService implements IActiveCategoryService {
 		} catch (CustomException r) {
 			throw r;
 		} catch (Exception e) {
-			throw new CustomException(Constants.getInternalServerErrorMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
+			throw new CustomException(INTERNAL_SERVER_ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -87,7 +88,7 @@ public class ActiveCategoryService implements IActiveCategoryService {
 		try {
 
 			this.getActiveCategoryById(activeCategoryId);
-			
+
 			if (activeCategoryDto.isEmpty())
 				throw new CustomException("Bad Request", HttpStatus.BAD_REQUEST);
 
@@ -96,7 +97,7 @@ public class ActiveCategoryService implements IActiveCategoryService {
 		} catch (CustomException r) {
 			throw r;
 		} catch (Exception e) {
-			throw new CustomException(Constants.getInternalServerErrorMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
+			throw new CustomException(INTERNAL_SERVER_ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -113,7 +114,7 @@ public class ActiveCategoryService implements IActiveCategoryService {
 		} catch (CustomException r) {
 			throw r;
 		} catch (Exception e) {
-			throw new CustomException(Constants.getInternalServerErrorMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
+			throw new CustomException(INTERNAL_SERVER_ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 }

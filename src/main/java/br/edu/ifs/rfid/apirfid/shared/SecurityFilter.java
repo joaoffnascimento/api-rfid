@@ -23,31 +23,33 @@ import io.jsonwebtoken.UnsupportedJwtException;
 public class SecurityFilter extends GenericFilterBean {
 
 	@Override
-	public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain) throws IOException, ServletException {
+	public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain)
+			throws IOException, ServletException {
 		final HttpServletRequest request = (HttpServletRequest) servletRequest;
 		final HttpServletResponse response = (HttpServletResponse) servletResponse;
-		
-		if(request.getMethod().equalsIgnoreCase(HttpMethod.OPTIONS.name())) {
+
+		if (request.getMethod().equalsIgnoreCase(HttpMethod.OPTIONS.name())) {
 			chain.doFilter(servletRequest, servletResponse);
 			return;
 		}
-		
+
 		final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
 		final Claims claims;
-		
+
 		try {
 			claims = Auth.decodeToken(authHeader);
-		} catch(IllegalAccessException e) {
-			 response.sendError(HttpStatus.UNAUTHORIZED.value(), e.getMessage());
-		     return;
+		} catch (IllegalAccessException e) {
+			response.sendError(HttpStatus.UNAUTHORIZED.value(), e.getMessage());
+			return;
 		} catch (ExpiredJwtException e) {
-			response.sendError(HttpStatus.REQUEST_TIMEOUT.value(), "Opa, identificamos que você está a algum tempo sem acessar o sistema. Para sua segurança, logue novamente.");
+			response.sendError(HttpStatus.REQUEST_TIMEOUT.value(),
+					"Opa, identificamos que você está a algum tempo sem acessar o sistema. Para sua segurança, logue novamente.");
 			return;
 		} catch (UnsupportedJwtException | MalformedJwtException | SignatureException | IllegalArgumentException e) {
 			response.sendError(HttpStatus.FORBIDDEN.value(), e.getMessage());
 			return;
 		}
-		
+
 		refreshToken(response, claims);
 		chain.doFilter(servletRequest, servletResponse);
 	}

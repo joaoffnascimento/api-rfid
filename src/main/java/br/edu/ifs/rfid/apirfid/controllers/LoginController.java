@@ -34,7 +34,7 @@ public class LoginController {
 
 		return ResponseEntity.status(HttpStatus.OK).body(response);
 	}
-	
+
 	@PostMapping("/employee")
 	public ResponseEntity<Response<Employee>> createEmployee(@Valid @RequestBody EmployeeDto request) {
 
@@ -43,12 +43,12 @@ public class LoginController {
 		response.setData(employeeService.createEmployee(request));
 		response.setStatusCode(HttpStatus.OK.value());
 
-		response.add(WebMvcLinkBuilder
-				.linkTo(WebMvcLinkBuilder.methodOn(LoginController.class).createEmployee(request)).withSelfRel());
+		response.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(LoginController.class).createEmployee(request))
+				.withSelfRel());
 
 		return ResponseEntity.status(HttpStatus.CREATED).body(response);
 	}
-	
+
 	@PostMapping("/change-password")
 	public ResponseEntity<Response<Employee>> changePassword(@Valid @RequestBody UserDto request) {
 
@@ -57,8 +57,8 @@ public class LoginController {
 		response.setData(employeeService.changePassword(request));
 		response.setStatusCode(HttpStatus.OK.value());
 
-		response.add(WebMvcLinkBuilder
-				.linkTo(WebMvcLinkBuilder.methodOn(LoginController.class).changePassword(request)).withSelfRel());
+		response.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(LoginController.class).changePassword(request))
+				.withSelfRel());
 
 		return ResponseEntity.status(HttpStatus.CREATED).body(response);
 	}

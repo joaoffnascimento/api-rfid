@@ -21,11 +21,11 @@ public class Active extends Entity {
 	@Id
 	private String tagId;
 	@Id
-	private String locationId;
+	private String departamentId;
 	@Id
 	private String activeCategoryId;
 
-	private int numeroPatrimonio;
+	private String numeroPatrimonio;
 	private String marca;
 	private String modelo;
 	private Date dataAquisicao;
@@ -35,8 +35,8 @@ public class Active extends Entity {
 	private float dtFinalTMSTMP;
 	private int lastMovimentacao;
 
-	public Active createActive(int numeroPatrimonio, String marca, String modelo, Date dataAquisicao,
-			Date dataFinalGarantia, Boolean hasGarantia, String activeCategoryId, String tagId) {
+	public Active createActive(String numeroPatrimonio, String marca, String modelo, Date dataAquisicao,
+			Date dataFinalGarantia, Boolean hasGarantia, String activeCategoryId, String departamentId, String tagId) {
 
 		Active active = new Active();
 
@@ -46,12 +46,13 @@ public class Active extends Entity {
 		active.dataAquisicao = dataAquisicao;
 		active.dataFinalGarantia = dataFinalGarantia;
 		active.hasGarantia = hasGarantia;
-		
+
 		active.activeCategoryId = activeCategoryId;
+		active.departamentId = departamentId;
 		active.tagId = tagId;
 
 		active.lastMovimentacao = 0;
-		
+
 		active.dtAquisTMSTMP = System.currentTimeMillis();
 		active.dtFinalTMSTMP = System.currentTimeMillis();
 

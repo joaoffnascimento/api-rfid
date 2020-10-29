@@ -38,7 +38,8 @@ public class OccupationController {
 		response.setStatusCode(HttpStatus.CREATED.value());
 
 		response.add(WebMvcLinkBuilder
-				.linkTo(WebMvcLinkBuilder.methodOn(OccupationController.class).createOccupation(request)).withSelfRel());
+				.linkTo(WebMvcLinkBuilder.methodOn(OccupationController.class).createOccupation(request))
+				.withSelfRel());
 
 		return ResponseEntity.status(HttpStatus.CREATED).body(response);
 	}
@@ -56,9 +57,9 @@ public class OccupationController {
 
 		return ResponseEntity.status(HttpStatus.OK).body(response);
 	}
-	
+
 	@GetMapping
-	public ResponseEntity<Response<List<Occupation>>> getAllOccupations(){
+	public ResponseEntity<Response<List<Occupation>>> getAllOccupations() {
 		Response<List<Occupation>> response = new Response<>(true);
 
 		response.setData(occupationService.getAllOcuppations());
@@ -69,9 +70,10 @@ public class OccupationController {
 
 		return ResponseEntity.status(HttpStatus.OK).body(response);
 	}
-	
+
 	@PatchMapping("/{id}")
-	public ResponseEntity<Response<Occupation>> updateOccupation(@PathVariable String id, @RequestBody OccupationDto request) {
+	public ResponseEntity<Response<Occupation>> updateOccupation(@PathVariable String id,
+			@RequestBody OccupationDto request) {
 
 		Response<Occupation> response = new Response<>(true);
 
@@ -79,11 +81,12 @@ public class OccupationController {
 		response.setStatusCode(HttpStatus.OK.value());
 
 		response.add(WebMvcLinkBuilder
-				.linkTo(WebMvcLinkBuilder.methodOn(OccupationController.class).createOccupation(request)).withSelfRel());
+				.linkTo(WebMvcLinkBuilder.methodOn(OccupationController.class).createOccupation(request))
+				.withSelfRel());
 
 		return ResponseEntity.status(HttpStatus.OK).body(response);
 	}
-	
+
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Response<Boolean>> deleteOccupation(@PathVariable String id) {
 		Response<Boolean> response = new Response<>(true);
@@ -91,8 +94,8 @@ public class OccupationController {
 		response.setData(occupationService.deleteOccupation(id));
 		response.setStatusCode(HttpStatus.OK.value());
 
-		response.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(OccupationController.class).deleteOccupation(id))
-				.withSelfRel());
+		response.add(WebMvcLinkBuilder
+				.linkTo(WebMvcLinkBuilder.methodOn(OccupationController.class).deleteOccupation(id)).withSelfRel());
 
 		return ResponseEntity.status(HttpStatus.OK).body(response);
 	}

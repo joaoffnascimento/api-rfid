@@ -85,7 +85,7 @@ public class ActiveRepository {
 
 		Update update = new Update();
 
-		if (activeDto.getNumeroPatrimonio() != 0)
+		if (activeDto.getNumeroPatrimonio() != null)
 			update.set("numeroPatrimonio", activeDto.getNumeroPatrimonio());
 
 		if (activeDto.getActiveCategoryId() != null)

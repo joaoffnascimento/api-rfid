@@ -47,7 +47,7 @@ public class ActiveService implements IActiveService {
 
 			active = active.createActive(request.getNumeroPatrimonio(), request.getMarca(), request.getModelo(),
 					request.getDataAquisicao(), request.getDataFinalGarantia(), request.getHasGarantia(),
-					request.getActiveCategoryId(), request.getTagId());
+					request.getActiveCategoryId(), request.getDepartamentId(), request.getTagId());
 
 			this.activeRepository.save(active);
 
@@ -126,7 +126,7 @@ public class ActiveService implements IActiveService {
 	}
 
 	@Override
-	public Boolean updateMovimentacao(int tipoMovimentacao, String activeId, int numPatrimonio) {
+	public Boolean updateMovimentacao(int tipoMovimentacao, String activeId, String numPatrimonio) {
 		try {
 
 			MovementHistory movementHistory = new MovementHistory();

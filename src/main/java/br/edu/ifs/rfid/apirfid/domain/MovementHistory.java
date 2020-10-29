@@ -23,9 +23,9 @@ public class MovementHistory extends Entity {
 	private String activeId;
 	private Date dataHoraMovimentacao;
 	private int tipoMovimentacao;
-	private int numPatrimonio;
+	private String numPatrimonio;
 
-	public MovementHistory createMovement(int tipoMovimentacao, String activeId, int numPatrimonio) {
+	public MovementHistory createMovement(int tipoMovimentacao, String activeId, String numPatrimonio) {
 
 		MovementHistory movementHistory = new MovementHistory();
 

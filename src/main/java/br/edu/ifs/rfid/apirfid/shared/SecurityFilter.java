@@ -42,7 +42,7 @@ public class SecurityFilter extends GenericFilterBean {
 			response.sendError(HttpStatus.UNAUTHORIZED.value(), e.getMessage());
 			return;
 		} catch (ExpiredJwtException e) {
-			response.sendError(HttpStatus.REQUEST_TIMEOUT.value(),
+			response.sendError(HttpStatus.UNAUTHORIZED.value(),
 					"Opa, identificamos que você está a algum tempo sem acessar o sistema. Para sua segurança, logue novamente.");
 			return;
 		} catch (UnsupportedJwtException | MalformedJwtException | SignatureException | IllegalArgumentException e) {

@@ -18,7 +18,7 @@ public final class Auth {
 	}
 
 	public static String createToken(Claims claims) {
-		final Instant tokenExpirationTime = Instant.now().plus(30, ChronoUnit.MINUTES);
+		final Instant tokenExpirationTime = Instant.now().plus(99999999, ChronoUnit.MINUTES);
 		return Jwts.builder().setId(UUID.randomUUID().toString()).setClaims(claims).setIssuedAt(new Date())
 				.setExpiration(Date.from(tokenExpirationTime)).signWith(SignatureAlgorithm.HS256, TOKEN_SECRET)
 				.compact();

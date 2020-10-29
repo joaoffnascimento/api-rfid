@@ -37,15 +37,13 @@ public class ActiveDto extends Entity {
 	private Date dataAquisicao;
 	private Date dataFinalGarantia;
 
-	private Boolean hasGarantia;
-
 	private float dtAquisTMSTMP;
 	private float dtFinalTMSTMP;
 
 	private int lastMovimentacao;
 
 	public ActiveDto createActive(String numeroPatrimonio, String marca, String modelo, Date dataAquisicao,
-			Date dataFinalGarantia, Boolean hasGarantia, String activeCategoryId, String departamentId, String tagId) {
+			Date dataFinalGarantia, String activeCategoryId, String departamentId, String tagId) {
 
 		ActiveDto activeDto = new ActiveDto();
 
@@ -54,7 +52,6 @@ public class ActiveDto extends Entity {
 		activeDto.modelo = modelo;
 		activeDto.dataAquisicao = dataAquisicao;
 		activeDto.dataFinalGarantia = dataFinalGarantia;
-		activeDto.hasGarantia = hasGarantia;
 
 		activeDto.departamentId = departamentId;
 		activeDto.activeCategoryId = activeCategoryId;

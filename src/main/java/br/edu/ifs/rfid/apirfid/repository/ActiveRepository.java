@@ -106,9 +106,6 @@ public class ActiveRepository {
 		if (activeDto.getDataFinalGarantia() != null)
 			update.set("dataFinalGarantia", activeDto.getDataFinalGarantia());
 
-		if (activeDto.getHasGarantia() != null)
-			update.set("hasGarantia", activeDto.getHasGarantia());
-
 		if (activeDto.getDtAquisTMSTMP() != 0)
 			update.set("dtAquisTMSTMP", activeDto.getDtAquisTMSTMP());
 

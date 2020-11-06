@@ -58,11 +58,13 @@ import org.llrp.ltk.types.UnsignedShortArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import br.edu.ifs.rfid.apirfid.domain.Active;
 import br.edu.ifs.rfid.apirfid.domain.MovementHistory;
 import br.edu.ifs.rfid.apirfid.domain.Tag;
+import br.edu.ifs.rfid.apirfid.exception.CustomException;
 import br.edu.ifs.rfid.apirfid.service.ActiveService;
 import br.edu.ifs.rfid.apirfid.service.TagService;
 import br.edu.ifs.rfid.apirfid.shared.FnUtil;
@@ -80,6 +82,7 @@ public class RfidMiddleware implements LLRPEndpoint {
 	private static final int READ_OPSPEC_ID = 1212;
 	private static final int TIMEOUT_MS = 10000;
 	private static final int ROSPEC_ID = 123;
+	private Boolean conectado = false;
 
 	protected static final List<String> epcList = new ArrayList<>();
 
@@ -325,37 +328,6 @@ public class RfidMiddleware implements LLRPEndpoint {
 		logger.error(s);
 	}
 
-	public Boolean connect(String hostname) {
-
-		try {
-
-			reader = new LLRPConnector(this, hostname);
-
-			((LLRPConnector) reader).connect();
-
-			logger.info("Connected successfully!");
-
-			return Boolean.TRUE;
-
-		} catch (LLRPConnectionAttemptFailedException e) {
-			return Boolean.FALSE;
-		}
-	}
-
-	public Boolean disconnect() {
-		try {
-
-			((LLRPConnector) reader).disconnect();
-
-			logger.info("Successfully Disconnected!");
-
-			return Boolean.TRUE;
-
-		} catch (Exception e) {
-			return Boolean.FALSE;
-		}
-	}
-
 	public Boolean enableAccessSpec(int accessSpecID) {
 
 		try {
@@ -418,15 +390,47 @@ public class RfidMiddleware implements LLRPEndpoint {
 		}
 	}
 
+	public Boolean connect(String hostname) {
+
+		try {
+
+			reader = new LLRPConnector(this, hostname);
+
+			((LLRPConnector) reader).connect();
+
+			logger.info("Connected successfully!");
+
+			return Boolean.TRUE;
+
+		} catch (LLRPConnectionAttemptFailedException e) {
+			return Boolean.FALSE;
+		}
+	}
+	
+	public Boolean disconnect() {
+		try {
+
+			((LLRPConnector) reader).disconnect();
+
+			logger.info("Successfully Disconnected!");
+
+			return Boolean.TRUE;
+
+		} catch (Exception e) {
+			return Boolean.FALSE;
+		}
+	}
+
 	public Boolean run(String hostname) {
 
 		try {
 
 			logger.info("1 - Connecting to the Reader");
+							
 			Boolean connect = connect(hostname);
 
 			if (Boolean.FALSE.equals(connect))
-				return Boolean.FALSE;
+				throw new CustomException("Error: Cannot connect to the reader!", HttpStatus.INTERNAL_SERVER_ERROR);
 
 			logger.info("2 - Deselecting Accespecs");
 			deleteAccessSpecs();
@@ -448,21 +452,28 @@ public class RfidMiddleware implements LLRPEndpoint {
 
 			logger.info("8 - Starting ROSPec");
 			startROSpec();
+			
+			this.setConectado(Boolean.TRUE);
 
 			return Boolean.TRUE;
 
-		} catch (Exception e) {
-			return Boolean.FALSE;
+		} catch (CustomException e) {
+			throw new CustomException("Error: Cannot connect to the address provided!", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
 	public Boolean stop() {
 		try {
+			
+			if(Boolean.FALSE.equals(this.getConectado()))
+				throw new CustomException("Reader is disconnected!", HttpStatus.BAD_REQUEST);
 
 			logger.info("1 - Delete AccessSpecs");
+			
 			Boolean deleteAccessSpecs = deleteAccessSpecs();
+			
 			if (Boolean.FALSE.equals(deleteAccessSpecs))
-				return Boolean.FALSE;
+				throw new CustomException("Unexpected error when disconnecting from reader!", HttpStatus.INTERNAL_SERVER_ERROR);
 
 			logger.info("2 - Delete ROSPec");
 			deleteROSpecs();
@@ -470,10 +481,12 @@ public class RfidMiddleware implements LLRPEndpoint {
 			logger.info("3 - Disconnecting from the Reader");
 			disconnect();
 
+			this.setConectado(Boolean.FALSE);
+			
 			return Boolean.TRUE;
 
-		} catch (Exception e) {
-			return Boolean.FALSE;
+		} catch (CustomException e) {
+			throw new CustomException("Unexpected error when disconnecting from reader!", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -566,9 +579,9 @@ public class RfidMiddleware implements LLRPEndpoint {
 				String epc = ((EPC_96) tag.getEPCParameter()).getEPC().toString();
 
 				logger.info("captured EPC code: " + epc);
-				
+
 				tagService.saveLastEpcRead(epc);
-				
+
 				if (!RfidMiddleware.epcList.contains(epc)) {
 
 					RfidMiddleware.epcList.add(epc);
@@ -590,10 +603,5 @@ public class RfidMiddleware implements LLRPEndpoint {
 				}
 			}
 		}
-	}
-
-	@Override
-	public String toString() {
-		return "Middleware_LLRP SistemaMonitoramentodeAtivos";
 	}
 }

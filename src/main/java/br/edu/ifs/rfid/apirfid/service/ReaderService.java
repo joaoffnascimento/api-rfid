@@ -125,7 +125,7 @@ public class ReaderService implements IReaderService {
 			return this.rfidMiddleware.run(request.getIp());
 
 		} catch (CustomException e) {
-			return Boolean.FALSE;
+			throw e;
 		} catch (Exception e) {
 			throw new CustomException(INTERNAL_SERVER_ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -138,7 +138,7 @@ public class ReaderService implements IReaderService {
 			return this.rfidMiddleware.stop();
 
 		} catch (CustomException e) {
-			return Boolean.FALSE;
+			throw e;
 		} catch (Exception e) {
 			throw new CustomException(INTERNAL_SERVER_ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
 		}

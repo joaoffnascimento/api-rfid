@@ -23,7 +23,7 @@ import br.edu.ifs.rfid.apirfid.service.ReaderService;
 import br.edu.ifs.rfid.apirfid.shared.Response;
 
 @RestController
-@RequestMapping("/api/reader")
+@RequestMapping("/v1/reader")
 public class ReaderController {
 	@Autowired
 	private ReaderService readerService;

@@ -23,7 +23,7 @@ import br.edu.ifs.rfid.apirfid.service.ActiveCategoryService;
 import br.edu.ifs.rfid.apirfid.shared.Response;
 
 @RestController
-@RequestMapping("/api/active-category")
+@RequestMapping("/v1/active-category")
 public class ActiveCategoryController {
 
 	@Autowired

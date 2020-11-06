@@ -23,7 +23,7 @@ import br.edu.ifs.rfid.apirfid.service.OccupationService;
 import br.edu.ifs.rfid.apirfid.shared.Response;
 
 @RestController
-@RequestMapping("/api/occupation")
+@RequestMapping("/v1/occupation")
 public class OccupationController {
 
 	@Autowired

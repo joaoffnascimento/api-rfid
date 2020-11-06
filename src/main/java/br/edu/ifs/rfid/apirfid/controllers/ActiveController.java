@@ -24,7 +24,7 @@ import br.edu.ifs.rfid.apirfid.service.ActiveService;
 import br.edu.ifs.rfid.apirfid.shared.Response;
 
 @RestController
-@RequestMapping("/api/active")
+@RequestMapping("/v1/active")
 public class ActiveController {
 
 	@Autowired

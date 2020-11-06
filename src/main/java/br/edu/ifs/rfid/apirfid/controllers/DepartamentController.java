@@ -23,7 +23,7 @@ import br.edu.ifs.rfid.apirfid.service.DepartamentService;
 import br.edu.ifs.rfid.apirfid.shared.Response;
 
 @RestController
-@RequestMapping("/api/departament")
+@RequestMapping("/v1/departament")
 public class DepartamentController {
 
 	@Autowired

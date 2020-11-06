@@ -20,7 +20,7 @@ import br.edu.ifs.rfid.apirfid.service.EmployeeService;
 import br.edu.ifs.rfid.apirfid.shared.Response;
 
 @RestController
-@RequestMapping("/api/employee")
+@RequestMapping("/v1/employee")
 public class EmployeeController {
 
 	private EmployeeService employeeService;

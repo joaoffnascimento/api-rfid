@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.edu.ifs.rfid.apirfid.domain.Epc;
 import br.edu.ifs.rfid.apirfid.domain.Tag;
 import br.edu.ifs.rfid.apirfid.domain.dto.TagDto;
 import br.edu.ifs.rfid.apirfid.service.TagService;
@@ -99,7 +100,6 @@ public class TagController {
 	}
 	
 	@PatchMapping("/{tagId}")
-	
 	public ResponseEntity<Response<Tag>> updateTag(@PathVariable String tagId, @RequestBody TagDto tagDto){
 		Response<Tag> response = new Response<>(true);
 
@@ -112,4 +112,16 @@ public class TagController {
 		return ResponseEntity.status(HttpStatus.OK).body(response);
 	}
 	
+	@GetMapping("/epc")
+	public ResponseEntity<Response<Epc>> getLastEpcRead(){
+		Response<Epc> response = new Response<>(true);
+		
+		response.setData(tagService.getLastEpcRead());
+		response.setStatusCode(HttpStatus.OK.value());
+		
+		response.add(WebMvcLinkBuilder
+				.linkTo(WebMvcLinkBuilder.methodOn(TagController.class).getLastEpcRead()).withSelfRel());
+
+		return ResponseEntity.status(HttpStatus.OK).body(response);
+	}
 }

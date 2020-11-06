@@ -8,9 +8,12 @@ import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import br.edu.ifs.rfid.apirfid.domain.Epc;
 import br.edu.ifs.rfid.apirfid.domain.Tag;
 import br.edu.ifs.rfid.apirfid.domain.dto.TagDto;
 import br.edu.ifs.rfid.apirfid.exception.CustomException;
+import br.edu.ifs.rfid.apirfid.repository.EpcRepository;
+import br.edu.ifs.rfid.apirfid.repository.IEpcRepository;
 import br.edu.ifs.rfid.apirfid.repository.TagRepository;
 import br.edu.ifs.rfid.apirfid.repository.interfaces.ITagRepository;
 import br.edu.ifs.rfid.apirfid.service.interfaces.ITagService;
@@ -21,14 +24,18 @@ public class TagService implements ITagService {
 
 	private static final String TAG_NOT_FOUND_ERROR = "Tag not found!";
 	private static final String INTERNAL_SERVER_ERROR_MSG = "Internal Server Error, please contact our support";
-
+	
+	private EpcRepository epcRepositoryCustom;
+	private IEpcRepository epcRepository;
 	private ITagRepository tagRepository;
 	private TagRepository tagCustomRepository;
 
 	@Autowired
-	public TagService(ITagRepository tagRepository, TagRepository tagCustomRepository) {
+	public TagService(ITagRepository tagRepository, TagRepository tagCustomRepository, IEpcRepository epcRepository, EpcRepository epcRepositoryCustom) {
 		this.tagRepository = tagRepository;
 		this.tagCustomRepository = tagCustomRepository;
+		this.epcRepository = epcRepository;
+		this.epcRepositoryCustom = epcRepositoryCustom;
 	}
 
 	@Override
@@ -125,11 +132,11 @@ public class TagService implements ITagService {
 			throw new CustomException(INTERNAL_SERVER_ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	
+
 	@Override
 	public Tag updateTag(String tagId, TagDto tagDto) {
 		try {
-			
+
 			Optional<Tag> findResult = this.tagRepository.findById(tagId);
 
 			if (!findResult.isPresent()) {
@@ -137,10 +144,10 @@ public class TagService implements ITagService {
 			}
 
 			return tagCustomRepository.updateTag(tagId, tagDto);
-			
-		} catch(CustomException r) {
+
+		} catch (CustomException r) {
 			throw r;
-		} catch(Exception e) {
+		} catch (Exception e) {
 			throw new CustomException(INTERNAL_SERVER_ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
@@ -164,6 +171,36 @@ public class TagService implements ITagService {
 			this.tagRepository.deleteById(tagId);
 
 			return true;
+
+		} catch (CustomException r) {
+			throw r;
+		} catch (Exception e) {
+			throw new CustomException(INTERNAL_SERVER_ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	@Override
+	public void saveLastEpcRead(String epc) {
+		try {
+			
+			Epc epcObj = new Epc();
+			
+			epcObj = epcObj.createEpc(epc);
+			
+			epcRepository.save(epcObj);
+
+		} catch (CustomException r) {
+			throw r;
+		} catch (Exception e) {
+			throw new CustomException(INTERNAL_SERVER_ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	@Override
+	public Epc getLastEpcRead() {
+		try {
+			
+			return epcRepositoryCustom.getLastEpc();
 
 		} catch (CustomException r) {
 			throw r;

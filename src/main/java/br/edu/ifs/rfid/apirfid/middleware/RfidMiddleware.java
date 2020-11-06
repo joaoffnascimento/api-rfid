@@ -566,7 +566,9 @@ public class RfidMiddleware implements LLRPEndpoint {
 				String epc = ((EPC_96) tag.getEPCParameter()).getEPC().toString();
 
 				logger.info("captured EPC code: " + epc);
-
+				
+				tagService.saveLastEpcRead(epc);
+				
 				if (!RfidMiddleware.epcList.contains(epc)) {
 
 					RfidMiddleware.epcList.add(epc);

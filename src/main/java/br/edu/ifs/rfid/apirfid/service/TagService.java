@@ -1,6 +1,7 @@
 package br.edu.ifs.rfid.apirfid.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
@@ -31,8 +32,33 @@ public class TagService implements ITagService {
 	}
 
 	@Override
+	public Tag getTagById(String tagId) {
+		try {
+
+			Optional<Tag> findResult = this.tagRepository.findById(tagId);
+
+			if (!findResult.isPresent()) {
+				throw new CustomException("Tag not found.", HttpStatus.NOT_FOUND);
+			}
+
+			return findResult.get();
+
+		} catch (CustomException r) {
+			throw r;
+		} catch (Exception e) {
+			throw new CustomException(INTERNAL_SERVER_ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	@Override
 	public Tag createTag(TagDto request) {
 		try {
+
+			Optional<Tag> findResult = Optional.ofNullable(this.tagCustomRepository.findByEpc(request.getEpc()));
+
+			if (findResult.isPresent()) {
+				throw new CustomException("EPC already exists", HttpStatus.BAD_REQUEST);
+			}
 
 			Tag tag = new Tag();
 
@@ -53,13 +79,13 @@ public class TagService implements ITagService {
 	public Tag getTagByEpc(String epc) {
 		try {
 
-			Tag tag = this.tagCustomRepository.findByEpc(epc);
+			Optional<Tag> findResult = Optional.ofNullable(this.tagCustomRepository.findByEpc(epc));
 
-			if (tag == null) {
+			if (!findResult.isPresent()) {
 				throw new CustomException(TAG_NOT_FOUND_ERROR, HttpStatus.NOT_FOUND);
 			}
 
-			return tag;
+			return findResult.get();
 
 		} catch (CustomException r) {
 			throw r;
@@ -85,13 +111,59 @@ public class TagService implements ITagService {
 	public Tag getTagByActiveId(String activeId) {
 		try {
 
-			Tag tag = this.tagCustomRepository.findTagByActiveId(activeId);
+			Optional<Tag> findResult = Optional.ofNullable(this.tagCustomRepository.findTagByActiveId(activeId));
 
-			if (tag == null) {
+			if (!findResult.isPresent()) {
 				throw new CustomException(TAG_NOT_FOUND_ERROR, HttpStatus.NOT_FOUND);
 			}
 
-			return tag;
+			return findResult.get();
+
+		} catch (CustomException r) {
+			throw r;
+		} catch (Exception e) {
+			throw new CustomException(INTERNAL_SERVER_ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	@Override
+	public Tag updateTag(String tagId, TagDto tagDto) {
+		try {
+			
+			Optional<Tag> findResult = this.tagRepository.findById(tagId);
+
+			if (!findResult.isPresent()) {
+				throw new CustomException("Tag not found.", HttpStatus.NOT_FOUND);
+			}
+
+			return tagCustomRepository.updateTag(tagId, tagDto);
+			
+		} catch(CustomException r) {
+			throw r;
+		} catch(Exception e) {
+			throw new CustomException(INTERNAL_SERVER_ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	@Override
+	public Boolean deleteTag(String tagId) {
+		try {
+
+			Optional<Tag> findResult = this.tagRepository.findById(tagId);
+
+			if (!findResult.isPresent()) {
+				throw new CustomException("Tag not found.", HttpStatus.NOT_FOUND);
+			}
+
+			Tag tag = findResult.get();
+
+			if (tag.getActiveId() != (null)) {
+				throw new CustomException("Tag associated to activeId.: " + tag.getActiveId(), HttpStatus.BAD_REQUEST);
+			}
+
+			this.tagRepository.deleteById(tagId);
+
+			return true;
 
 		} catch (CustomException r) {
 			throw r;

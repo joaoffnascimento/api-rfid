@@ -2,8 +2,6 @@ package br.edu.ifs.rfid.apirfid.domain.dto;
 
 import java.util.Date;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 
 import br.edu.ifs.rfid.apirfid.domain.Entity;
@@ -24,7 +22,7 @@ public class ActiveDto extends Entity {
 
 	@NotBlank(message = "departamentId is required")
 	private String departamentId;
-	
+
 	@NotBlank(message = "TagId is required")
 	private String tagId;
 

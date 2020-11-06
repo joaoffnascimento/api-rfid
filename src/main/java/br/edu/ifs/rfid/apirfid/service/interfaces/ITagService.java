@@ -6,6 +6,8 @@ import br.edu.ifs.rfid.apirfid.domain.Tag;
 import br.edu.ifs.rfid.apirfid.domain.dto.TagDto;
 
 public interface ITagService {
+	
+	public Tag getTagById(String id);
 
 	public Tag createTag(TagDto tag);
 
@@ -14,4 +16,8 @@ public interface ITagService {
 	public Tag getTagByActiveId(String activeId);
 
 	public List<Tag> getAllTags();
+	
+	public Boolean deleteTag(String tagId);
+	
+	public Tag updateTag(String tagId, TagDto tagDto);
 }

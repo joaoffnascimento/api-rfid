@@ -13,8 +13,8 @@ import br.edu.ifs.rfid.apirfid.domain.Tag;
 import br.edu.ifs.rfid.apirfid.domain.dto.TagDto;
 import br.edu.ifs.rfid.apirfid.exception.CustomException;
 import br.edu.ifs.rfid.apirfid.repository.EpcRepository;
-import br.edu.ifs.rfid.apirfid.repository.IEpcRepository;
 import br.edu.ifs.rfid.apirfid.repository.TagRepository;
+import br.edu.ifs.rfid.apirfid.repository.interfaces.IEpcRepository;
 import br.edu.ifs.rfid.apirfid.repository.interfaces.ITagRepository;
 import br.edu.ifs.rfid.apirfid.service.interfaces.ITagService;
 

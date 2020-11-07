@@ -28,11 +28,11 @@ public class FnUtil {
 
 	public static Boolean isToMove(Boolean calculaTempo, long timeSinceLastMove) {
 
-		if (!calculaTempo && timeSinceLastMove < 5) {
-			return Boolean.FALSE;
+		if (calculaTempo && timeSinceLastMove > 5) {
+			return Boolean.TRUE;
 		}
 
-		return Boolean.TRUE;
+		return Boolean.FALSE;
 	}
 
 	public static long diferencaEmMinutos(MovementHistory historico) {

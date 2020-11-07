@@ -1,7 +1,5 @@
 package br.edu.ifs.rfid.apirfid.repository;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -21,15 +19,13 @@ public class MovementHistoryRepository {
 
 		Query query = new Query();
 
+		query.with(Sort.by(Sort.Direction.DESC, "createdAt"));
+
 		query.addCriteria(Criteria.where("activeId").is(activeId))
 				.with(Sort.by(Sort.Direction.DESC, "dataHoraMovimentacao"));
 
-		List<MovementHistory> result = mongoTemplate.find(query, MovementHistory.class);
+		query.limit(1);
 
-		if (result.isEmpty()) {
-			return null;
-		}
-
-		return result.get(0);
+		return mongoTemplate.findOne(query, MovementHistory.class);
 	}
 }

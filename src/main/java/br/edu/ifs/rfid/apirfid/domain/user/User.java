@@ -1,7 +1,10 @@
-package br.edu.ifs.rfid.apirfid.domain;
+package br.edu.ifs.rfid.apirfid.domain.user;
+
+import java.util.List;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import br.edu.ifs.rfid.apirfid.domain.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -17,6 +20,7 @@ public class User extends Entity {
 	private String email;
 	private String password;
 	private String token;
+	private List<Role> roles;
 
 	public User createUser(String email, String password) {
 		User user = new User();

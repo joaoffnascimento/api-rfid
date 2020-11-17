@@ -87,6 +87,20 @@ public class ActiveController {
 
 		return ResponseEntity.status(HttpStatus.OK).body(response);
 	}
+	
+	@GetMapping("/departament/{departamentId}")
+	public ResponseEntity<Response<List<Active>>> getActivesByDepartamentId(@PathVariable String departamentId) {
+
+		Response<List<Active>> response = new Response<>(true);
+
+		response.setData(activeService.getActivesByDepartamentId(departamentId));
+		response.setStatusCode(HttpStatus.OK.value());
+
+		response.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(ActiveController.class).getActivesByDepartamentId(departamentId))
+				.withSelfRel());
+
+		return ResponseEntity.status(HttpStatus.OK).body(response);
+	}
 
 	@DeleteMapping("/{activeId}")
 	public ResponseEntity<Response<Boolean>> deleteActive(@PathVariable String activeId) {

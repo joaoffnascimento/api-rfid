@@ -170,6 +170,20 @@ public class ActiveService implements IActiveService {
 			throw new CustomException(INTERNAL_SERVER_ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
+	@CachePut(unless = "#result.size() < 10")
+	@Override
+	public List<Active> getActivesByDepartamentId(String departamentId) {
+		try {
+
+			return this.activeCustomRepository.getActivesByDepartamentId(departamentId);
+
+		} catch (CustomException r) {
+			throw r;
+		} catch (Exception e) {
+			throw new CustomException(INTERNAL_SERVER_ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 
 	@Override
 	public Boolean deleteActive(String activeId) {

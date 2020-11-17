@@ -67,6 +67,15 @@ public class ActiveRepository {
 
 		return mongoTemplate.find(query, Active.class);
 	}
+	
+	public List<Active> getActivesByDepartamentId(String departamentId) {
+
+		Query query = new Query();
+
+		query.addCriteria(Criteria.where("departamentId").is(departamentId));
+
+		return mongoTemplate.find(query, Active.class);
+	}
 
 	public Active findActiveById(String id) {
 
@@ -90,6 +99,9 @@ public class ActiveRepository {
 
 		if (activeDto.getActiveCategoryId() != null)
 			update.set("activeCategoryId", activeDto.getActiveCategoryId());
+		
+		if (activeDto.getDepartamentId() != null)
+			update.set("departamentId", activeDto.getDepartamentId());
 
 		if (activeDto.getTagId() != null)
 			update.set("tagId", activeDto.getTagId());

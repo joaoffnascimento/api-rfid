@@ -27,4 +27,6 @@ public interface IActiveService {
 	public Boolean deleteActive(String activeId);
 	
 	public Active updateActive(String activeId, ActiveDto activeDto);
+	
+	public List<Active> getActivesByDepartamentId(String departamentId);
 }

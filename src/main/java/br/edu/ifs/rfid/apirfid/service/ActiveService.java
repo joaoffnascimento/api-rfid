@@ -1,7 +1,5 @@
 package br.edu.ifs.rfid.apirfid.service;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -47,8 +45,9 @@ public class ActiveService implements IActiveService {
 		try {
 			Active active = new Active();
 
-			if(request.getDataAquisicao().compareTo(request.getDataFinalGarantia()) > 0) {
-				throw new CustomException("dataAquisicao não pode ser maior que a data de garantia", HttpStatus.BAD_REQUEST);
+			if (request.getDataAquisicao().compareTo(request.getDataFinalGarantia()) > 0) {
+				throw new CustomException("dataAquisicao não pode ser maior que a data de garantia",
+						HttpStatus.BAD_REQUEST);
 			}
 
 			active = active.createActive(request.getNumeroPatrimonio(), request.getMarca(), request.getModelo(),

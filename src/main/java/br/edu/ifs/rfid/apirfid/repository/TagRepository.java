@@ -1,6 +1,7 @@
 package br.edu.ifs.rfid.apirfid.repository;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +49,15 @@ public class TagRepository {
 		return mongoTemplate.findOne(query, Tag.class);
 	}
 
+	public List<Tag> getTagsWithoutActiveId() {
+
+		Query query = new Query();
+
+		query.addCriteria(Criteria.where("activeId").is(null));
+
+		return mongoTemplate.find(query, Tag.class);
+	}
+	
 	public Tag updateTag(String tagId, TagDto tagDto) {
 
 		Optional<Tag> findResult = Optional.ofNullable(findTagById(tagId));

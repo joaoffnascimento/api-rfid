@@ -132,6 +132,21 @@ public class TagService implements ITagService {
 			throw new CustomException(INTERNAL_SERVER_ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
+	@Override
+	public List<Tag> getTagsWithoutActiveId() {
+		try {
+
+			Optional<List<Tag>> findResult = Optional.ofNullable(this.tagCustomRepository.getTagsWithoutActiveId());
+
+			return findResult.get();
+
+		} catch (CustomException r) {
+			throw r;
+		} catch (Exception e) {
+			throw new CustomException(INTERNAL_SERVER_ERROR_MSG, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 
 	@Override
 	public Tag updateTag(String tagId, TagDto tagDto) {

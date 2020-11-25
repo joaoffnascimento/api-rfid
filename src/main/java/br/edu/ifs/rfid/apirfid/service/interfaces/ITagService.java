@@ -18,6 +18,8 @@ public interface ITagService {
 
 	public List<Tag> getAllTags();
 	
+	public List<Tag> getTagsWithoutActiveId();
+	
 	public Boolean deleteTag(String tagId);
 	
 	public Tag updateTag(String tagId, TagDto tagDto);

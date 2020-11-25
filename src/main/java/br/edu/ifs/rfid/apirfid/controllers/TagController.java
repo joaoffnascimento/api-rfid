@@ -124,4 +124,17 @@ public class TagController {
 
 		return ResponseEntity.status(HttpStatus.OK).body(response);
 	}
+	
+	@GetMapping("/without-active")
+	public ResponseEntity<Response<List<Tag>>> getTagsWithoutActiveId(){
+		Response<List<Tag>> response = new Response<>(true);
+		
+		response.setData(tagService.getTagsWithoutActiveId());
+		response.setStatusCode(HttpStatus.OK.value());
+		
+		response.add(WebMvcLinkBuilder
+				.linkTo(WebMvcLinkBuilder.methodOn(TagController.class).getTagsWithoutActiveId()).withSelfRel());
+
+		return ResponseEntity.status(HttpStatus.OK).body(response);
+	}
 }

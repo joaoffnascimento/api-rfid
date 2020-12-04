@@ -2,6 +2,7 @@ package br.edu.ifs.rfid.apirfid.domain;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Id;
 
@@ -24,6 +25,7 @@ public class MovementHistory extends Entity {
 	private Date dataHoraMovimentacao;
 	private int tipoMovimentacao;
 	private String numPatrimonio;
+	private List<Active> actives;
 
 	public MovementHistory createMovement(int tipoMovimentacao, String activeId, String numPatrimonio) {
 

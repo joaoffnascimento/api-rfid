@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.edu.ifs.rfid.apirfid.domain.Employee;
 import br.edu.ifs.rfid.apirfid.domain.dto.EmployeeDto;
+import br.edu.ifs.rfid.apirfid.domain.user.Employee;
 import br.edu.ifs.rfid.apirfid.service.EmployeeService;
 import br.edu.ifs.rfid.apirfid.shared.Response;
 

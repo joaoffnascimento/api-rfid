@@ -9,9 +9,9 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import br.edu.ifs.rfid.apirfid.domain.Employee;
 import br.edu.ifs.rfid.apirfid.domain.dto.EmployeeDto;
 import br.edu.ifs.rfid.apirfid.domain.dto.UserDto;
+import br.edu.ifs.rfid.apirfid.domain.user.Employee;
 import br.edu.ifs.rfid.apirfid.exception.CustomException;
 import br.edu.ifs.rfid.apirfid.repository.UserRepository;
 import br.edu.ifs.rfid.apirfid.repository.interfaces.IEmployeeRepository;

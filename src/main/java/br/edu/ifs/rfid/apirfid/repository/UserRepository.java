@@ -11,10 +11,10 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 
-import br.edu.ifs.rfid.apirfid.domain.Employee;
-import br.edu.ifs.rfid.apirfid.domain.User;
 import br.edu.ifs.rfid.apirfid.domain.dto.EmployeeDto;
 import br.edu.ifs.rfid.apirfid.domain.dto.UserDto;
+import br.edu.ifs.rfid.apirfid.domain.user.Employee;
+import br.edu.ifs.rfid.apirfid.domain.user.User;
 import br.edu.ifs.rfid.apirfid.exception.CustomException;
 import br.edu.ifs.rfid.apirfid.shared.FnUtil;
 
@@ -31,6 +31,19 @@ public class UserRepository {
 		query.addCriteria(Criteria.where("email").is(email));
 
 		return mongoTemplate.findOne(query, User.class);
+	}
+
+	public Boolean existsByEmail(String email) {
+		Query query = new Query();
+
+		query.addCriteria(Criteria.where("email").is(email));
+
+		User user = mongoTemplate.findOne(query, User.class);
+		
+		if (user == null)
+			return Boolean.FALSE;
+
+		return Boolean.TRUE;
 	}
 
 	public Employee findEmployeeByEmail(String email) {

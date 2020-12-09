@@ -1,9 +1,10 @@
-package br.edu.ifs.rfid.apirfid.domain;
+package br.edu.ifs.rfid.apirfid.domain.user;
 
 import java.util.Date;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import br.edu.ifs.rfid.apirfid.domain.Entity;
 import br.edu.ifs.rfid.apirfid.shared.FnUtil;
 import lombok.AllArgsConstructor;
 import lombok.Data;

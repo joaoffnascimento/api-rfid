@@ -15,8 +15,6 @@ import br.edu.ifs.rfid.apirfid.shared.SecurityFilter;
 @SpringBootApplication(exclude = { DataSourceAutoConfiguration.class })
 public class ApiRfidApplication extends SpringBootServletInitializer {
 
-	private static final String URL_PATTERN = "/v1/*";
-
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder app) {
 		return app.sources(ApiRfidApplication.class);
@@ -24,13 +22,5 @@ public class ApiRfidApplication extends SpringBootServletInitializer {
 
 	public static void main(String[] args) {
 		SpringApplication.run(ApiRfidApplication.class, args);
-	}
-
-	@Bean
-	public FilterRegistrationBean<SecurityFilter> jwtFilter() {
-		final FilterRegistrationBean<SecurityFilter> registrationBean = new FilterRegistrationBean<>();
-		registrationBean.setFilter(new SecurityFilter());
-		registrationBean.addUrlPatterns(URL_PATTERN);
-		return registrationBean;
 	}
 }

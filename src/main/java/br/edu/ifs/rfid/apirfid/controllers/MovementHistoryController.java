@@ -7,6 +7,7 @@ import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,6 +32,20 @@ public class MovementHistoryController {
 
 		response.add(WebMvcLinkBuilder
 				.linkTo(WebMvcLinkBuilder.methodOn(MovementHistoryController.class).getAllHistory()).withSelfRel());
+
+		return ResponseEntity.status(HttpStatus.OK).body(response);
+	}
+
+	@GetMapping("/active/{id}")
+	public ResponseEntity<Response<List<MovementHistory>>> getAllHistoryByActiveId(@PathVariable String id) {
+
+		Response<List<MovementHistory>> response = new Response<>(true);
+
+		response.setData(movementHistoryService.getAllHistory());
+		response.setStatusCode(HttpStatus.OK.value());
+
+		response.add(WebMvcLinkBuilder
+				.linkTo(WebMvcLinkBuilder.methodOn(MovementHistoryController.class).getAllHistoryByActiveId(id)).withSelfRel());
 
 		return ResponseEntity.status(HttpStatus.OK).body(response);
 	}

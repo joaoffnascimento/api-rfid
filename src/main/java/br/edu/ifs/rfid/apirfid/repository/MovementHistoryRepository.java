@@ -9,6 +9,8 @@ import org.springframework.stereotype.Repository;
 
 import br.edu.ifs.rfid.apirfid.domain.MovementHistory;
 
+import java.util.List;
+
 @Repository
 public class MovementHistoryRepository {
 
@@ -27,5 +29,17 @@ public class MovementHistoryRepository {
 		query.limit(1);
 
 		return mongoTemplate.findOne(query, MovementHistory.class);
+	}
+
+	public List<MovementHistory> getMovementHistoryByActiveId(String activeId) {
+
+		Query query = new Query();
+
+		query.with(Sort.by(Sort.Direction.DESC, "createdAt"));
+
+		query.addCriteria(Criteria.where("activeId").is(activeId))
+				.with(Sort.by(Sort.Direction.DESC, "dataHoraMovimentacao"));
+
+		return mongoTemplate.find(query, MovementHistory.class);
 	}
 }

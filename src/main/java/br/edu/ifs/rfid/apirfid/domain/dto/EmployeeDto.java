@@ -5,13 +5,16 @@ import java.util.Date;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import br.edu.ifs.rfid.apirfid.domain.Entity;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 @Data
-@EqualsAndHashCode(callSuper = false)
-public class EmployeeDto extends Entity {
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode
+public class EmployeeDto {
 
 	@NotBlank(message = "matSiape is required")
 	private String matSiape;

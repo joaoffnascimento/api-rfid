@@ -6,15 +6,16 @@ import javax.persistence.Id;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
-import br.edu.ifs.rfid.apirfid.domain.Entity;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-@EqualsAndHashCode(callSuper = false)
-public class MovementHistoryDto extends Entity {
+@AllArgsConstructor
+@EqualsAndHashCode
+public class MovementHistoryDto {
 
 	private Date dataHoraMovimentacao;
 	@Min(value = 0, message = "tipoMovimentacao number is required")

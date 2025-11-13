@@ -116,7 +116,7 @@ public class ActiveService implements IActiveService {
 		}
 	}
 
-	@CachePut(unless = "#result.size() < 10")
+	@org.springframework.cache.annotation.Cacheable(unless = "#result.size() < 10")
 	@Override
 	public List<Active> getActivesByPatrimonio(int patrimonio) {
 		try {
@@ -135,8 +135,10 @@ public class ActiveService implements IActiveService {
 		try {
 
 			MovementHistory movementHistory = new MovementHistory();
-
-			movementHistory = movementHistory.createMovement(tipoMovimentacao, activeId, numPatrimonio);
+			movementHistory.setActiveId(activeId);
+			movementHistory.setTipoMovimentacao(tipoMovimentacao);
+			movementHistory.setNumPatrimonio(numPatrimonio);
+			movementHistory.setDataHoraMovimentacao(new java.util.Date());
 
 			this.movementHistoryRepository.save(movementHistory);
 
@@ -162,7 +164,7 @@ public class ActiveService implements IActiveService {
 		}
 	}
 
-	@CachePut(unless = "#result.size() < 10")
+	@org.springframework.cache.annotation.Cacheable(unless = "#result.size() < 10")
 	@Override
 	public List<Active> getAllActives() {
 		try {
@@ -176,7 +178,7 @@ public class ActiveService implements IActiveService {
 		}
 	}
 
-	@CachePut(unless = "#result.size() < 10")
+	@org.springframework.cache.annotation.Cacheable(unless = "#result.size() < 10")
 	@Override
 	public List<Active> getActivesByDepartamentId(String departamentId) {
 		try {

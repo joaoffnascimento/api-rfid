@@ -3,20 +3,16 @@ package br.edu.ifs.rfid.apirfid.domain.dto;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
-import org.springframework.data.mongodb.core.mapping.Document;
-
-import br.edu.ifs.rfid.apirfid.domain.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-@Document
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(callSuper = false)
-public class UserDto extends Entity {
+@EqualsAndHashCode
+public class UserDto {
 
 	@Email(message = "Email is required")
 	private String email;
@@ -26,8 +22,4 @@ public class UserDto extends Entity {
 	private String oldPassword;
 
 	private String token;
-
-	public String getToken() {
-		return token;
-	}
 }

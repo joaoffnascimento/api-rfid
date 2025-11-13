@@ -3,6 +3,8 @@ package br.edu.ifs.rfid.apirfid.domain;
 import java.util.Date;
 
 import javax.persistence.Id;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -19,41 +21,28 @@ import lombok.NoArgsConstructor;
 public class Active extends Entity {
 
 	@Id
+	private String id;
+
+	@NotBlank(message = "Tag ID is required")
 	private String tagId;
-	@Id
+
+	@NotBlank(message = "Department ID is required")
 	private String departamentId;
-	@Id
+
+	@NotBlank(message = "Active Category ID is required")
 	private String activeCategoryId;
 
+	@NotBlank(message = "Numero Patrimonio is required")
 	private String numeroPatrimonio;
+
 	private String marca;
 	private String modelo;
+
+	@NotNull(message = "Data Aquisicao is required")
 	private Date dataAquisicao;
+
 	private Date dataFinalGarantia;
 	private float dtAquisTMSTMP;
 	private float dtFinalTMSTMP;
 	private int lastMovimentacao;
-
-	public Active createActive(String numeroPatrimonio, String marca, String modelo, Date dataAquisicao,
-			Date dataFinalGarantia, String activeCategoryId, String departamentId, String tagId) {
-
-		Active active = new Active();
-
-		active.numeroPatrimonio = numeroPatrimonio;
-		active.marca = marca;
-		active.modelo = modelo;
-		active.dataAquisicao = dataAquisicao;
-		active.dataFinalGarantia = dataFinalGarantia;
-
-		active.activeCategoryId = activeCategoryId;
-		active.departamentId = departamentId;
-		active.tagId = tagId;
-
-		active.lastMovimentacao = 0;
-
-		active.dtAquisTMSTMP = System.currentTimeMillis();
-		active.dtFinalTMSTMP = System.currentTimeMillis();
-
-		return active;
-	}
 }

@@ -3,15 +3,16 @@ package br.edu.ifs.rfid.apirfid.domain.dto;
 import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
 
-import br.edu.ifs.rfid.apirfid.domain.Entity;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-@EqualsAndHashCode(callSuper = false)
-public class TagDto extends Entity {
+@AllArgsConstructor
+@EqualsAndHashCode
+public class TagDto {
 
 	@NotBlank(message = "epc Addres is required")
 	private String epc;

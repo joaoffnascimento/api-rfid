@@ -1,6 +1,5 @@
 package br.edu.ifs.rfid.apirfid.domain;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -27,22 +26,16 @@ public class MovementHistory extends Entity {
 	private String numPatrimonio;
 	private List<Active> actives;
 
-	public MovementHistory createMovement(int tipoMovimentacao, String activeId, String numPatrimonio) {
-
-		MovementHistory movementHistory = new MovementHistory();
-
-		movementHistory.activeId = activeId;
-
-		movementHistory.tipoMovimentacao = tipoMovimentacao;
-		movementHistory.activeId = activeId;
-		movementHistory.dataHoraMovimentacao = new Date();
-		movementHistory.numPatrimonio = numPatrimonio;
-
-		return movementHistory;
-	}
+	private static final java.time.format.DateTimeFormatter FORMATTER =
+			java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
 	public String getDataHoraMovimentacaoEmString() {
-		SimpleDateFormat formatarData = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		return formatarData.format(this.dataHoraMovimentacao);
+		if (this.dataHoraMovimentacao == null) {
+			return null;
+		}
+		return this.dataHoraMovimentacao.toInstant()
+				.atZone(java.time.ZoneId.systemDefault())
+				.toLocalDateTime()
+				.format(FORMATTER);
 	}
 }

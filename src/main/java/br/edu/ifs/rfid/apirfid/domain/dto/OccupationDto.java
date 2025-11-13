@@ -4,15 +4,16 @@ import java.util.Date;
 
 import javax.validation.constraints.NotBlank;
 
-import br.edu.ifs.rfid.apirfid.domain.Entity;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-@EqualsAndHashCode(callSuper = false)
-public class OccupationDto extends Entity {
+@AllArgsConstructor
+@EqualsAndHashCode
+public class OccupationDto {
 
 	@NotBlank(message = "funcao is required")
 	private String funcao;

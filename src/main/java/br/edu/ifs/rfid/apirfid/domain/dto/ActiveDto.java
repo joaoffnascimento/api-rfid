@@ -3,16 +3,16 @@ package br.edu.ifs.rfid.apirfid.domain.dto;
 import java.util.Date;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
-import br.edu.ifs.rfid.apirfid.domain.Entity;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-@EqualsAndHashCode(callSuper = false)
-public class ActiveDto extends Entity {
+@AllArgsConstructor
+public class ActiveDto {
 
 	@NotBlank(message = "numeroPatrimonio number is required")
 	private String numeroPatrimonio;
@@ -32,34 +32,11 @@ public class ActiveDto extends Entity {
 	@NotBlank(message = "Modelo is required")
 	private String modelo;
 
+	@NotNull(message = "Data Aquisicao is required")
 	private Date dataAquisicao;
-	private Date dataFinalGarantia;
 
+	private Date dataFinalGarantia;
 	private float dtAquisTMSTMP;
 	private float dtFinalTMSTMP;
-
 	private int lastMovimentacao;
-
-	public ActiveDto createActive(String numeroPatrimonio, String marca, String modelo, Date dataAquisicao,
-			Date dataFinalGarantia, String activeCategoryId, String departamentId, String tagId) {
-
-		ActiveDto activeDto = new ActiveDto();
-
-		activeDto.numeroPatrimonio = numeroPatrimonio;
-		activeDto.marca = marca;
-		activeDto.modelo = modelo;
-		activeDto.dataAquisicao = dataAquisicao;
-		activeDto.dataFinalGarantia = dataFinalGarantia;
-
-		activeDto.departamentId = departamentId;
-		activeDto.activeCategoryId = activeCategoryId;
-		activeDto.tagId = tagId;
-
-		activeDto.lastMovimentacao = 0;
-
-		activeDto.dtAquisTMSTMP = System.currentTimeMillis();
-		activeDto.dtFinalTMSTMP = System.currentTimeMillis();
-
-		return activeDto;
-	}
 }
